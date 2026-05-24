@@ -26,3 +26,30 @@ Stage Summary:
 - Personal info grid removed from About (email/LinkedIn/GitHub already in hero & contact)
 - "Admin" and "C1" fixes applied throughout
 - Terminal aesthetic enhanced (code-style form labels, section comments)
+
+---
+Task ID: 2
+Agent: Main
+Task: Enhance 3D experience - add planet, more floating shapes, 3D accents across all sections
+
+Work Log:
+- Created Accents3D.tsx with reusable components: SectionAccent3D (8 shape types), Planet3D (wireframe sphere + ring), FloatingOrbs (section backgrounds with 6 floating orbs)
+- Enhanced Scene3D with 13 floating shapes (was 4) - added dodecahedron, torusKnot, tetrahedron, cone, sphere variants
+- Increased particle count from 120 to 180 in hero scene
+- Added 3rd point light for better scene illumination
+- Replaced 🌎 emoji in Contact section with Planet3D component (wireframe globe with rotating ring)
+- Added SectionAccent3D to every section header: dodecahedron (About), torusKnot (Projects), torusKnot (Skills), dodecahedron (Contact form)
+- Added SectionAccent3D to sub-sections: torus (Experience), icosahedron (Education), tetrahedron (Certifications)
+- Added individual 3D accents per skill card (octahedron, torus, icosahedron, dodecahedron, cone)
+- Added FloatingOrbs background to About, Projects, Skills, and Contact sections
+- Added hover glow effects on cards (blur-2xl radial gradients)
+- Added 3D accent to Footer
+- Fixed AboutSection import (removed broken dynamic import pattern)
+- All lint checks pass, dev server stable
+
+Stage Summary:
+- 3D is now used extensively throughout the site (not just hero)
+- Planet3D replaces emoji in Contact section
+- Each section has unique floating 3D accents
+- FloatingOrbs backgrounds add depth to all content sections
+- 13 shapes in hero scene + 6 orbs per section + individual accents = immersive 3D experience

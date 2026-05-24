@@ -1,6 +1,7 @@
 "use client";
 
 import { Github, Linkedin, Mail, Terminal, Heart } from "lucide-react";
+import { SectionAccent3D } from "./Accents3D";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -9,12 +10,13 @@ export default function Footer() {
     <footer className="relative bg-black border-t border-orange-500/10 py-8 px-4 mt-auto">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          {/* Logo */}
-          <div className="flex items-center gap-2">
+          {/* Logo with 3D accent */}
+          <div className="flex items-center gap-3">
             <Terminal className="w-4 h-4 text-orange-500" />
             <span className="font-mono text-xs text-gray-500">
               {"<"}AECM{" />"}
             </span>
+            <SectionAccent3D shape="octahedron" color="#f97316" speed={0.5} className="w-6 h-6 opacity-50" />
           </div>
 
           {/* Center text */}

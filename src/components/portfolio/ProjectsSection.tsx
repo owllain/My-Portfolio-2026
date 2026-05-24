@@ -11,6 +11,7 @@ import {
   RefreshCw,
   FolderGit2,
 } from "lucide-react";
+import { SectionAccent3D, FloatingOrbs } from "./Accents3D";
 
 interface GitHubRepo {
   id: number;
@@ -79,6 +80,9 @@ export default function ProjectsSection() {
       ref={ref}
       className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gray-950/50"
     >
+      {/* 3D Floating orbs */}
+      <FloatingOrbs />
+
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Section header */}
         <motion.div
@@ -94,6 +98,7 @@ export default function ProjectsSection() {
             <h2 className="text-3xl sm:text-4xl font-bold text-white">
               Proyectos en <span className="text-orange-500">GitHub</span>
             </h2>
+            <SectionAccent3D shape="torusKnot" color="#f97316" speed={0.4} className="flex-shrink-0" />
             <FolderGit2 className="w-6 h-6 text-orange-500/50" />
             <motion.button
               whileHover={{ rotate: 180 }}

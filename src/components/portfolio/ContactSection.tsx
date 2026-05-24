@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Mail, MapPin, Linkedin, Github, Send, CheckCircle, AlertCircle, Globe } from "lucide-react";
+import { Planet3D, SectionAccent3D, FloatingOrbs } from "./Accents3D";
 
 export default function ContactSection() {
   const ref = useRef(null);
@@ -42,8 +43,11 @@ export default function ContactSection() {
       ref={ref}
       className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gray-950/50"
     >
+      {/* 3D Floating orbs */}
+      <FloatingOrbs />
+
       <div className="max-w-6xl mx-auto relative z-10">
-        {/* Section header */}
+        {/* Section header with 3D planet */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -53,10 +57,12 @@ export default function ContactSection() {
           <div className="font-mono text-xs text-orange-500/70 mb-2">
             {"//"} CONTACT_ME
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">
-            Hablemos de tu <span className="text-orange-500">Proyecto</span>{" "}
-            <span className="inline-block">🌎</span>
-          </h2>
+          <div className="flex items-center gap-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white">
+              Hablemos de tu <span className="text-orange-500">Proyecto</span>
+            </h2>
+            <Planet3D className="flex-shrink-0" />
+          </div>
           <div className="w-20 h-1 bg-orange-500 rounded-full" />
         </motion.div>
 
@@ -84,12 +90,13 @@ export default function ContactSection() {
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.4, delay: 0.3 + i * 0.06 }}
                   whileHover={{ x: 4 }}
-                  className="flex items-center gap-3 p-3 bg-gray-900/40 border border-gray-800 hover:border-orange-500/30 rounded-lg transition-all group"
+                  className="flex items-center gap-3 p-3 bg-gray-900/40 border border-gray-800 hover:border-orange-500/30 rounded-lg transition-all group relative overflow-hidden"
                 >
-                  <div className="w-10 h-10 bg-orange-500/10 border border-orange-500/20 rounded-lg flex items-center justify-center text-orange-500 group-hover:bg-orange-500/20 transition-colors">
+                  <div className="absolute -right-6 -bottom-6 w-16 h-16 bg-orange-500/3 rounded-full blur-xl pointer-events-none group-hover:bg-orange-500/8 transition-colors" />
+                  <div className="w-10 h-10 bg-orange-500/10 border border-orange-500/20 rounded-lg flex items-center justify-center text-orange-500 group-hover:bg-orange-500/20 transition-colors relative z-10">
                     {info.icon}
                   </div>
-                  <div>
+                  <div className="relative z-10">
                     <div className="text-[10px] text-gray-500 font-mono uppercase tracking-wider">{info.label}</div>
                     <div className="text-sm text-gray-300 group-hover:text-orange-400 transition-colors">
                       {info.value}
@@ -118,12 +125,17 @@ export default function ContactSection() {
           >
             <form
               onSubmit={handleSubmit}
-              className="bg-gray-900/60 border border-gray-800 rounded-xl p-5 sm:p-6 backdrop-blur-sm"
+              className="bg-gray-900/60 border border-gray-800 rounded-xl p-5 sm:p-6 backdrop-blur-sm relative overflow-hidden"
             >
-              <div className="font-mono text-xs text-orange-500/50 mb-5">
+              {/* Decorative 3D accent */}
+              <div className="absolute -top-4 -right-4 opacity-30">
+                <SectionAccent3D shape="dodecahedron" color="#f97316" speed={0.2} className="w-16 h-16" />
+              </div>
+
+              <div className="font-mono text-xs text-orange-500/50 mb-5 relative z-10">
                 {"/* Contact form */"}
               </div>
-              <div className="space-y-4">
+              <div className="space-y-4 relative z-10">
                 <div>
                   <label className="block font-mono text-xs text-gray-400 mb-1.5">
                     <span className="text-orange-500/50">const</span> nombre{" "}

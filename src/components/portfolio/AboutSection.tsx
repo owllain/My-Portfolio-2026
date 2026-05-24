@@ -10,6 +10,7 @@ import {
   Globe,
 } from "lucide-react";
 import Image from "next/image";
+import { SectionAccent3D, FloatingOrbs } from "./Accents3D";
 
 const experience = [
   {
@@ -60,8 +61,11 @@ export default function AboutSection() {
       ref={ref}
       className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden"
     >
+      {/* 3D Floating orbs background */}
+      <FloatingOrbs />
+
       <div className="max-w-6xl mx-auto relative z-10">
-        {/* Section header */}
+        {/* Section header with 3D accent */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -71,23 +75,29 @@ export default function AboutSection() {
           <div className="font-mono text-xs text-orange-500/70 mb-2">
             {"//"} ABOUT_ME
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            Sobre <span className="text-orange-500">Mí</span>
-          </h2>
+          <div className="flex items-center gap-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white">
+              Sobre <span className="text-orange-500">Mí</span>
+            </h2>
+            <SectionAccent3D shape="dodecahedron" color="#f97316" speed={0.4} className="flex-shrink-0" />
+          </div>
           <div className="w-20 h-1 bg-orange-500 rounded-full" />
         </motion.div>
 
         {/* Layout: Avatar + Bio card on left, details on right */}
         <div className="flex flex-col lg:flex-row gap-8 items-start">
-          {/* Left — Avatar + Bio */}
+          {/* Left — Avatar + Bio + Experience */}
           <div className="flex-1 min-w-0">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="bg-gray-900/60 border border-gray-700/50 rounded-xl p-5 sm:p-6 mb-6 backdrop-blur-sm"
+              className="bg-gray-900/60 border border-gray-700/50 rounded-xl p-5 sm:p-6 mb-6 backdrop-blur-sm relative overflow-hidden"
             >
-              <div className="flex items-start gap-5 sm:gap-6">
+              {/* Subtle gradient glow on card */}
+              <div className="absolute -top-12 -right-12 w-32 h-32 bg-orange-500/5 rounded-full blur-2xl pointer-events-none" />
+
+              <div className="flex items-start gap-5 sm:gap-6 relative z-10">
                 {/* Avatar */}
                 <div className="flex-shrink-0">
                   <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border-2 border-orange-500/30 shadow-lg shadow-orange-500/10">
@@ -98,7 +108,6 @@ export default function AboutSection() {
                       className="object-cover"
                       sizes="96px"
                     />
-                    {/* Terminal-style overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                   </div>
                 </div>
@@ -139,11 +148,12 @@ export default function AboutSection() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="mb-6"
             >
-              <div className="flex items-center gap-2 mb-4">
+              <div className="flex items-center gap-3 mb-4">
                 <Briefcase className="w-4 h-4 text-orange-500" />
                 <h3 className="font-mono text-sm text-white font-semibold">
                   {"<"}Experiencia{">"}
                 </h3>
+                <SectionAccent3D shape="torus" color="#fb923c" speed={0.5} className="w-8 h-8" />
               </div>
               <div className="space-y-3">
                 {experience.map((exp, i) => (
@@ -152,25 +162,28 @@ export default function AboutSection() {
                     initial={{ opacity: 0, x: -20 }}
                     animate={isInView ? { opacity: 1, x: 0 } : {}}
                     transition={{ duration: 0.4, delay: 0.3 + i * 0.08 }}
-                    className="bg-gray-900/40 border border-gray-800 rounded-lg p-4 hover:border-orange-500/20 transition-colors group"
+                    className="bg-gray-900/40 border border-gray-800 rounded-lg p-4 hover:border-orange-500/20 transition-colors group relative overflow-hidden"
                   >
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="font-semibold text-white text-sm group-hover:text-orange-400 transition-colors">
-                        {exp.company}
-                      </span>
-                      <span className="font-mono text-[11px] text-orange-500/70 bg-orange-500/5 px-2 py-0.5 rounded">
-                        {exp.period}
-                      </span>
+                    <div className="absolute -right-8 -bottom-8 w-20 h-20 bg-orange-500/3 rounded-full blur-xl pointer-events-none group-hover:bg-orange-500/5 transition-colors" />
+                    <div className="relative z-10">
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="font-semibold text-white text-sm group-hover:text-orange-400 transition-colors">
+                          {exp.company}
+                        </span>
+                        <span className="font-mono text-[11px] text-orange-500/70 bg-orange-500/5 px-2 py-0.5 rounded">
+                          {exp.period}
+                        </span>
+                      </div>
+                      <div className="text-gray-400 text-xs mb-2 font-mono">{exp.role}</div>
+                      <ul className="space-y-1">
+                        {exp.tasks.map((task, j) => (
+                          <li key={j} className="text-gray-500 text-xs flex items-start gap-2">
+                            <span className="text-orange-500/70 mt-0.5 flex-shrink-0">▸</span>
+                            {task}
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                    <div className="text-gray-400 text-xs mb-2 font-mono">{exp.role}</div>
-                    <ul className="space-y-1">
-                      {exp.tasks.map((task, j) => (
-                        <li key={j} className="text-gray-500 text-xs flex items-start gap-2">
-                          <span className="text-orange-500/70 mt-0.5 flex-shrink-0">▸</span>
-                          {task}
-                        </li>
-                      ))}
-                    </ul>
                   </motion.div>
                 ))}
               </div>
@@ -186,11 +199,12 @@ export default function AboutSection() {
           >
             {/* Education */}
             <div>
-              <div className="flex items-center gap-2 mb-4">
+              <div className="flex items-center gap-3 mb-4">
                 <GraduationCap className="w-4 h-4 text-orange-500" />
                 <h3 className="font-mono text-sm text-white font-semibold">
                   {"<"}Educación{">"}
                 </h3>
+                <SectionAccent3D shape="icosahedron" color="#ea580c" speed={0.3} className="w-8 h-8" />
               </div>
               <div className="space-y-2">
                 {education.map((edu, i) => (
@@ -212,11 +226,12 @@ export default function AboutSection() {
 
             {/* Certifications */}
             <div>
-              <div className="flex items-center gap-2 mb-4">
+              <div className="flex items-center gap-3 mb-4">
                 <Award className="w-4 h-4 text-orange-500" />
                 <h3 className="font-mono text-sm text-white font-semibold">
                   {"<"}Certificaciones{">"}
                 </h3>
+                <SectionAccent3D shape="tetrahedron" color="#fb923c" speed={0.35} className="w-8 h-8" />
               </div>
               <div className="flex flex-wrap gap-2">
                 {[
