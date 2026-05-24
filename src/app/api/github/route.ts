@@ -2,23 +2,71 @@ import { NextResponse } from "next/server";
 
 const GITHUB_USERNAME = "owllain";
 
-/* ── Allowlist: only these repos will be shown ──
-   Add or remove names here to control what appears in the portfolio.
-   Any new public repo NOT in this list will be automatically filtered out. */
+/* ── Allowlist: solo estos repos se muestran ── */
 const ALLOWED_REPOS = new Set([
   "VetFiles",
   "BancaNet",
   "GoZombie-Game-Maker-Lang",
-  "My-Portfolio-2026",
   "AddContent",
   "SYSAlert",
   "Reporte_Telegestion",
   "auto-scheduler",
   "tool-expediente-asesores",
-  "roadmap-2026",
   "thedarkdawn-java-game",
   "graficador-de-arboles",
 ]);
+
+/* ── Custom descriptions (override GitHub's empty ones) ── */
+const CUSTOM_DESCRIPTIONS: Record<string, string> = {
+  VetFiles:
+    "El sistema más completo para clínicas veterinarias 🐾 — citas, expedientes clínicos, pacientes internados, carga de archivos y facturación. Cloud-native con diseño premium y base de datos en la nube.",
+  BancaNet:
+    "Tu banco en una sola página 💳 — prototipo SPA con login, dashboard, transferencias, pagos y estados de cuenta. La demo que demuestra que lo financiero también puede verse increíble.",
+  "GoZombie-Game-Maker-Lang":
+    "Cuando los muertos codifican 🧟 — lenguaje de programación propio + motor de juegos 2D. Compilador ad-hoc con sintaxis minimalista para que crear juegos sea tan fácil como sobrevivir un apocalipsis.",
+  AddContent:
+    "Wikipedia reimaginada para el siglo XXI 📚 — CMS moderno con módulos interactivos, HTMLs personalizable y colaboración en tiempo real. Donde el contenido cobra vida.",
+  SYSAlert:
+    "Porque en la banca, cada segundo cuenta ⚡ — sistema de alertas financieras serverless. Notificaciones en tiempo real con arquitectura ligera que escala sin romper el banco (literal).",
+  Reporte_Telegestion:
+    "De CSV caótico a reporte impecable 📊 — generador stateless que procesa miles de registros SMS en memoria, directo a Vercel. Sin BD, sin drama, con Shadcn/UI y descarga en ZIP.",
+  "auto-scheduler":
+    "Adiós horarios a mano 🗓️ — algoritmo inteligente que genera turnos automáticamente desde una lista de personal. React + Vite haciendo que RRHH sonría por fin.",
+  "tool-expediente-asesores":
+    "Expedientes digitales sin salir de la red 🔒 — evaluación de desempeño offline-first con firma biométrica en canvas, dashboard reactivo y PDF listo para auditoría. Cero base de datos, cero dependencias.",
+  "thedarkdawn-java-game":
+    "La oscuridad tiene su propio código 🌑 — RPG de aventura en Java puro con combate por turnos, exploración y narrativa oscura. Donde la programación se encuentra con la fantasía.",
+  "graficador-de-arboles":
+    "Visualiza la estructura, entiende el algoritmo 🌳 — herramienta interactiva para estructuras de datos tipo árbol con animaciones en tiempo real. Inserción, eliminación y recorridos visibles al instante.",
+};
+
+/* ── Custom language tags (supplement GitHub's single language) ── */
+const EXTRA_LANGUAGES: Record<string, string[]> = {
+  VetFiles: ["React", "Tailwind CSS", "Prisma"],
+  BancaNet: ["CSS", "JavaScript"],
+  "GoZombie-Game-Maker-Lang": ["ANTLR", "JavaFX"],
+  AddContent: ["Next.js", "Tailwind CSS"],
+  SYSAlert: ["Next.js", "Tailwind CSS"],
+  Reporte_Telegestion: ["Next.js", "Zustand", "ExcelJS"],
+  "auto-scheduler": ["React", "Vite"],
+  "tool-expediente-asesores": ["React", "Shadcn/UI", "Framer Motion"],
+  "thedarkdawn-java-game": ["JavaFX", "OOP"],
+  "graficador-de-arboles": ["JavaFX", "OOP"],
+};
+
+/* ── Custom sort order ── */
+const SORT_ORDER: Record<string, number> = {
+  VetFiles: 0,
+  BancaNet: 1,
+  "GoZombie-Game-Maker-Lang": 2,
+  SYSAlert: 3,
+  Reporte_Telegestion: 4,
+  AddContent: 5,
+  "tool-expediente-asesores": 6,
+  "auto-scheduler": 7,
+  "thedarkdawn-java-game": 8,
+  "graficador-de-arboles": 9,
+};
 
 interface GitHubRepo {
   id: number;
@@ -33,6 +81,7 @@ interface GitHubRepo {
   topics: string[];
   created_at: string;
   updated_at: string;
+  extra_languages?: string[];
 }
 
 // Cache repos for 5 minutes
@@ -64,21 +113,21 @@ export async function GET() {
 
     const repos: GitHubRepo[] = await response.json();
 
-    // Filter to only allowed repos
-    const filtered = repos.filter(r => ALLOWED_REPOS.has(r.name));
+    // Filter to only allowed repos & apply custom data
+    const filtered = repos
+      .filter(r => ALLOWED_REPOS.has(r.name))
+      .map(r => ({
+        ...r,
+        description: r.description || CUSTOM_DESCRIPTIONS[r.name] || null,
+        extra_languages: EXTRA_LANGUAGES[r.name] || [],
+      }))
+      // Sort by custom order
+      .sort((a, b) => (SORT_ORDER[a.name] ?? 99) - (SORT_ORDER[b.name] ?? 99));
 
-    // Sort by stars then by update date
-    const sortedRepos = filtered.sort((a, b) => {
-      if (b.stargazers_count !== a.stargazers_count) {
-        return b.stargazers_count - a.stargazers_count;
-      }
-      return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
-    });
-
-    cachedRepos = sortedRepos;
+    cachedRepos = filtered;
     cacheTimestamp = now;
 
-    return NextResponse.json(sortedRepos);
+    return NextResponse.json(filtered);
   } catch (error) {
     console.error("GitHub API error:", error);
     return NextResponse.json(getDemoRepos());
@@ -86,174 +135,24 @@ export async function GET() {
 }
 
 function getDemoRepos(): GitHubRepo[] {
-  return [
-    {
-      id: 0,
-      name: "VetFiles",
-      description: "Sistema integral para veterinarias: control de citas, expedientes clínicos, pacientes internados y carga de archivos. Base de datos en la nube con diseño moderno.",
-      html_url: "https://github.com/owllain/VetFiles",
-      homepage: null,
-      language: "TypeScript",
-      stargazers_count: 3,
-      forks_count: 0,
-      watchers_count: 2,
-      topics: ["typescript", "veterinary", "cloud", "management"],
-      created_at: "2024-08-01T00:00:00Z",
-      updated_at: "2025-05-20T00:00:00Z",
-    },
-    {
-      id: -1,
-      name: "BancaNet",
-      description: "Prototipo de aplicación bancaria SPA — login, dashboard, transferencias, pagos y estados de cuenta. Demo funcional de entorno financiero digital.",
-      html_url: "https://github.com/owllain/BancaNet",
-      homepage: null,
-      language: "HTML",
-      stargazers_count: 2,
-      forks_count: 0,
-      watchers_count: 1,
-      topics: ["banking", "prototype", "spa", "fintech"],
-      created_at: "2024-06-15T00:00:00Z",
-      updated_at: "2025-04-10T00:00:00Z",
-    },
-    {
-      id: 1,
-      name: "GoZombie-Game-Maker-Lang",
-      description: "Lenguaje de programación y motor para crear juegos — compilador propio con sintaxis simplificada para desarrollo rápido de videojuegos 2D.",
-      html_url: "https://github.com/owllain/GoZombie-Game-Maker-Lang",
-      homepage: null,
-      language: "Java",
-      stargazers_count: 2,
-      forks_count: 0,
-      watchers_count: 1,
-      topics: ["game-engine", "programming-language", "compiler", "2d"],
-      created_at: "2024-04-01T00:00:00Z",
-      updated_at: "2025-05-20T00:00:00Z",
-    },
-    {
-      id: 2,
-      name: "My-Portfolio-2026",
-      description: "Portfolio interactivo con Next.js 16, Three.js y estética cozy/terminal. Diseño pixel art con objetos 3D y personalidad ☕🐱",
-      html_url: "https://github.com/owllain/My-Portfolio-2026",
-      homepage: null,
-      language: "TypeScript",
-      stargazers_count: 3,
-      forks_count: 0,
-      watchers_count: 2,
-      topics: ["nextjs", "threejs", "portfolio", "cozy"],
-      created_at: "2025-01-01T00:00:00Z",
-      updated_at: "2025-06-01T00:00:00Z",
-    },
-    {
-      id: 3,
-      name: "AddContent",
-      description: "CMS moderno estilo wiki con módulos interactivos y HTMLs personalizable. La evolución de Wikipedia para la gestión de contenido colaborativo.",
-      html_url: "https://github.com/owllain/AddContent",
-      homepage: null,
-      language: "TypeScript",
-      stargazers_count: 1,
-      forks_count: 0,
-      watchers_count: 1,
-      topics: ["cms", "wiki", "content-management", "typescript"],
-      created_at: "2025-03-01T00:00:00Z",
-      updated_at: "2025-05-01T00:00:00Z",
-    },
-    {
-      id: 4,
-      name: "SYSAlert",
-      description: "Sistema de alertas bancarias con base de datos serverless. Arquitectura ligera y escalable para notificaciones financieras en tiempo real.",
-      html_url: "https://github.com/owllain/SYSAlert",
-      homepage: null,
-      language: "TypeScript",
-      stargazers_count: 1,
-      forks_count: 0,
-      watchers_count: 1,
-      topics: ["banking", "alerts", "serverless", "typescript"],
-      created_at: "2025-02-01T00:00:00Z",
-      updated_at: "2025-04-20T00:00:00Z",
-    },
-    {
-      id: 5,
-      name: "Reporte_Telegestion",
-      description: "Generador de reportes SMS — procesamiento stateless en memoria, compatible con Vercel. Batch de archivos pesados con Shadcn/UI y Tailwind CSS.",
-      html_url: "https://github.com/owllain/Reporte_Telegestion",
-      homepage: null,
-      language: "TypeScript",
-      stargazers_count: 1,
-      forks_count: 0,
-      watchers_count: 1,
-      topics: ["nextjs", "sms", "reports", "serverless"],
-      created_at: "2025-01-10T00:00:00Z",
-      updated_at: "2025-05-15T00:00:00Z",
-    },
-    {
-      id: 6,
-      name: "auto-scheduler",
-      description: "Generador automático de horarios basado en lista de personal. Algoritmo inteligente para asignación de turnos con React + TypeScript + Vite.",
-      html_url: "https://github.com/owllain/auto-scheduler",
-      homepage: null,
-      language: "TypeScript",
-      stargazers_count: 0,
-      forks_count: 0,
-      watchers_count: 0,
-      topics: ["scheduler", "react", "automation", "hr"],
-      created_at: "2024-11-01T00:00:00Z",
-      updated_at: "2025-02-15T00:00:00Z",
-    },
-    {
-      id: 7,
-      name: "tool-expediente-asesores",
-      description: "Evaluación de desempeño offline-first para nuevos ingresos — firma digital biométrica, dashboard reactivo y exportación PDF. Sin BD externa.",
-      html_url: "https://github.com/owllain/tool-expediente-asesores",
-      homepage: null,
-      language: "TypeScript",
-      stargazers_count: 0,
-      forks_count: 0,
-      watchers_count: 0,
-      topics: ["offline-first", "hr", "evaluation", "digital-signature"],
-      created_at: "2024-09-15T00:00:00Z",
-      updated_at: "2025-03-10T00:00:00Z",
-    },
-    {
-      id: 8,
-      name: "roadmap-2026",
-      description: "Vision board interactivo estilo cozy ☕ — estética Life is Strange, masonry layout con notas adhesivas, Polaroids y modo Dark Noir.",
-      html_url: "https://github.com/owllain/roadmap-2026",
-      homepage: null,
-      language: "TypeScript",
-      stargazers_count: 0,
-      forks_count: 0,
-      watchers_count: 0,
-      topics: ["vision-board", "cozy", "react", "creative"],
-      created_at: "2025-01-01T00:00:00Z",
-      updated_at: "2025-05-25T00:00:00Z",
-    },
-    {
-      id: 9,
-      name: "thedarkdawn-java-game",
-      description: "Juego de aventura RPG desarrollado en Java — exploración, combate por turnos y narrativa oscura. Proyecto de game development personal.",
-      html_url: "https://github.com/owllain/thedarkdawn-java-game",
-      homepage: null,
-      language: "Java",
-      stargazers_count: 0,
-      forks_count: 0,
-      watchers_count: 0,
-      topics: ["java", "rpg", "game", "adventure"],
-      created_at: "2024-02-01T00:00:00Z",
-      updated_at: "2024-08-15T00:00:00Z",
-    },
-    {
-      id: 10,
-      name: "graficador-de-arboles",
-      description: "Herramienta de visualización e interactiva para estructuras de datos tipo árbol — recorrido, inserción y eliminación con animaciones en tiempo real.",
-      html_url: "https://github.com/owllain/graficador-de-arboles",
-      homepage: null,
-      language: "Java",
-      stargazers_count: 0,
-      forks_count: 0,
-      watchers_count: 0,
-      topics: ["data-structures", "trees", "visualization", "education"],
-      created_at: "2024-05-01T00:00:00Z",
-      updated_at: "2024-10-20T00:00:00Z",
-    },
-  ];
+  const names = Object.keys(CUSTOM_DESCRIPTIONS);
+  return names.map((name, i) => ({
+    id: i,
+    name,
+    description: CUSTOM_DESCRIPTIONS[name],
+    html_url: `https://github.com/owllain/${name}`,
+    homepage: null,
+    language: name.includes("java") || name.includes("darkdawn") || name.includes("arbol") || name.includes("Zombie")
+      ? "Java"
+      : name === "BancaNet"
+        ? "HTML"
+        : "TypeScript",
+    stargazers_count: 0,
+    forks_count: 0,
+    watchers_count: 0,
+    topics: [],
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2025-05-01T00:00:00Z",
+    extra_languages: EXTRA_LANGUAGES[name] || [],
+  }));
 }

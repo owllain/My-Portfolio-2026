@@ -4,18 +4,21 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import {
   ExternalLink,
-  GitFork,
   Star,
-  Eye,
   Github,
   RefreshCw,
   FolderGit2,
-  Coffee,
   Flame,
   Gamepad2,
   TreePine,
   PawPrint,
   Landmark,
+  AlertTriangle,
+  FileSpreadsheet,
+  CalendarClock,
+  ClipboardCheck,
+  Swords,
+  GitBranch,
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import CSSAccent3D from "./CSSAccent3D";
@@ -38,6 +41,7 @@ interface GitHubRepo {
   topics: string[];
   created_at: string;
   updated_at: string;
+  extra_languages?: string[];
 }
 
 const languageColors: Record<string, string> = {
@@ -50,61 +54,57 @@ const languageColors: Record<string, string> = {
   Java: "#b07219",
   PHP: "#4F5D95",
   Shell: "#89e051",
-  PowerShell: "#012456",
-  Dart: "#00B4AB",
-  Kotlin: "#A97BFF",
-  Swift: "#F05138",
+  React: "#61dafb",
+  "Next.js": "#ffffff",
+  "Tailwind CSS": "#06b6d4",
+  Prisma: "#2d3748",
+  Zustand: "#f5a623",
+  ExcelJS: "#e34c26",
+  Vite: "#646cff",
+  "Shadcn/UI": "#ffffff",
+  "Framer Motion": "#ff0055",
+  JavaFX: "#e76f00",
+  ANTLR: "#e8390e",
+  OOP: "#9b59b6",
   Go: "#00ADD8",
   Rust: "#dea584",
   Ruby: "#701516",
+  Dart: "#00B4AB",
+  Kotlin: "#A97BFF",
 };
 
-/* ── Project type tags ── */
-function getProjectTag(name: string): { label: string; color: string } | null {
+/* ── Project tag + category ── */
+type ProjectMeta = { tag: string; tagColor: string; icon: JSX.Element; category: string };
+
+function getProjectMeta(name: string): ProjectMeta {
   switch (name) {
     case "VetFiles":
-      return { label: "Full Stack", color: "text-amber-400 bg-amber-500/10 border-amber-500/20" };
+      return { tag: "Full Stack", tagColor: "text-amber-400 bg-amber-500/10 border-amber-500/20", icon: <PawPrint className="w-4 h-4" />, category: "🚀 Producción" };
     case "BancaNet":
-      return { label: "Fintech", color: "text-orange-400 bg-orange-500/10 border-orange-500/20" };
+      return { tag: "Fintech", tagColor: "text-orange-400 bg-orange-500/10 border-orange-500/20", icon: <Landmark className="w-4 h-4" />, category: "🚀 Producción" };
     case "GoZombie-Game-Maker-Lang":
-      return { label: "Game Engine", color: "text-purple-400 bg-purple-500/10 border-purple-500/20" };
-    case "My-Portfolio-2026":
-      return { label: "Portfolio", color: "text-orange-400 bg-orange-500/10 border-orange-500/20" };
+      return { tag: "Game Engine", tagColor: "text-purple-400 bg-purple-500/10 border-purple-500/20", icon: <Gamepad2 className="w-4 h-4" />, category: "🎮 Creative" };
     case "AddContent":
-      return { label: "CMS", color: "text-blue-400 bg-blue-500/10 border-blue-500/20" };
+      return { tag: "CMS", tagColor: "text-blue-400 bg-blue-500/10 border-blue-500/20", icon: <FileSpreadsheet className="w-4 h-4" />, category: "🏢 Enterprise" };
     case "SYSAlert":
-      return { label: "Real-time", color: "text-red-400 bg-red-500/10 border-red-500/20" };
+      return { tag: "Real-time", tagColor: "text-red-400 bg-red-500/10 border-red-500/20", icon: <AlertTriangle className="w-4 h-4" />, category: "🏢 Enterprise" };
     case "Reporte_Telegestion":
-      return { label: "Serverless", color: "text-green-400 bg-green-500/10 border-green-500/20" };
+      return { tag: "Serverless", tagColor: "text-green-400 bg-green-500/10 border-green-500/20", icon: <GitBranch className="w-4 h-4" />, category: "🏢 Enterprise" };
     case "auto-scheduler":
-      return { label: "Automation", color: "text-cyan-400 bg-cyan-500/10 border-cyan-500/20" };
+      return { tag: "Automation", tagColor: "text-cyan-400 bg-cyan-500/10 border-cyan-500/20", icon: <CalendarClock className="w-4 h-4" />, category: "🛠️ Herramientas" };
     case "tool-expediente-asesores":
-      return { label: "Offline-first", color: "text-yellow-400 bg-yellow-500/10 border-yellow-500/20" };
-    case "roadmap-2026":
-      return { label: "Creative ☕", color: "text-pink-400 bg-pink-500/10 border-pink-500/20" };
+      return { tag: "Offline-first", tagColor: "text-yellow-400 bg-yellow-500/10 border-yellow-500/20", icon: <ClipboardCheck className="w-4 h-4" />, category: "🛠️ Herramientas" };
     case "thedarkdawn-java-game":
-      return { label: "RPG Game", color: "text-purple-400 bg-purple-500/10 border-purple-500/20" };
+      return { tag: "RPG", tagColor: "text-purple-400 bg-purple-500/10 border-purple-500/20", icon: <Swords className="w-4 h-4" />, category: "🎮 Creative" };
     case "graficador-de-arboles":
-      return { label: "Data Viz", color: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20" };
+      return { tag: "Data Viz", tagColor: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20", icon: <TreePine className="w-4 h-4" />, category: "🛠️ Herramientas" };
     default:
-      return null;
+      return { tag: "Project", tagColor: "text-gray-400 bg-gray-500/10 border-gray-500/20", icon: <Github className="w-4 h-4" />, category: "📦 Otros" };
   }
 }
 
-/* ── Project icon by type ── */
-function getProjectIcon(name: string) {
-  if (name === "VetFiles")
-    return <PawPrint className="w-4 h-4 text-orange-500" />;
-  if (name === "BancaNet")
-    return <Landmark className="w-4 h-4 text-orange-500" />;
-  if (name.includes("Game") || name.includes("game") || name.includes("Zombie") || name.includes("darkdawn"))
-    return <Gamepad2 className="w-4 h-4 text-orange-500" />;
-  if (name.includes("arbol") || name.includes("tree"))
-    return <TreePine className="w-4 h-4 text-orange-500" />;
-  if (name.includes("roadmap") || name.includes("Portfolio"))
-    return <Coffee className="w-4 h-4 text-orange-500" />;
-  return <Github className="w-4 h-4 text-orange-500" />;
-}
+/* ── Category order ── */
+const CATEGORY_ORDER = ["🚀 Producción", "🏢 Enterprise", "🛠️ Herramientas", "🎮 Creative", "📦 Otros"];
 
 export default function ProjectsSection() {
   const ref = useRef(null);
@@ -133,13 +133,18 @@ export default function ProjectsSection() {
     fetchRepos();
   }, []);
 
+  /* ── Group repos by category ── */
+  const grouped = CATEGORY_ORDER.map(cat => ({
+    category: cat,
+    repos: repos.filter(r => getProjectMeta(r.name).category === cat),
+  })).filter(g => g.repos.length > 0);
+
   return (
     <section
       id="projects"
       ref={ref}
       className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gray-950/50"
     >
-      {/* 3D Floating orbs */}
       <FloatingOrbs />
 
       <div className="max-w-6xl mx-auto relative z-10">
@@ -174,18 +179,23 @@ export default function ProjectsSection() {
 
         {/* Loading state */}
         {loading && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {[...Array(4)].map((_, i) => (
-              <div
-                key={i}
-                className="bg-gray-900/60 border border-gray-800 rounded-lg p-5 animate-pulse"
-              >
-                <div className="h-4 bg-gray-800 rounded w-3/4 mb-3" />
-                <div className="h-3 bg-gray-800 rounded w-full mb-2" />
-                <div className="h-3 bg-gray-800 rounded w-2/3 mb-4" />
-                <div className="flex gap-3">
-                  <div className="h-3 bg-gray-800 rounded w-12" />
-                  <div className="h-3 bg-gray-800 rounded w-12" />
+          <div className="space-y-8">
+            {[...Array(3)].map((_, i) => (
+              <div key={i}>
+                <div className="h-4 bg-gray-800 rounded w-32 mb-4 animate-pulse" />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {[...Array(2)].map((_, j) => (
+                    <div key={j} className="bg-gray-900/60 border border-gray-800 rounded-lg p-5 animate-pulse">
+                      <div className="h-4 bg-gray-800 rounded w-3/4 mb-3" />
+                      <div className="h-3 bg-gray-800 rounded w-full mb-2" />
+                      <div className="h-3 bg-gray-800 rounded w-5/6 mb-4" />
+                      <div className="flex gap-2">
+                        <div className="h-3 bg-gray-800 rounded w-14" />
+                        <div className="h-3 bg-gray-800 rounded w-14" />
+                        <div className="h-3 bg-gray-800 rounded w-14" />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             ))}
@@ -210,102 +220,101 @@ export default function ProjectsSection() {
           </motion.div>
         )}
 
-        {/* Projects grid */}
+        {/* Projects by category */}
         {!loading && !error && (
-          <div>
-            {/* Sub-header */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="flex items-center gap-3 mb-4"
-            >
-              <Flame className="w-4 h-4 text-orange-500" />
-              <span className="font-mono text-sm text-gray-400">
-                <span className="text-green-400/70">git</span> log --oneline --all
-              </span>
-              <span className="font-mono text-[10px] text-gray-600">
-                ({repos.length} repositorios)
-              </span>
-            </motion.div>
+          <div className="space-y-10">
+            {grouped.map((group, gi) => (
+              <div key={group.category}>
+                {/* Category header */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.1 + gi * 0.1 }}
+                  className="flex items-center gap-3 mb-4"
+                >
+                  <Flame className="w-3.5 h-3.5 text-orange-500" />
+                  <span className="font-mono text-sm text-white font-semibold">
+                    {group.category}
+                  </span>
+                  <span className="font-mono text-[10px] text-gray-600 bg-gray-800/50 px-2 py-0.5 rounded">
+                    {group.repos.length} {group.repos.length === 1 ? "proyecto" : "proyectos"}
+                  </span>
+                  <div className="flex-1 h-px bg-gradient-to-r from-gray-800 to-transparent" />
+                </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {repos.map((repo, i) => {
-                const tag = getProjectTag(repo.name);
-                return (
-                  <motion.a
-                    key={repo.id}
-                    href={repo.html_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.5, delay: 0.15 + i * 0.06 }}
-                    whileHover={{ y: -4, scale: 1.01 }}
-                    className="group relative bg-gray-900/60 border border-gray-800 hover:border-orange-500/40 rounded-lg p-5 transition-all cursor-pointer backdrop-blur-sm overflow-hidden"
-                  >
-                    {/* Hover glow */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                {/* Repo cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {group.repos.map((repo, i) => {
+                    const meta = getProjectMeta(repo.name);
+                    const allLangs = [repo.language, ...(repo.extra_languages || [])].filter(Boolean) as string[];
 
-                    <div className="relative z-10">
-                      {/* Header */}
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-8 h-8 bg-orange-500/10 border border-orange-500/20 rounded-lg flex items-center justify-center group-hover:bg-orange-500/20 transition-colors">
-                            {getProjectIcon(repo.name)}
+                    return (
+                      <motion.a
+                        key={repo.id}
+                        href={repo.html_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={isInView ? { opacity: 1, y: 0 } : {}}
+                        transition={{ duration: 0.5, delay: 0.15 + gi * 0.1 + i * 0.06 }}
+                        whileHover={{ y: -4, scale: 1.01 }}
+                        className="group relative bg-gray-900/60 border border-gray-800 hover:border-orange-500/40 rounded-lg p-5 transition-all cursor-pointer backdrop-blur-sm overflow-hidden"
+                      >
+                        {/* Hover glow */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                        <div className="relative z-10">
+                          {/* Header */}
+                          <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center gap-2.5">
+                              <div className="w-8 h-8 bg-orange-500/10 border border-orange-500/20 rounded-lg flex items-center justify-center group-hover:bg-orange-500/20 transition-colors text-orange-500">
+                                {meta.icon}
+                              </div>
+                              <div className="min-w-0">
+                                <span className="font-mono text-sm text-orange-400 group-hover:text-orange-300 font-semibold block truncate max-w-[200px]">
+                                  {repo.name}
+                                </span>
+                                <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded mt-0.5 inline-block border ${meta.tagColor}`}>
+                                  {meta.tag}
+                                </span>
+                              </div>
+                            </div>
+                            <ExternalLink className="w-3.5 h-3.5 text-gray-600 group-hover:text-orange-500 transition-colors flex-shrink-0" />
                           </div>
-                          <div className="min-w-0">
-                            <span className="font-mono text-sm text-orange-400 group-hover:text-orange-300 font-semibold block truncate max-w-[220px]">
-                              {repo.name}
-                            </span>
-                            {tag && (
-                              <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded mt-0.5 inline-block border ${tag.color}`}>
-                                {tag.label}
+
+                          {/* Description */}
+                          <p className="text-gray-400 text-xs mb-4 line-clamp-3 min-h-[2.5rem] leading-relaxed">
+                            {repo.description || "Sin descripción"}
+                          </p>
+
+                          {/* Language tags */}
+                          <div className="flex flex-wrap items-center gap-1.5">
+                            {allLangs.map(lang => (
+                              <span
+                                key={lang}
+                                className="inline-flex items-center gap-1 font-mono text-[10px] text-gray-400 bg-gray-800/60 px-1.5 py-0.5 rounded"
+                              >
+                                <span
+                                  className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                                  style={{ backgroundColor: languageColors[lang] || "#8b8b8b" }}
+                                />
+                                {lang}
+                              </span>
+                            ))}
+                            {repo.stargazers_count > 0 && (
+                              <span className="inline-flex items-center gap-0.5 font-mono text-[10px] text-yellow-500 ml-1">
+                                <Star className="w-2.5 h-2.5 fill-yellow-500" />
+                                {repo.stargazers_count}
                               </span>
                             )}
                           </div>
                         </div>
-                        <ExternalLink className="w-3.5 h-3.5 text-gray-600 group-hover:text-orange-500 transition-colors flex-shrink-0" />
-                      </div>
-
-                      {/* Description */}
-                      <p className="text-gray-400 text-xs mb-4 line-clamp-3 min-h-[2.5rem] leading-relaxed">
-                        {repo.description || "Sin descripción"}
-                      </p>
-
-                      {/* Footer stats */}
-                      <div className="flex items-center gap-4 text-xs text-gray-500">
-                        {repo.language && (
-                          <div className="flex items-center gap-1.5">
-                            <span
-                              className="w-2.5 h-2.5 rounded-full"
-                              style={{ backgroundColor: languageColors[repo.language] || "#8b8b8b" }}
-                            />
-                            <span className="font-mono">{repo.language}</span>
-                          </div>
-                        )}
-                        {repo.stargazers_count > 0 && (
-                          <div className="flex items-center gap-1">
-                            <Star className="w-3 h-3" />
-                            {repo.stargazers_count}
-                          </div>
-                        )}
-                        {repo.forks_count > 0 && (
-                          <div className="flex items-center gap-1">
-                            <GitFork className="w-3 h-3" />
-                            {repo.forks_count}
-                          </div>
-                        )}
-                        <div className="flex items-center gap-1">
-                          <Eye className="w-3 h-3" />
-                          {repo.watchers_count}
-                        </div>
-                      </div>
-                    </div>
-                  </motion.a>
-                );
-              })}
-            </div>
+                      </motion.a>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>
