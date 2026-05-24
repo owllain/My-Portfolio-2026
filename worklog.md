@@ -147,3 +147,30 @@ Stage Summary:
 - Cat personality: silhouettes, paw prints between sections, octocat-style GitHub hover, section comments with 🐱
 - Easter eggs: "cat & coffee powered" in mobile menu, footer terminal command, paw dividers
 - 7 personality touches across 8 files
+
+---
+Task ID: 6
+Agent: Main
+Task: Polish personality — remove overdone elements, fix ambient sound, terminal-style labels, coffee favicon
+
+Work Log:
+- Removed "Siempre con café a la mano." from hero description (looked out of place)
+- Reverted GitHub button back to original Github icon (removed CatSilhouette)
+- Removed "☕ cat ~/.profile" from About section comment
+- Reverted hero subtitle back to original: `> Full Stack Software Engineer | .NET Specialist | QA Automation & SDET`
+- Removed emoji commands from section comments (SKILL_TREE, MY_PROJECTS, CONTACT_ME — back to clean)
+- Changed browser favicon from z.ai logo to custom coffee cup SVG (/public/favicon.svg)
+- Fixed ambient sound: changed html5:false for Web Audio API playback (html5:true was causing issues), increased volume from 0.08→0.25, regenerated MP3 with richer ambient sound (pink noise + 60/90/120Hz hum, higher bitrate 64k)
+- Restyled sub-section labels to terminal command format:
+  - `<Experiencia>` → `> cat experiencia.log | Experiencia`
+  - `<Educación>` → `> ls ~/educación | Educación`
+  - `<Certificaciones>` → `> grep certs/*.json | Certificaciones`
+  - Uses green for command, gray for path, orange for pipe, white for label
+- All lint checks pass, dev server compiles without errors
+
+Stage Summary:
+- Overdone elements removed (forced coffee text, cat commands in comments)
+- Favicon now shows a coffee cup in browser tab
+- Ambient sound now actually audible (volume 0.25, Web Audio mode)
+- Sub-section labels use terminal command aesthetic (> cmd path | Label)
+- Portfolio feels more authentic and less gimmicky

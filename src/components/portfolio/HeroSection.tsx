@@ -66,7 +66,7 @@ export default function HeroSection() {
           </h1>
         </motion.div>
 
-        {/* Terminal subtitle — with cat command */}
+        {/* Terminal subtitle — original format */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -75,15 +75,14 @@ export default function HeroSection() {
         >
           <div className="inline-block font-mono text-sm sm:text-base text-gray-300 bg-gray-950/80 px-6 py-3 rounded-lg border border-gray-700/50 backdrop-blur-sm">
             <span className="text-orange-500">{">"}</span>{" "}
-            <span className="text-green-400/70">cat</span> profile.json{" "}
-            <span className="text-orange-500">|</span>{" "}
-            Full Stack Engineer{" "}
-            <span className="text-orange-500">|</span> .NET & SDET
+            Full Stack Software Engineer{" "}
+            <span className="text-orange-500">|</span> .NET Specialist{" "}
+            <span className="text-orange-500">|</span> QA Automation & SDET
             <span className="cursor-blink" />
           </div>
         </motion.div>
 
-        {/* Description — coffee flavored */}
+        {/* Description */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -95,7 +94,6 @@ export default function HeroSection() {
           <span className="text-orange-400 font-mono">.NET</span>,{" "}
           <span className="text-orange-400 font-mono">React</span> y{" "}
           <span className="text-orange-400 font-mono">Power Platform</span>.
-          <span className="text-orange-500/30"> Siempre con café a la mano.</span>
         </motion.p>
 
         {/* CTA Buttons */}
@@ -113,8 +111,7 @@ export default function HeroSection() {
             whileTap={{ scale: 0.95 }}
             className="flex items-center gap-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-black font-mono text-sm rounded-lg transition-all"
           >
-            {/* Octocat-style: cat in GitHub button */}
-            <CatSilhouette className="w-4 h-4" />
+            <Github className="w-4 h-4" />
             GitHub
           </motion.a>
           <motion.a
@@ -165,7 +162,7 @@ export default function HeroSection() {
         </motion.div>
       </div>
 
-      {/* Scroll indicator — with coffee hint */}
+      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

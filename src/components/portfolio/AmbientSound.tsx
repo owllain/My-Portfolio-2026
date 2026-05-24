@@ -14,7 +14,7 @@ export default function AmbientSound() {
       src: ["/ambient-terminal.mp3"],
       loop: true,
       volume: 0,
-      html5: true,
+      html5: false,
       preload: true,
     });
 
@@ -27,9 +27,9 @@ export default function AmbientSound() {
     if (!howlRef.current) return;
     if (muted) {
       howlRef.current.play();
-      howlRef.current.fade(0, 0.08, 1500);
+      howlRef.current.fade(0, 0.25, 1500);
     } else {
-      howlRef.current.fade(0.08, 0, 800);
+      howlRef.current.fade(0.25, 0, 800);
       setTimeout(() => {
         howlRef.current?.pause();
       }, 850);

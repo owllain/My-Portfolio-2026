@@ -216,7 +216,7 @@ export default function AboutSection() {
           className="mb-12"
         >
           <div className="font-mono text-xs text-orange-500/70 mb-2">
-            {"//"} ABOUT_ME <span className="text-gray-700">☕ cat ~/.profile</span>
+            {"//"} ABOUT_ME
           </div>
           <div className="flex items-center gap-4">
             <h2 className="text-3xl sm:text-4xl font-bold text-white">
@@ -297,7 +297,7 @@ export default function AboutSection() {
               <div className="flex items-center gap-3 mb-4">
                 <Briefcase className="w-4 h-4 text-orange-500" />
                 <h3 className="font-mono text-sm text-white font-semibold">
-                  {"<"}Experiencia{">"}
+                  <span className="text-orange-500">{">"}</span> <span className="text-green-400/70">cat</span> <span className="text-gray-400">experiencia.log</span> <span className="text-orange-500">|</span> <span className="text-white">Experiencia</span>
                 </h3>
                 <CSSAccent3D shape="cross" color="#fb923c" speed={0.5} className="w-8 h-8" size={24} />
               </div>
@@ -348,7 +348,7 @@ export default function AboutSection() {
               <div className="flex items-center gap-3 mb-4">
                 <GraduationCap className="w-4 h-4 text-orange-500" />
                 <h3 className="font-mono text-sm text-white font-semibold">
-                  {"<"}Educación{">"}
+                  <span className="text-orange-500">{">"}</span> <span className="text-green-400/70">ls</span> <span className="text-gray-400">~/educación</span> <span className="text-orange-500">|</span> <span className="text-white">Educación</span>
                 </h3>
                 <CSSAccent3D shape="hexagon" color="#ea580c" speed={0.3} className="w-8 h-8" size={24} />
               </div>
@@ -375,7 +375,7 @@ export default function AboutSection() {
               <div className="flex items-center gap-3 mb-4">
                 <Award className="w-4 h-4 text-orange-500" />
                 <h3 className="font-mono text-sm text-white font-semibold">
-                  {"<"}Certificaciones{">"}
+                  <span className="text-orange-500">{">"}</span> <span className="text-green-400/70">grep</span> <span className="text-gray-400">certs/*.json</span> <span className="text-orange-500">|</span> <span className="text-white">Certificaciones</span>
                 </h3>
                 <CSSAccent3D shape="pentagon" color="#fb923c" speed={0.35} className="w-8 h-8" size={24} />
               </div>

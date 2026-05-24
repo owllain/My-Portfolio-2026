@@ -98,7 +98,7 @@ export default function ProjectsSection() {
           className="mb-10"
         >
           <div className="font-mono text-xs text-orange-500/70 mb-2">
-            {"//"} MY_PROJECTS <span className="text-gray-700">☕ git log --all</span>
+            {"//"} MY_PROJECTS
           </div>
           <div className="flex items-center gap-4 flex-wrap">
             <h2 className="text-3xl sm:text-4xl font-bold text-white">
