@@ -79,14 +79,14 @@ export default function SkillsSection() {
             <h2 className="text-3xl sm:text-4xl font-bold text-white">
               Habilidades y <span className="text-orange-500">Tecnologías</span>
             </h2>
-            {/* Small pixel character accent */}
-            <div className="animate-float">
+            {/* Framed pixel character */}
+            <div className="pixel-frame relative p-1.5">
               <Image
                 src="/pixel-character.png"
                 alt=""
-                width={28}
-                height={40}
-                className="pixel-render opacity-50"
+                width={36}
+                height={50}
+                className="pixel-render"
               />
             </div>
           </div>

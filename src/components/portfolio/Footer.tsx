@@ -1,7 +1,6 @@
 "use client";
 
 import { Github, Linkedin, Mail, Terminal, Heart } from "lucide-react";
-import Image from "next/image";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -10,23 +9,12 @@ export default function Footer() {
     <footer className="relative bg-black border-t border-orange-500/10 py-8 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          {/* Logo + pixel character */}
-          <div className="flex items-center gap-3">
-            <div className="animate-float">
-              <Image
-                src="/pixel-character.png"
-                alt=""
-                width={24}
-                height={36}
-                className="pixel-render"
-              />
-            </div>
-            <div className="flex items-center gap-2">
-              <Terminal className="w-4 h-4 text-orange-500" />
-              <span className="font-mono text-xs text-gray-500">
-                {"<"}AECM{" />"}
-              </span>
-            </div>
+          {/* Logo */}
+          <div className="flex items-center gap-2">
+            <Terminal className="w-4 h-4 text-orange-500" />
+            <span className="font-mono text-xs text-gray-500">
+              {"<"}AECM{" />"}
+            </span>
           </div>
 
           {/* Center text */}
@@ -47,7 +35,7 @@ export default function Footer() {
               <Github className="w-4 h-4" />
             </a>
             <a
-              href="https://linkedin.com/in/enrique-cascante"
+              href="https://www.linkedin.com/in/enrique-cascante/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-600 hover:text-orange-500 transition-colors"

@@ -8,26 +8,19 @@ import Image from "next/image";
 export default function ContactSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [formState, setFormState] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const [formState, setFormState] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("sending");
-
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formState),
       });
-
       if (!res.ok) throw new Error("Failed");
-
       setStatus("sent");
       setFormState({ name: "", email: "", message: "" });
       setTimeout(() => setStatus("idle"), 4000);
@@ -38,36 +31,11 @@ export default function ContactSection() {
   };
 
   const contactInfo = [
-    {
-      icon: <Mail className="w-5 h-5" />,
-      label: "Email",
-      value: "alvaro.cascante@uned.cr",
-      href: "mailto:alvaro.cascante@uned.cr",
-    },
-    {
-      icon: <Phone className="w-5 h-5" />,
-      label: "Teléfono",
-      value: "(+506) 6420-9961",
-      href: "tel:+50664209961",
-    },
-    {
-      icon: <MapPin className="w-5 h-5" />,
-      label: "Ubicación",
-      value: "San José, Costa Rica",
-      href: "#",
-    },
-    {
-      icon: <Linkedin className="w-5 h-5" />,
-      label: "LinkedIn",
-      value: "enrique-cascante",
-      href: "https://linkedin.com/in/enrique-cascante",
-    },
-    {
-      icon: <Github className="w-5 h-5" />,
-      label: "GitHub",
-      value: "enrique-cascante",
-      href: "https://github.com/enrique-cascante",
-    },
+    { icon: <Mail className="w-5 h-5" />, label: "Email", value: "alvaro.cascante@uned.cr", href: "mailto:alvaro.cascante@uned.cr" },
+    { icon: <Phone className="w-5 h-5" />, label: "Teléfono", value: "(+506) 6420-9961", href: "tel:+50664209961" },
+    { icon: <MapPin className="w-5 h-5" />, label: "Ubicación", value: "San José, Costa Rica", href: "#" },
+    { icon: <Linkedin className="w-5 h-5" />, label: "LinkedIn", value: "enrique-cascante", href: "https://www.linkedin.com/in/enrique-cascante/" },
+    { icon: <Github className="w-5 h-5" />, label: "GitHub", value: "enrique-cascante", href: "https://github.com/enrique-cascante" },
   ];
 
   return (
@@ -77,7 +45,7 @@ export default function ContactSection() {
       className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gray-950/50"
     >
       <div className="max-w-6xl mx-auto relative z-10">
-        {/* Section header with small pixel accent */}
+        {/* Section header with framed pixel character */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -91,14 +59,13 @@ export default function ContactSection() {
             <h2 className="text-3xl sm:text-4xl font-bold text-white">
               Hablemos de tu <span className="text-orange-500">Proyecto</span>
             </h2>
-            {/* Small pixel character accent */}
-            <div className="animate-float">
+            <div className="pixel-frame relative p-1.5">
               <Image
                 src="/pixel-character-cafe.png"
                 alt=""
-                width={30}
-                height={42}
-                className="pixel-render opacity-50"
+                width={40}
+                height={55}
+                className="pixel-render"
               />
             </div>
           </div>
@@ -144,7 +111,6 @@ export default function ContactSection() {
               ))}
             </div>
 
-            {/* Language badge */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
@@ -152,9 +118,7 @@ export default function ContactSection() {
               className="mt-5 inline-flex items-center gap-2 px-3 py-1.5 bg-gray-900/40 border border-gray-800 rounded-lg"
             >
               <span className="text-xs">🌎</span>
-              <span className="font-mono text-[10px] text-gray-400">
-                Español (Nativo) · Inglés B2
-              </span>
+              <span className="font-mono text-[10px] text-gray-400">Español (Nativo) · Inglés B2</span>
             </motion.div>
           </motion.div>
 
@@ -171,93 +135,55 @@ export default function ContactSection() {
               <div className="font-mono text-xs text-orange-500/50 mb-5">
                 {"/* Contact form */"}
               </div>
-
               <div className="space-y-4">
                 <div>
-                  <label className="block font-mono text-xs text-gray-400 mb-1.5">
-                    nombre:
-                  </label>
+                  <label className="block font-mono text-xs text-gray-400 mb-1.5">nombre:</label>
                   <input
                     type="text"
                     value={formState.name}
-                    onChange={(e) =>
-                      setFormState({ ...formState, name: e.target.value })
-                    }
+                    onChange={(e) => setFormState({ ...formState, name: e.target.value })}
                     required
                     className="w-full px-4 py-2.5 bg-gray-800/50 border border-gray-700 rounded-lg text-sm text-gray-200 font-mono focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/30 transition-colors placeholder:text-gray-600"
                     placeholder="Tu nombre"
                   />
                 </div>
-
                 <div>
-                  <label className="block font-mono text-xs text-gray-400 mb-1.5">
-                    email:
-                  </label>
+                  <label className="block font-mono text-xs text-gray-400 mb-1.5">email:</label>
                   <input
                     type="email"
                     value={formState.email}
-                    onChange={(e) =>
-                      setFormState({ ...formState, email: e.target.value })
-                    }
+                    onChange={(e) => setFormState({ ...formState, email: e.target.value })}
                     required
                     className="w-full px-4 py-2.5 bg-gray-800/50 border border-gray-700 rounded-lg text-sm text-gray-200 font-mono focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/30 transition-colors placeholder:text-gray-600"
                     placeholder="tu@email.com"
                   />
                 </div>
-
                 <div>
-                  <label className="block font-mono text-xs text-gray-400 mb-1.5">
-                    mensaje:
-                  </label>
+                  <label className="block font-mono text-xs text-gray-400 mb-1.5">mensaje:</label>
                   <textarea
                     value={formState.message}
-                    onChange={(e) =>
-                      setFormState({ ...formState, message: e.target.value })
-                    }
+                    onChange={(e) => setFormState({ ...formState, message: e.target.value })}
                     required
                     rows={5}
                     className="w-full px-4 py-2.5 bg-gray-800/50 border border-gray-700 rounded-lg text-sm text-gray-200 font-mono focus:border-orange-500/50 focus:outline-none focus:ring-1 focus:ring-orange-500/30 transition-colors resize-none placeholder:text-gray-600"
                     placeholder="Cuéntame sobre tu proyecto..."
                   />
                 </div>
-
                 <motion.button
                   type="submit"
                   disabled={status === "sending"}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   className={`w-full flex items-center justify-center gap-2 py-3 rounded-lg font-mono text-sm transition-all ${
-                    status === "sent"
-                      ? "bg-green-600 text-white"
-                      : status === "error"
-                      ? "bg-red-600 text-white"
+                    status === "sent" ? "bg-green-600 text-white"
+                      : status === "error" ? "bg-red-600 text-white"
                       : "bg-orange-500 hover:bg-orange-600 text-black"
                   } disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
-                  {status === "idle" && (
-                    <>
-                      <Send className="w-4 h-4" />
-                      Enviar Mensaje
-                    </>
-                  )}
-                  {status === "sending" && (
-                    <>
-                      <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
-                      Enviando...
-                    </>
-                  )}
-                  {status === "sent" && (
-                    <>
-                      <CheckCircle className="w-4 h-4" />
-                      ¡Mensaje Enviado!
-                    </>
-                  )}
-                  {status === "error" && (
-                    <>
-                      <AlertCircle className="w-4 h-4" />
-                      Error al enviar
-                    </>
-                  )}
+                  {status === "idle" && <><Send className="w-4 h-4" />Enviar Mensaje</>}
+                  {status === "sending" && <><div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />Enviando...</>}
+                  {status === "sent" && <><CheckCircle className="w-4 h-4" />¡Mensaje Enviado!</>}
+                  {status === "error" && <><AlertCircle className="w-4 h-4" />Error al enviar</>}
                 </motion.button>
               </div>
             </form>

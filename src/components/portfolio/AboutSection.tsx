@@ -41,29 +41,17 @@ const experience = [
     role: "Manager – Admón. y Desarrollo de Negocios",
     period: "2019 – 2023",
     tasks: [
-      "Administración de bases de datos Oracle y MySQL con dashboards Power BI",
+      "Administración de BD Oracle y MySQL con dashboards Power BI",
       "Migración de procesos administrativos a plataformas digitales",
     ],
   },
 ];
 
 const education = [
-  {
-    degree: "Licenciatura en Ing. Informática y Sistemas de Calidad",
-    status: "En curso",
-  },
-  {
-    degree: "Licenciatura en Ing. Informática y Admón. de Proyectos",
-    status: "En curso",
-  },
-  {
-    degree: "Bachillerato en Ingeniería en Informática",
-    status: "2025",
-  },
-  {
-    degree: "Diplomado en Ingeniería en Informática",
-    status: "2023",
-  },
+  { degree: "Lic. Ing. Informática y Sistemas de Calidad", status: "En curso" },
+  { degree: "Lic. Ing. Informática y Admón. de Proyectos", status: "En curso" },
+  { degree: "Bachillerato en Ingeniería en Informática", status: "2025" },
+  { degree: "Diplomado en Ingeniería en Informática", status: "2023" },
 ];
 
 const personalInfo = [
@@ -102,16 +90,16 @@ export default function AboutSection() {
           <div className="w-20 h-1 bg-orange-500 rounded-full" />
         </motion.div>
 
-        {/* Main layout: Info + Pixel art accent */}
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Left column — Personal info, experience, education */}
+        {/* Layout: Info left, framed pixel art right */}
+        <div className="flex flex-col lg:flex-row gap-8 items-start">
+          {/* Left — all the info */}
           <div className="flex-1 min-w-0">
             {/* Bio card */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="bg-gray-900/60 border border-gray-700/50 rounded-xl p-5 sm:p-6 mb-6 backdrop-blur-sm"
+              className="bg-gray-900/60 border border-gray-700/50 rounded-xl p-5 sm:p-6 mb-5 backdrop-blur-sm"
             >
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 bg-orange-500/10 border border-orange-500/30 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -119,7 +107,7 @@ export default function AboutSection() {
                 </div>
                 <div>
                   <h3 className="text-base font-semibold text-white">Alvaro Enrique Cascante Moraga</h3>
-                  <p className="text-xs text-orange-500/80 font-mono">Full Stack Developer · Automation Engineer</p>
+                  <p className="text-xs text-orange-500/80 font-mono">Full Stack Software Engineer · .NET Specialist</p>
                 </div>
               </div>
               <p className="text-gray-300 text-sm leading-relaxed">
@@ -136,7 +124,7 @@ export default function AboutSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-6"
+              className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-5"
             >
               {personalInfo.map((info, i) => (
                 <div
@@ -157,13 +145,13 @@ export default function AboutSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="mb-6"
+              className="mb-5"
             >
               <div className="flex items-center gap-2 mb-3">
                 <Briefcase className="w-4 h-4 text-orange-500" />
                 <h3 className="font-mono text-sm text-white">Experiencia</h3>
               </div>
-              <div className="space-y-3">
+              <div className="space-y-2.5">
                 {experience.map((exp, i) => (
                   <motion.div
                     key={exp.company}
@@ -195,7 +183,7 @@ export default function AboutSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="mb-6"
+              className="mb-5"
             >
               <div className="flex items-center gap-2 mb-3">
                 <GraduationCap className="w-4 h-4 text-orange-500" />
@@ -231,7 +219,7 @@ export default function AboutSection() {
                   "Lean Six Sigma",
                   "ISO 9001:2015",
                   "Oracle ONE Frontend",
-                ].map((cert, i) => (
+                ].map((cert) => (
                   <span
                     key={cert}
                     className="text-[10px] font-mono px-2 py-1 bg-orange-500/5 border border-orange-500/15 text-orange-400/80 rounded-full"
@@ -243,33 +231,54 @@ export default function AboutSection() {
             </motion.div>
           </div>
 
-          {/* Right column — Small pixel art accents */}
+          {/* Right — Framed pixel art showcase */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
+            initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="hidden lg:flex flex-col items-center gap-6 pt-4 w-24 flex-shrink-0"
+            className="hidden lg:flex flex-col items-center gap-5 w-52 flex-shrink-0 sticky top-24"
           >
-            {/* Small pixel character with coffee */}
-            <div className="animate-float">
+            {/* Framed café scene */}
+            <div className="pixel-frame relative p-2">
               <Image
-                src="/pixel-character-cafe.png"
-                alt="Pixel art developer"
-                width={55}
-                height={75}
-                className="pixel-render drop-shadow-[0_0_8px_rgba(249,115,22,0.2)]"
+                src="/pixel-cafe-alt.png"
+                alt="Pixel art cozy café"
+                width={180}
+                height={100}
+                className="pixel-render rounded"
+              />
+              <div className="absolute bottom-3 left-3 right-3 text-center">
+                <span className="font-mono text-[9px] text-orange-500/60 bg-black/60 px-2 py-0.5 rounded">
+                  ☕ workspace
+                </span>
+              </div>
+            </div>
+
+            {/* Framed pixel character */}
+            <div className="pixel-frame relative p-3 animate-float">
+              <Image
+                src="/pixel-character.png"
+                alt="Pixel art developer character"
+                width={80}
+                height={112}
+                className="pixel-render"
               />
             </div>
 
-            {/* Small pixel desk */}
-            <div className="animate-float" style={{ animationDelay: "1.5s" }}>
+            {/* Framed pixel desk */}
+            <div className="pixel-frame relative p-2">
               <Image
                 src="/pixel-desk.png"
-                alt="Pixel art workspace"
-                width={60}
-                height={50}
-                className="pixel-render drop-shadow-[0_0_8px_rgba(249,115,22,0.2)]"
+                alt="Pixel art developer desk"
+                width={160}
+                height={110}
+                className="pixel-render rounded"
               />
+              <div className="absolute bottom-3 left-3 right-3 text-center">
+                <span className="font-mono text-[9px] text-orange-500/60 bg-black/60 px-2 py-0.5 rounded">
+                  ⌨️ SOFTWARE DEV
+                </span>
+              </div>
             </div>
           </motion.div>
         </div>

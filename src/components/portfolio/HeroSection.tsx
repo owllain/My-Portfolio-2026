@@ -8,48 +8,16 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden animated-gradient modern-grid"
     >
-      {/* Pixel art café background */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="/pixel-cafe.png"
-          alt=""
-          fill
-          className="object-cover opacity-15 pixel-render"
-          priority
-        />
-      </div>
-
-      {/* Pixel grid overlay */}
-      <div className="absolute inset-0 z-[1] pixel-grid" />
-
       {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/60 to-black z-[2]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black z-[1]" />
 
       {/* Scanline effect */}
-      <div className="absolute inset-0 z-[3] scanlines pointer-events-none" />
+      <div className="absolute inset-0 z-[2] scanlines pointer-events-none" />
 
       {/* Content */}
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-        {/* Pixel character as small accent to the left */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="absolute -left-2 sm:left-2 top-8 hidden sm:block"
-        >
-          <div className="animate-float">
-            <Image
-              src="/pixel-character-cafe.png"
-              alt="Pixel art developer"
-              width={50}
-              height={70}
-              className="pixel-render opacity-40 hover:opacity-70 transition-opacity"
-            />
-          </div>
-        </motion.div>
-
+      <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
         {/* System status badge */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
@@ -63,16 +31,35 @@ export default function HeroSection() {
           </div>
         </motion.div>
 
-        {/* Name */}
-        <motion.h1
+        {/* Name + framed pixel character */}
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 tracking-tight"
+          className="flex items-center justify-center gap-6 mb-4"
         >
-          <span className="text-white">Alvaro </span>
-          <span className="text-orange-500 text-glow-orange">Cascante</span>
-        </motion.h1>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
+            <span className="text-white">Alvaro </span>
+            <span className="text-orange-500 text-glow-orange">Cascante</span>
+          </h1>
+          {/* Framed pixel character */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.5, type: "spring" }}
+            className="hidden sm:block"
+          >
+            <div className="pixel-frame relative p-1 animate-float">
+              <Image
+                src="/pixel-character-cafe.png"
+                alt="Pixel art developer"
+                width={60}
+                height={82}
+                className="pixel-render"
+              />
+            </div>
+          </motion.div>
+        </motion.div>
 
         {/* Terminal subtitle */}
         <motion.div
@@ -82,9 +69,9 @@ export default function HeroSection() {
           className="mb-6"
         >
           <div className="inline-block font-mono text-sm sm:text-base text-gray-400 bg-gray-900/80 px-6 py-3 rounded-lg border border-gray-700/50">
-            <span className="text-orange-500">{">"}</span> Full Stack Developer{" "}
-            <span className="text-orange-500">|</span> Automation Engineer{" "}
-            <span className="text-orange-500">|</span> Problem Solver
+            <span className="text-orange-500">{">"}</span> Full Stack Software Engineer{" "}
+            <span className="text-orange-500">|</span> .NET Specialist{" "}
+            <span className="text-orange-500">|</span> QA Automation & SDET
             <span className="cursor-blink" />
           </div>
         </motion.div>
@@ -122,7 +109,7 @@ export default function HeroSection() {
             GitHub
           </motion.a>
           <motion.a
-            href="https://linkedin.com/in/enrique-cascante"
+            href="https://www.linkedin.com/in/enrique-cascante/"
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}

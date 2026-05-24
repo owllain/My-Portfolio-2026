@@ -80,7 +80,7 @@ export default function ProjectsSection() {
       className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gray-950/50"
     >
       <div className="max-w-6xl mx-auto relative z-10">
-        {/* Section header with small pixel desk icon */}
+        {/* Section header with framed pixel art */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -90,18 +90,18 @@ export default function ProjectsSection() {
           <div className="font-mono text-xs text-orange-500/70 mb-2">
             {"//"} MY_PROJECTS
           </div>
-          <div className="flex items-center gap-3 flex-wrap">
+          <div className="flex items-center gap-4 flex-wrap">
             <h2 className="text-3xl sm:text-4xl font-bold text-white">
               Proyectos en <span className="text-orange-500">GitHub</span>
             </h2>
-            {/* Small pixel desk as icon accent */}
-            <div className="animate-float">
+            {/* Framed pixel desk */}
+            <div className="pixel-frame relative p-1.5">
               <Image
                 src="/pixel-desk.png"
                 alt=""
-                width={35}
-                height={28}
-                className="pixel-render opacity-50"
+                width={70}
+                height={50}
+                className="pixel-render rounded"
               />
             </div>
             <motion.button
@@ -170,9 +170,7 @@ export default function ProjectsSection() {
                 whileHover={{ y: -4, scale: 1.02 }}
                 className="group bg-gray-900/60 border border-gray-800 hover:border-orange-500/40 rounded-lg p-5 transition-all cursor-pointer backdrop-blur-sm relative overflow-hidden"
               >
-                {/* Hover glow */}
                 <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-
                 <div className="relative z-10">
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
@@ -183,19 +181,15 @@ export default function ProjectsSection() {
                     </div>
                     <ExternalLink className="w-3.5 h-3.5 text-gray-600 group-hover:text-orange-500 transition-colors" />
                   </div>
-
                   <p className="text-gray-400 text-xs mb-4 line-clamp-2 min-h-[2rem]">
                     {repo.description || "Sin descripción"}
                   </p>
-
                   <div className="flex items-center gap-4 text-xs text-gray-500">
                     {repo.language && (
                       <div className="flex items-center gap-1.5">
                         <span
                           className="w-2.5 h-2.5 rounded-full"
-                          style={{
-                            backgroundColor: languageColors[repo.language] || "#8b8b8b",
-                          }}
+                          style={{ backgroundColor: languageColors[repo.language] || "#8b8b8b" }}
                         />
                         <span>{repo.language}</span>
                       </div>

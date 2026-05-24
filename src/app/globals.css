@@ -208,6 +208,54 @@
   animation: float 3s ease-in-out infinite;
 }
 
+/* Animated gradient background */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animated-gradient {
+  background: linear-gradient(
+    135deg,
+    #0a0a0a 0%,
+    #1a1a1a 25%,
+    #111111 50%,
+    #1a1a1a 75%,
+    #0a0a0a 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+/* Modern grid background */
+.modern-grid {
+  background-image:
+    linear-gradient(rgba(249, 115, 22, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(249, 115, 22, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Pixel art framed card */
+.pixel-frame {
+  border: 2px solid rgba(249, 115, 22, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 15px rgba(249, 115, 22, 0.1), inset 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.pixel-frame::before {
+  content: '';
+  display: block;
+  padding: 4px;
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.15), transparent);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
 /* Pixel transition */
 @keyframes pixelFadeIn {
   0% {
