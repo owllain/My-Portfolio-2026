@@ -3,7 +3,18 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Mail, MapPin, Linkedin, Github, Send, CheckCircle, AlertCircle, Globe } from "lucide-react";
-import { Planet3D, SectionAccent3D, FloatingOrbs } from "./Accents3D";
+import dynamic from "next/dynamic";
+import CSSAccent3D from "./CSSAccent3D";
+
+const Planet3D = dynamic(() => import("./Accents3D").then(m => m.Planet3D), {
+  ssr: false,
+  loading: () => <div className="w-14 h-14 sm:w-16 sm:h-16" />,
+});
+
+const FloatingOrbs = dynamic(() => import("./Accents3D").then(m => m.FloatingOrbs), {
+  ssr: false,
+  loading: () => <div className="absolute inset-0" />,
+});
 
 export default function ContactSection() {
   const ref = useRef(null);
@@ -129,7 +140,7 @@ export default function ContactSection() {
             >
               {/* Decorative 3D accent */}
               <div className="absolute -top-4 -right-4 opacity-30">
-                <SectionAccent3D shape="dodecahedron" color="#f97316" speed={0.2} className="w-16 h-16" />
+                <CSSAccent3D shape="dodecahedron" color="#f97316" speed={0.2} className="w-16 h-16" size={48} />
               </div>
 
               <div className="font-mono text-xs text-orange-500/50 mb-5 relative z-10">

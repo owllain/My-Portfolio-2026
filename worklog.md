@@ -85,3 +85,37 @@ Stage Summary:
 - Massively expanded 3D variety: diamonds, triangles, rings, letters AECM, pentagons, hexagons, crosses
 - 350 particles in hero + 60 per section + 100 CSS pixel particles
 - Smooth blur+fade transitions on all sections with expo easing
+
+---
+Task ID: 4
+Agent: Main
+Task: Optimize 3D accent loading + update certifications with categorized list
+
+Work Log:
+- Created CSSAccent3D.tsx — lightweight CSS/SVG-based rotating wireframe shapes replacing WebGL Canvas instances
+  - Supports all 14 shape types: diamond, triangle, hexagon, pentagon, cross, ring, octahedron, torus, icosahedron, dodecahedron, tetrahedron, torusKnot, cone, cylinder
+  - Uses CSS perspective + rotateY animation (accent3DRotate keyframe) instead of WebGL
+  - SVG wireframe rendering with dual-layer (outer + inner) shapes for 3D depth
+  - Framer Motion spring entrance animation
+  - Zero WebGL contexts per accent (was 1 each before)
+- Added accent3DRotate CSS keyframe animation to globals.css (perspective-based 3D rotation)
+- Updated SkillsSection: replaced SectionAccent3D → CSSAccent3D, dynamic import for FloatingOrbs
+- Updated AboutSection: replaced SectionAccent3D → CSSAccent3D, dynamic import for FloatingOrbs
+  - Added categorized certifications with collapsible accordion (CertCategory component)
+  - 4 categories: Gestión/Calidad/Ágiles, Desarrollo Software, Datos/Nube/Análisis, Idiomas
+  - Each category has icon, count badge, expand/collapse animation (AnimatePresence)
+  - Full certification details with name + issuer
+  - Total: 22 certifications across 4 categories
+- Updated ProjectsSection: replaced SectionAccent3D → CSSAccent3D, dynamic import for FloatingOrbs
+- Updated ContactSection: replaced SectionAccent3D → CSSAccent3D, dynamic import for Planet3D + FloatingOrbs
+- WebGL context reduction: ~11 SectionAccent3D canvases eliminated (was 16+ contexts, now ~5: 1 hero + 4 section FloatingOrbs)
+- All dynamic imports have loading fallback divs to prevent layout shift
+- Lint passes clean, dev server compiles successfully
+
+Stage Summary:
+- 3D accent optimization: replaced 11+ WebGL Canvas contexts with CSS/SVG animations (zero cost)
+- WebGL contexts reduced from ~16 to ~5 (hero scene + 4 section FloatingOrbs)
+- FloatingOrbs and Planet3D now dynamically imported with SSR disabled and loading fallbacks
+- Certifications reorganized into 4 collapsible categories with full details
+- 22 certifications listed with name and issuer
+- Performance significantly improved: no more WebGL context limit issues, faster page load

@@ -1,16 +1,28 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useRef, useState } from "react";
 import {
   GraduationCap,
   Briefcase,
   Award,
   MapPin,
   Globe,
+  ChevronDown,
+  ChevronRight,
+  Shield,
+  Code2,
+  BarChart3,
+  Languages,
 } from "lucide-react";
 import Image from "next/image";
-import { SectionAccent3D, FloatingOrbs } from "./Accents3D";
+import dynamic from "next/dynamic";
+import CSSAccent3D from "./CSSAccent3D";
+
+const FloatingOrbs = dynamic(() => import("./Accents3D").then(m => m.FloatingOrbs), {
+  ssr: false,
+  loading: () => <div className="absolute inset-0" />,
+});
 
 const experience = [
   {
@@ -51,6 +63,136 @@ const education = [
   { degree: "Diplomado en Ingeniería en Informática", status: "2023" },
 ];
 
+/* ── Categorized certifications ── */
+const certificationCategories = [
+  {
+    title: "Gestión, Calidad y Metodologías Ágiles",
+    icon: Shield,
+    accent: "pentagon" as const,
+    certs: [
+      { name: "SCRUM Foundation Professional Certificate", issuer: "CertiProf" },
+      { name: "Auditor Líder ISO 19011", issuer: "Alison" },
+      { name: "ISO 9001:2015 – Sistemas de Gestión de Calidad", issuer: "Alison" },
+      { name: "Lean Six Sigma White Belt Certification", issuer: "Educate 360" },
+      { name: "Six Sigma White Belt in Call Centers", issuer: "Educate 360" },
+      { name: "Six Sigma White Belt Certification", issuer: "Educate 360" },
+    ],
+  },
+  {
+    title: "Desarrollo de Software y Programación",
+    icon: Code2,
+    accent: "diamond" as const,
+    certs: [
+      { name: "Máster Completo en Java de cero a experto 2023 (+127 hrs)", issuer: "Udemy" },
+      { name: "Java Avanzado", issuer: "Open Bootcamp" },
+      { name: "Java Básico", issuer: "Open Bootcamp" },
+      { name: "Go (Basic)", issuer: "HackerRank" },
+      { name: "SQL", issuer: "Open Bootcamp" },
+      { name: "Formación en Programación -ONE-", issuer: "Alura Latam" },
+      { name: ".NET 7: ASP.NET Core esencial", issuer: "LinkedIn Learning" },
+      { name: "React avanzado 1", issuer: "LinkedIn Learning" },
+      { name: "PHP esencial", issuer: "LinkedIn Learning" },
+    ],
+  },
+  {
+    title: "Ingeniería de Datos, Nube y Análisis",
+    icon: BarChart3,
+    accent: "hexagon" as const,
+    certs: [
+      { name: "Microsoft Certified: Azure Data Fundamentals", issuer: "Microsoft" },
+      { name: "Fundamentos profesionales del análisis de datos", issuer: "Microsoft y LinkedIn" },
+      { name: "Fundamentos de la ingeniería de datos", issuer: "LinkedIn Learning" },
+      { name: "Introducción a habilidades profesionales en análisis de datos", issuer: "LinkedIn Learning" },
+      { name: "Gestión de datos con Microsoft 365", issuer: "LinkedIn Learning" },
+      { name: "Revit y Power BI: Análisis de datos", issuer: "LinkedIn Learning" },
+    ],
+  },
+  {
+    title: "Idiomas",
+    icon: Languages,
+    accent: "ring" as const,
+    certs: [
+      { name: "EF SET English Certificate – Nivel B2 Upper Intermediate", issuer: "EF SET" },
+    ],
+  },
+];
+
+/* ── Collapsible cert category ── */
+function CertCategory({
+  category,
+  index,
+  isInView,
+}: {
+  category: typeof certificationCategories[0];
+  index: number;
+  isInView: boolean;
+}) {
+  const [isOpen, setIsOpen] = useState(index === 0);
+  const Icon = category.icon;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.4, delay: 0.1 + index * 0.08 }}
+      className="bg-gray-900/40 border border-gray-800 rounded-lg overflow-hidden hover:border-orange-500/15 transition-colors"
+    >
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center gap-3 px-4 py-3 text-left group"
+      >
+        <div className="w-7 h-7 bg-orange-500/10 border border-orange-500/20 rounded-md flex items-center justify-center flex-shrink-0 group-hover:bg-orange-500/20 transition-colors">
+          <Icon className="w-3.5 h-3.5 text-orange-500" />
+        </div>
+        <span className="text-xs text-gray-300 font-mono flex-1 group-hover:text-orange-400 transition-colors">
+          {category.title}
+        </span>
+        <span className="font-mono text-[10px] text-orange-500/60 bg-orange-500/5 px-1.5 py-0.5 rounded flex-shrink-0">
+          {category.certs.length}
+        </span>
+        <CSSAccent3D shape={category.accent} color="#f97316" speed={0.3} className="w-6 h-6 flex-shrink-0" size={16} />
+        {isOpen ? (
+          <ChevronDown className="w-3.5 h-3.5 text-gray-500 flex-shrink-0" />
+        ) : (
+          <ChevronRight className="w-3.5 h-3.5 text-gray-500 flex-shrink-0" />
+        )}
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="overflow-hidden"
+          >
+            <div className="px-4 pb-3 space-y-1.5">
+              {category.certs.map((cert, ci) => (
+                <motion.div
+                  key={ci}
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: ci * 0.04 }}
+                  className="flex items-start gap-2 text-[11px] group/cert"
+                >
+                  <span className="text-orange-500/50 mt-0.5 flex-shrink-0">▸</span>
+                  <span className="text-gray-400 leading-snug flex-1">
+                    {cert.name}
+                  </span>
+                  <span className="text-gray-600 font-mono flex-shrink-0 hidden sm:inline">
+                    {cert.issuer}
+                  </span>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
 export default function AboutSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -65,7 +207,7 @@ export default function AboutSection() {
       <FloatingOrbs />
 
       <div className="max-w-6xl mx-auto relative z-10">
-        {/* Section header with 3D accent */}
+        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
           animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
@@ -79,7 +221,7 @@ export default function AboutSection() {
             <h2 className="text-3xl sm:text-4xl font-bold text-white">
               Sobre <span className="text-orange-500">Mí</span>
             </h2>
-            <SectionAccent3D shape="diamond" color="#f97316" speed={0.4} className="flex-shrink-0" />
+            <CSSAccent3D shape="diamond" color="#f97316" speed={0.4} className="flex-shrink-0" />
           </div>
           <div className="w-20 h-1 bg-orange-500 rounded-full" />
         </motion.div>
@@ -94,7 +236,6 @@ export default function AboutSection() {
               transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
               className="bg-gray-900/60 border border-gray-700/50 rounded-xl p-5 sm:p-6 mb-6 backdrop-blur-sm relative overflow-hidden"
             >
-              {/* Subtle gradient glow on card */}
               <div className="absolute -top-12 -right-12 w-32 h-32 bg-orange-500/5 rounded-full blur-2xl pointer-events-none" />
 
               <div className="flex items-start gap-5 sm:gap-6 relative z-10">
@@ -134,7 +275,7 @@ export default function AboutSection() {
                     </span>
                     <span className="flex items-center gap-1.5 text-gray-400">
                       <Globe className="w-3.5 h-3.5 text-orange-500/70" />
-                      Español (Nativo) · Inglés C1
+                      Español (Nativo) · Inglés B2
                     </span>
                   </div>
                 </div>
@@ -153,7 +294,7 @@ export default function AboutSection() {
                 <h3 className="font-mono text-sm text-white font-semibold">
                   {"<"}Experiencia{">"}
                 </h3>
-                <SectionAccent3D shape="cross" color="#fb923c" speed={0.5} className="w-8 h-8" />
+                <CSSAccent3D shape="cross" color="#fb923c" speed={0.5} className="w-8 h-8" size={24} />
               </div>
               <div className="space-y-3">
                 {experience.map((exp, i) => (
@@ -195,7 +336,7 @@ export default function AboutSection() {
             initial={{ opacity: 0, x: 30, filter: "blur(4px)" }}
             animate={isInView ? { opacity: 1, x: 0, filter: "blur(0px)" } : {}}
             transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full lg:w-80 flex-shrink-0 space-y-6 lg:sticky lg:top-24"
+            className="w-full lg:w-[380px] flex-shrink-0 space-y-6 lg:sticky lg:top-24"
           >
             {/* Education */}
             <div>
@@ -204,7 +345,7 @@ export default function AboutSection() {
                 <h3 className="font-mono text-sm text-white font-semibold">
                   {"<"}Educación{">"}
                 </h3>
-                <SectionAccent3D shape="hexagon" color="#ea580c" speed={0.3} className="w-8 h-8" />
+                <CSSAccent3D shape="hexagon" color="#ea580c" speed={0.3} className="w-8 h-8" size={24} />
               </div>
               <div className="space-y-2">
                 {education.map((edu, i) => (
@@ -224,33 +365,22 @@ export default function AboutSection() {
               </div>
             </div>
 
-            {/* Certifications */}
+            {/* Certifications — Categorized */}
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <Award className="w-4 h-4 text-orange-500" />
                 <h3 className="font-mono text-sm text-white font-semibold">
                   {"<"}Certificaciones{">"}
                 </h3>
-                <SectionAccent3D shape="pentagon" color="#fb923c" speed={0.35} className="w-8 h-8" />
+                <CSSAccent3D shape="pentagon" color="#fb923c" speed={0.35} className="w-8 h-8" size={24} />
               </div>
-              <div className="flex flex-wrap gap-2">
-                {[
-                  "Azure Data Fundamentals",
-                  "SCRUM SFPC™",
-                  "Java Master",
-                  "React Avanzado",
-                  ".NET Core ASP.NET",
-                  "Lean Six Sigma",
-                  "ISO 9001:2015",
-                  "Oracle ONE Frontend",
-                ].map((cert) => (
-                  <span
-                    key={cert}
-                    className="text-[10px] font-mono px-2.5 py-1.5 bg-orange-500/5 border border-orange-500/15 text-orange-400/80 rounded-md hover:bg-orange-500/10 hover:border-orange-500/30 transition-colors cursor-default"
-                  >
-                    {cert}
-                  </span>
+              <div className="space-y-2">
+                {certificationCategories.map((cat, i) => (
+                  <CertCategory key={cat.title} category={cat} index={i} isInView={isInView} />
                 ))}
+              </div>
+              <div className="mt-3 text-[10px] text-gray-600 font-mono px-1">
+                {certificationCategories.reduce((acc, c) => acc + c.certs.length, 0)} certificaciones verificadas
               </div>
             </div>
           </motion.div>

@@ -3,7 +3,13 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Cpu, Code2, Database, Cloud, Wrench } from "lucide-react";
-import { SectionAccent3D, FloatingOrbs } from "./Accents3D";
+import dynamic from "next/dynamic";
+import CSSAccent3D from "./CSSAccent3D";
+
+const FloatingOrbs = dynamic(() => import("./Accents3D").then(m => m.FloatingOrbs), {
+  ssr: false,
+  loading: () => <div className="absolute inset-0" />,
+});
 
 const skillCategories = [
   {
@@ -70,7 +76,7 @@ export default function SkillsSection() {
 
   return (
     <section id="skills" ref={ref} className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      {/* 3D Floating orbs */}
+      {/* 3D Floating orbs — single Canvas for the whole section */}
       <FloatingOrbs />
 
       <div className="max-w-6xl mx-auto relative z-10">
@@ -88,7 +94,7 @@ export default function SkillsSection() {
             <h2 className="text-3xl sm:text-4xl font-bold text-white">
               Habilidades y <span className="text-orange-500">Tecnologías</span>
             </h2>
-            <SectionAccent3D shape="ring" color="#fb923c" speed={0.3} className="flex-shrink-0" />
+            <CSSAccent3D shape="ring" color="#fb923c" speed={0.3} className="flex-shrink-0" />
           </div>
           <div className="w-20 h-1 bg-orange-500 rounded-full" />
         </motion.div>
@@ -121,7 +127,13 @@ export default function SkillsSection() {
                         {category.skills.length} skills
                       </span>
                     </div>
-                    <SectionAccent3D shape={category.accent} color="#f97316" speed={0.4 + catIndex * 0.1} className="w-8 h-8 opacity-60 group-hover:opacity-100 transition-opacity" />
+                    <CSSAccent3D
+                      shape={category.accent}
+                      color="#f97316"
+                      speed={0.4 + catIndex * 0.1}
+                      className="w-8 h-8 opacity-60 group-hover:opacity-100 transition-opacity"
+                      size={24}
+                    />
                   </div>
 
                   <div className="space-y-3.5">
