@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { Howl } from "howler";
 
 export default function AmbientSound() {
-  const [muted, setMuted] = useState(true);
+  const [muted, setMuted] = useState(false);
   const howlRef = useRef<Howl | null>(null);
 
   useEffect(() => {
@@ -17,6 +17,11 @@ export default function AmbientSound() {
       html5: false,
       preload: true,
     });
+
+    if (howlRef.current && !muted) {
+      howlRef.current.play();
+      howlRef.current.fade(0, 0.25, 1500);
+    }
 
     return () => {
       howlRef.current?.unload();
