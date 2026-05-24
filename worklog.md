@@ -134,7 +134,7 @@ Work Log:
 - Updated SkillsSection: "🐱 ls ~/skills" in section comment
 - Updated ProjectsSection: "☕ git log --all" in section comment
 - Updated ContactSection: "🐱 purr --connect" in section comment
-- Updated Footer: Cat+Coffee personality ("Built with ☕ & 🐱 by Alvaro Cascante"), GitHub link hover swaps Github icon → CatSilhouette (octocat reveal), easter egg line at bottom ("cat /dev/urandom | coffee --brew → portfolio.ready ☕🐱")
+- Updated Footer: Cat+Coffee personality ("Built with ☕ & 🐱 by Alvaro Enrique Cascante"), GitHub link hover swaps Github icon → CatSilhouette (octocat reveal), easter egg line at bottom ("cat /dev/urandom | coffee --brew → portfolio.ready ☕🐱")
 - Added PawDivider component in page.tsx: 5 rotated 🐾 prints with faint connecting line between each section
 - Added coffee-steam CSS animation (steamRise keyframe, .coffee-steam::after pseudo-element)
 - page.tsx integrates TerminalLoader onBootSound → playBoot

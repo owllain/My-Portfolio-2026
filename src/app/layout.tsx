@@ -14,11 +14,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Alvaro Cascante | Full Stack Developer Portfolio",
+  title: "Alvaro Enrique Cascante | Full Stack Developer Portfolio",
   description:
     "Portfolio de Alvaro Enrique Cascante Moraga — Ingeniero en Informática, Full Stack Developer especializado en .NET, React y automatización de procesos. San José, Costa Rica.",
   keywords: [
-    "Alvaro Cascante",
+    "Alvaro Enrique Cascante",
     "Full Stack Developer",
     ".NET",
     "React",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     icon: "/favicon.svg",
   },
   openGraph: {
-    title: "Alvaro Cascante | Full Stack Developer",
+    title: "Alvaro Enrique Cascante | Full Stack Developer",
     description:
       "Ingeniero en Informática especializado en desarrollo de aplicaciones y automatización de procesos.",
     type: "website",

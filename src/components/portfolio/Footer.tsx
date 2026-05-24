@@ -36,7 +36,7 @@ export default function Footer() {
             <Coffee className="w-3 h-3 text-orange-500/60" />
             <span>&</span>
             <CatSilhouette className="w-3 h-3 text-orange-500/60" />
-            <span>by Alvaro Cascante</span>
+            <span>by Alvaro Enrique Cascante</span>
           </div>
 
           {/* Social links — GitHub with cat hover */}

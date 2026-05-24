@@ -245,7 +245,7 @@ export default function AboutSection() {
                   <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border-2 border-orange-500/30 shadow-lg shadow-orange-500/10">
                     <Image
                       src="/avatar-new.png"
-                      alt="Alvaro Cascante profile"
+                      alt="Alvaro Enrique Cascante profile"
                       fill
                       className="object-cover"
                       sizes="96px"
