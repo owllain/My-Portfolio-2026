@@ -2,6 +2,22 @@ import { NextResponse } from "next/server";
 
 const GITHUB_USERNAME = "owllain";
 
+/* ── Allowlist: only these repos will be shown ──
+   Add or remove names here to control what appears in the portfolio.
+   Any new public repo NOT in this list will be automatically filtered out. */
+const ALLOWED_REPOS = new Set([
+  "GoZombie-Game-Maker-Lang",
+  "My-Portfolio-2026",
+  "AddContent",
+  "SYSAlert",
+  "Reporte_Telegestion",
+  "auto-scheduler",
+  "tool-expediente-asesores",
+  "roadmap-2026",
+  "thedarkdawn-java-game",
+  "graficador-de-arboles",
+]);
+
 interface GitHubRepo {
   id: number;
   name: string;
@@ -30,7 +46,7 @@ export async function GET() {
     }
 
     const response = await fetch(
-      `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=30&type=owner`,
+      `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100&type=owner`,
       {
         headers: {
           Accept: "application/vnd.github.v3+json",
@@ -41,14 +57,16 @@ export async function GET() {
     );
 
     if (!response.ok) {
-      // Return demo data if GitHub API fails
       return NextResponse.json(getDemoRepos());
     }
 
     const repos: GitHubRepo[] = await response.json();
 
+    // Filter to only allowed repos
+    const filtered = repos.filter(r => ALLOWED_REPOS.has(r.name));
+
     // Sort by stars then by update date
-    const sortedRepos = repos.sort((a, b) => {
+    const sortedRepos = filtered.sort((a, b) => {
       if (b.stargazers_count !== a.stargazers_count) {
         return b.stargazers_count - a.stargazers_count;
       }
@@ -69,45 +87,45 @@ function getDemoRepos(): GitHubRepo[] {
   return [
     {
       id: 1,
-      name: "VetFiles",
-      description: "Sistema integral para veterinarias: control de citas, expedientes clínicos, pacientes internados y carga de archivos. Base de datos en la nube con diseño moderno.",
-      html_url: "https://github.com/owllain/VetFiles",
+      name: "GoZombie-Game-Maker-Lang",
+      description: "Lenguaje de programación y motor para crear juegos — compilador propio con sintaxis simplificada para desarrollo rápido de videojuegos 2D.",
+      html_url: "https://github.com/owllain/GoZombie-Game-Maker-Lang",
+      homepage: null,
+      language: "Java",
+      stargazers_count: 2,
+      forks_count: 0,
+      watchers_count: 1,
+      topics: ["game-engine", "programming-language", "compiler", "2d"],
+      created_at: "2024-04-01T00:00:00Z",
+      updated_at: "2025-05-20T00:00:00Z",
+    },
+    {
+      id: 2,
+      name: "My-Portfolio-2026",
+      description: "Portfolio interactivo con Next.js 16, Three.js y estética cozy/terminal. Diseño pixel art con objetos 3D y personalidad ☕🐱",
+      html_url: "https://github.com/owllain/My-Portfolio-2026",
       homepage: null,
       language: "TypeScript",
       stargazers_count: 3,
       forks_count: 0,
       watchers_count: 2,
-      topics: ["typescript", "veterinary", "cloud", "management"],
-      created_at: "2024-08-01T00:00:00Z",
-      updated_at: "2025-05-20T00:00:00Z",
-    },
-    {
-      id: 2,
-      name: "BancaNet",
-      description: "Prototipo de aplicación bancaria SPA — login, dashboard, transferencias, pagos y estados de cuenta. Demo funcional de entorno financiero digital.",
-      html_url: "https://github.com/owllain/BancaNet",
-      homepage: null,
-      language: "HTML",
-      stargazers_count: 2,
-      forks_count: 0,
-      watchers_count: 1,
-      topics: ["banking", "prototype", "spa", "fintech"],
-      created_at: "2024-06-15T00:00:00Z",
-      updated_at: "2025-04-10T00:00:00Z",
+      topics: ["nextjs", "threejs", "portfolio", "cozy"],
+      created_at: "2025-01-01T00:00:00Z",
+      updated_at: "2025-06-01T00:00:00Z",
     },
     {
       id: 3,
-      name: "Reporte_Telegestion",
-      description: "Generador de reportes SMS — procesamiento stateless en memoria, compatible con Vercel. Batch de archivos pesados con Shadcn/UI y Tailwind CSS.",
-      html_url: "https://github.com/owllain/Reporte_Telegestion",
+      name: "AddContent",
+      description: "CMS moderno estilo wiki con módulos interactivos y HTMLs personalizable. La evolución de Wikipedia para la gestión de contenido colaborativo.",
+      html_url: "https://github.com/owllain/AddContent",
       homepage: null,
       language: "TypeScript",
       stargazers_count: 1,
       forks_count: 0,
       watchers_count: 1,
-      topics: ["nextjs", "sms", "reports", "serverless"],
-      created_at: "2025-01-10T00:00:00Z",
-      updated_at: "2025-05-15T00:00:00Z",
+      topics: ["cms", "wiki", "content-management", "typescript"],
+      created_at: "2025-03-01T00:00:00Z",
+      updated_at: "2025-05-01T00:00:00Z",
     },
     {
       id: 4,
@@ -125,17 +143,17 @@ function getDemoRepos(): GitHubRepo[] {
     },
     {
       id: 5,
-      name: "AddContent",
-      description: "CMS moderno estilo wiki con módulos interactivos y HTMLs personalizable. La evolución de Wikipedia para la gestión de contenido colaborativo.",
-      html_url: "https://github.com/owllain/AddContent",
+      name: "Reporte_Telegestion",
+      description: "Generador de reportes SMS — procesamiento stateless en memoria, compatible con Vercel. Batch de archivos pesados con Shadcn/UI y Tailwind CSS.",
+      html_url: "https://github.com/owllain/Reporte_Telegestion",
       homepage: null,
       language: "TypeScript",
       stargazers_count: 1,
       forks_count: 0,
       watchers_count: 1,
-      topics: ["cms", "wiki", "content-management", "typescript"],
-      created_at: "2025-03-01T00:00:00Z",
-      updated_at: "2025-05-01T00:00:00Z",
+      topics: ["nextjs", "sms", "reports", "serverless"],
+      created_at: "2025-01-10T00:00:00Z",
+      updated_at: "2025-05-15T00:00:00Z",
     },
     {
       id: 6,
@@ -154,7 +172,7 @@ function getDemoRepos(): GitHubRepo[] {
     {
       id: 7,
       name: "tool-expediente-asesores",
-      description: "Evaluación de desempeño offline-first para nuevos ingresos — firma digital biométrica, dashboard reactivo y exportación PDF. Sin dependencia de BD externa.",
+      description: "Evaluación de desempeño offline-first para nuevos ingresos — firma digital biométrica, dashboard reactivo y exportación PDF. Sin BD externa.",
       html_url: "https://github.com/owllain/tool-expediente-asesores",
       homepage: null,
       language: "TypeScript",
@@ -178,6 +196,34 @@ function getDemoRepos(): GitHubRepo[] {
       topics: ["vision-board", "cozy", "react", "creative"],
       created_at: "2025-01-01T00:00:00Z",
       updated_at: "2025-05-25T00:00:00Z",
+    },
+    {
+      id: 9,
+      name: "thedarkdawn-java-game",
+      description: "Juego de aventura RPG desarrollado en Java — exploración, combate por turnos y narrativa oscura. Proyecto de game development personal.",
+      html_url: "https://github.com/owllain/thedarkdawn-java-game",
+      homepage: null,
+      language: "Java",
+      stargazers_count: 0,
+      forks_count: 0,
+      watchers_count: 0,
+      topics: ["java", "rpg", "game", "adventure"],
+      created_at: "2024-02-01T00:00:00Z",
+      updated_at: "2024-08-15T00:00:00Z",
+    },
+    {
+      id: 10,
+      name: "graficador-de-arboles",
+      description: "Herramienta de visualización e interactiva para estructuras de datos tipo árbol — recorrido, inserción y eliminación con animaciones en tiempo real.",
+      html_url: "https://github.com/owllain/graficador-de-arboles",
+      homepage: null,
+      language: "Java",
+      stargazers_count: 0,
+      forks_count: 0,
+      watchers_count: 0,
+      topics: ["data-structures", "trees", "visualization", "education"],
+      created_at: "2024-05-01T00:00:00Z",
+      updated_at: "2024-10-20T00:00:00Z",
     },
   ];
 }
