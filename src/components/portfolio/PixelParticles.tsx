@@ -41,7 +41,7 @@ export default function PixelParticles() {
       "rgba(64,64,64,",    // gray-600
     ];
 
-    const pixelCount = Math.min(50, Math.floor(window.innerWidth / 30));
+    const pixelCount = Math.min(100, Math.floor(window.innerWidth / 18));
     pixelsRef.current = Array.from({ length: pixelCount }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,

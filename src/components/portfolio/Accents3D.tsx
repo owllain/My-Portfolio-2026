@@ -4,7 +4,7 @@ import { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-/* ── Reusable small floating shape for section accents ── */
+/* ── Generic floating accent shape ── */
 function FloatingShape({
   geometry,
   color,
@@ -12,7 +12,7 @@ function FloatingShape({
   wireframe = true,
   scale = 1,
 }: {
-  geometry: "octahedron" | "torus" | "icosahedron" | "dodecahedron" | "tetrahedron" | "torusKnot" | "cone" | "cylinder";
+  geometry: "octahedron" | "torus" | "icosahedron" | "dodecahedron" | "tetrahedron" | "torusKnot" | "cone" | "cylinder" | "diamond" | "triangle" | "ring" | "pentagon" | "hexagon" | "cross";
   color: string;
   speed: number;
   wireframe?: boolean;
@@ -29,15 +29,47 @@ function FloatingShape({
   });
 
   const geo = useMemo(() => {
+    const s = scale;
     switch (geometry) {
-      case "octahedron": return new THREE.OctahedronGeometry(0.5 * scale, 0);
-      case "torus": return new THREE.TorusGeometry(0.35 * scale, 0.12 * scale, 8, 16);
-      case "icosahedron": return new THREE.IcosahedronGeometry(0.45 * scale, 0);
-      case "dodecahedron": return new THREE.DodecahedronGeometry(0.45 * scale, 0);
-      case "tetrahedron": return new THREE.TetrahedronGeometry(0.5 * scale, 0);
-      case "torusKnot": return new THREE.TorusKnotGeometry(0.3 * scale, 0.08 * scale, 32, 8);
-      case "cone": return new THREE.ConeGeometry(0.35 * scale, 0.7 * scale, 6);
-      case "cylinder": return new THREE.CylinderGeometry(0.3 * scale, 0.3 * scale, 0.6 * scale, 6);
+      case "octahedron": return new THREE.OctahedronGeometry(0.5 * s, 0);
+      case "torus": return new THREE.TorusGeometry(0.35 * s, 0.12 * s, 8, 16);
+      case "icosahedron": return new THREE.IcosahedronGeometry(0.45 * s, 0);
+      case "dodecahedron": return new THREE.DodecahedronGeometry(0.45 * s, 0);
+      case "tetrahedron": return new THREE.TetrahedronGeometry(0.5 * s, 0);
+      case "torusKnot": return new THREE.TorusKnotGeometry(0.3 * s, 0.08 * s, 32, 8);
+      case "cone": return new THREE.ConeGeometry(0.35 * s, 0.7 * s, 6);
+      case "cylinder": return new THREE.CylinderGeometry(0.3 * s, 0.3 * s, 0.6 * s, 6);
+      case "diamond": {
+        const shape = new THREE.Shape();
+        shape.moveTo(0, 0.5 * s);
+        shape.lineTo(0.3 * s, 0);
+        shape.lineTo(0, -0.5 * s);
+        shape.lineTo(-0.3 * s, 0);
+        shape.lineTo(0, 0.5 * s);
+        return new THREE.ExtrudeGeometry(shape, { depth: 0.08 * s, bevelEnabled: false });
+      }
+      case "triangle": {
+        const shape = new THREE.Shape();
+        shape.moveTo(0, 0.5 * s);
+        shape.lineTo(-0.45 * s, -0.35 * s);
+        shape.lineTo(0.45 * s, -0.35 * s);
+        shape.lineTo(0, 0.5 * s);
+        return new THREE.ExtrudeGeometry(shape, { depth: 0.06 * s, bevelEnabled: false });
+      }
+      case "ring": return new THREE.TorusGeometry(0.35 * s, 0.03 * s, 8, 24);
+      case "pentagon": return new THREE.CylinderGeometry(0.4 * s, 0.4 * s, 0.1 * s, 5);
+      case "hexagon": return new THREE.CylinderGeometry(0.4 * s, 0.4 * s, 0.1 * s, 6);
+      case "cross": {
+        const shape = new THREE.Shape();
+        const w = 0.15 * s, h = 0.5 * s;
+        shape.moveTo(-w, h); shape.lineTo(w, h); shape.lineTo(w, w);
+        shape.lineTo(h, w); shape.lineTo(h, -w); shape.lineTo(w, -w);
+        shape.lineTo(w, -h); shape.lineTo(-w, -h); shape.lineTo(-w, -w);
+        shape.lineTo(-h, -w); shape.lineTo(-h, w); shape.lineTo(-w, w);
+        shape.lineTo(-w, h);
+        return new THREE.ExtrudeGeometry(shape, { depth: 0.05 * s, bevelEnabled: false });
+      }
+      default: return new THREE.OctahedronGeometry(0.5 * s, 0);
     }
   }, [geometry, scale]);
 
@@ -74,38 +106,17 @@ function Planet() {
 
   return (
     <group>
-      {/* Main sphere */}
       <mesh ref={meshRef}>
         <sphereGeometry args={[0.45, 24, 24]} />
-        <meshStandardMaterial
-          color="#f97316"
-          wireframe
-          transparent
-          opacity={0.7}
-          emissive="#f97316"
-          emissiveIntensity={0.2}
-        />
+        <meshStandardMaterial color="#f97316" wireframe transparent opacity={0.7} emissive="#f97316" emissiveIntensity={0.2} />
       </mesh>
-      {/* Inner solid sphere for depth */}
       <mesh>
         <sphereGeometry args={[0.35, 16, 16]} />
-        <meshStandardMaterial
-          color="#1a1a1a"
-          transparent
-          opacity={0.9}
-        />
+        <meshStandardMaterial color="#1a1a1a" transparent opacity={0.9} />
       </mesh>
-      {/* Ring */}
       <mesh ref={ringRef}>
         <torusGeometry args={[0.6, 0.025, 8, 48]} />
-        <meshStandardMaterial
-          color="#fb923c"
-          wireframe={false}
-          transparent
-          opacity={0.5}
-          emissive="#fb923c"
-          emissiveIntensity={0.3}
-        />
+        <meshStandardMaterial color="#fb923c" wireframe={false} transparent opacity={0.5} emissive="#fb923c" emissiveIntensity={0.3} />
       </mesh>
     </group>
   );
@@ -121,7 +132,7 @@ export function SectionAccent3D({
   wireframe = true,
   scale = 1,
 }: {
-  shape: "octahedron" | "torus" | "icosahedron" | "dodecahedron" | "tetrahedron" | "torusKnot" | "cone" | "cylinder";
+  shape: "octahedron" | "torus" | "icosahedron" | "dodecahedron" | "tetrahedron" | "torusKnot" | "cone" | "cylinder" | "diamond" | "triangle" | "ring" | "pentagon" | "hexagon" | "cross";
   color?: string;
   speed?: number;
   className?: string;
@@ -162,7 +173,7 @@ export function Planet3D({ className = "" }: { className?: string }) {
   );
 }
 
-/* ── Section background floating orbs ── */
+/* ── Section background floating orbs + particles ── */
 function Orb({
   position,
   radius,
@@ -198,6 +209,45 @@ function Orb({
   );
 }
 
+function SectionParticles() {
+  const count = 60;
+  const meshRef = useRef<THREE.Points>(null);
+
+  const positions = useMemo(() => {
+    const pos = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      pos[i * 3] = (Math.random() - 0.5) * 14;
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 8;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 6 - 2;
+    }
+    return pos;
+  }, []);
+
+  useFrame((state) => {
+    if (!meshRef.current) return;
+    meshRef.current.rotation.y = state.clock.elapsedTime * 0.01;
+  });
+
+  return (
+    <points ref={meshRef}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          args={[positions, 3]}
+          count={count}
+        />
+      </bufferGeometry>
+      <pointsMaterial
+        color="#f97316"
+        size={0.025}
+        transparent
+        opacity={0.4}
+        sizeAttenuation
+      />
+    </points>
+  );
+}
+
 export function FloatingOrbs({ className = "" }: { className?: string }) {
   return (
     <div className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`}>
@@ -216,6 +266,9 @@ export function FloatingOrbs({ className = "" }: { className?: string }) {
         <Orb position={[2, 2.5]} radius={0.5} color="#f97316" speed={0.25} />
         <Orb position={[-5, -0.5]} radius={0.25} color="#fb923c" speed={0.6} />
         <Orb position={[5.5, 1]} radius={0.3} color="#ea580c" speed={0.35} />
+
+        {/* Section particles */}
+        <SectionParticles />
       </Canvas>
     </div>
   );

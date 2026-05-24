@@ -49,9 +49,9 @@ export default function ContactSection() {
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Section header with 3D planet */}
         <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
+          animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="mb-12"
         >
           <div className="font-mono text-xs text-orange-500/70 mb-2">
@@ -69,9 +69,9 @@ export default function ContactSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {/* Contact info */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            initial={{ opacity: 0, x: -30, filter: "blur(4px)" }}
+            animate={isInView ? { opacity: 1, x: 0, filter: "blur(0px)" } : {}}
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
               ¿Tienes un proyecto en mente? ¿Necesitas automatizar procesos o desarrollar
@@ -119,9 +119,9 @@ export default function ContactSection() {
 
           {/* Contact form */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            initial={{ opacity: 0, x: 30, filter: "blur(4px)" }}
+            animate={isInView ? { opacity: 1, x: 0, filter: "blur(0px)" } : {}}
+            transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
             <form
               onSubmit={handleSubmit}

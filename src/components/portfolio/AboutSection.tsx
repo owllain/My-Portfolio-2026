@@ -67,9 +67,9 @@ export default function AboutSection() {
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Section header with 3D accent */}
         <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
+          animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="mb-12"
         >
           <div className="font-mono text-xs text-orange-500/70 mb-2">
@@ -79,7 +79,7 @@ export default function AboutSection() {
             <h2 className="text-3xl sm:text-4xl font-bold text-white">
               Sobre <span className="text-orange-500">Mí</span>
             </h2>
-            <SectionAccent3D shape="dodecahedron" color="#f97316" speed={0.4} className="flex-shrink-0" />
+            <SectionAccent3D shape="diamond" color="#f97316" speed={0.4} className="flex-shrink-0" />
           </div>
           <div className="w-20 h-1 bg-orange-500 rounded-full" />
         </motion.div>
@@ -89,9 +89,9 @@ export default function AboutSection() {
           {/* Left — Avatar + Bio + Experience */}
           <div className="flex-1 min-w-0">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 }}
+              initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
+              animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+              transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
               className="bg-gray-900/60 border border-gray-700/50 rounded-xl p-5 sm:p-6 mb-6 backdrop-blur-sm relative overflow-hidden"
             >
               {/* Subtle gradient glow on card */}
@@ -102,7 +102,7 @@ export default function AboutSection() {
                 <div className="flex-shrink-0">
                   <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border-2 border-orange-500/30 shadow-lg shadow-orange-500/10">
                     <Image
-                      src="/avatar.png"
+                      src="/avatar-new.png"
                       alt="Alvaro Cascante profile"
                       fill
                       className="object-cover"
@@ -153,7 +153,7 @@ export default function AboutSection() {
                 <h3 className="font-mono text-sm text-white font-semibold">
                   {"<"}Experiencia{">"}
                 </h3>
-                <SectionAccent3D shape="torus" color="#fb923c" speed={0.5} className="w-8 h-8" />
+                <SectionAccent3D shape="cross" color="#fb923c" speed={0.5} className="w-8 h-8" />
               </div>
               <div className="space-y-3">
                 {experience.map((exp, i) => (
@@ -192,9 +192,9 @@ export default function AboutSection() {
 
           {/* Right — Education + Certifications */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            initial={{ opacity: 0, x: 30, filter: "blur(4px)" }}
+            animate={isInView ? { opacity: 1, x: 0, filter: "blur(0px)" } : {}}
+            transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="w-full lg:w-80 flex-shrink-0 space-y-6 lg:sticky lg:top-24"
           >
             {/* Education */}
@@ -204,7 +204,7 @@ export default function AboutSection() {
                 <h3 className="font-mono text-sm text-white font-semibold">
                   {"<"}Educación{">"}
                 </h3>
-                <SectionAccent3D shape="icosahedron" color="#ea580c" speed={0.3} className="w-8 h-8" />
+                <SectionAccent3D shape="hexagon" color="#ea580c" speed={0.3} className="w-8 h-8" />
               </div>
               <div className="space-y-2">
                 {education.map((edu, i) => (
@@ -231,7 +231,7 @@ export default function AboutSection() {
                 <h3 className="font-mono text-sm text-white font-semibold">
                   {"<"}Certificaciones{">"}
                 </h3>
-                <SectionAccent3D shape="tetrahedron" color="#fb923c" speed={0.35} className="w-8 h-8" />
+                <SectionAccent3D shape="pentagon" color="#fb923c" speed={0.35} className="w-8 h-8" />
               </div>
               <div className="flex flex-wrap gap-2">
                 {[

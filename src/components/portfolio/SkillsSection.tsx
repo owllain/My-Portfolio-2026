@@ -9,7 +9,7 @@ const skillCategories = [
   {
     title: "Backend",
     icon: Cpu,
-    accent: "octahedron" as const,
+    accent: "diamond" as const,
     skills: [
       { name: ".NET 2022", level: 90 },
       { name: "C#", level: 88 },
@@ -21,7 +21,7 @@ const skillCategories = [
   {
     title: "Frontend",
     icon: Code2,
-    accent: "torus" as const,
+    accent: "triangle" as const,
     skills: [
       { name: "React", level: 85 },
       { name: "JavaScript ES6+", level: 88 },
@@ -33,7 +33,7 @@ const skillCategories = [
   {
     title: "Databases",
     icon: Database,
-    accent: "icosahedron" as const,
+    accent: "hexagon" as const,
     skills: [
       { name: "SQL Server (T-SQL)", level: 88 },
       { name: "Oracle Database", level: 80 },
@@ -43,7 +43,7 @@ const skillCategories = [
   {
     title: "Automation & Cloud",
     icon: Cloud,
-    accent: "dodecahedron" as const,
+    accent: "pentagon" as const,
     skills: [
       { name: "Power Automate", level: 92 },
       { name: "Power Apps", level: 90 },
@@ -54,7 +54,7 @@ const skillCategories = [
   {
     title: "Tools & Methods",
     icon: Wrench,
-    accent: "cone" as const,
+    accent: "cross" as const,
     skills: [
       { name: "Git", level: 85 },
       { name: "Scrum / Kanban", level: 88 },
@@ -76,9 +76,9 @@ export default function SkillsSection() {
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Section header */}
         <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
+          animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="mb-16"
         >
           <div className="font-mono text-xs text-orange-500/70 mb-2">
@@ -88,7 +88,7 @@ export default function SkillsSection() {
             <h2 className="text-3xl sm:text-4xl font-bold text-white">
               Habilidades y <span className="text-orange-500">Tecnologías</span>
             </h2>
-            <SectionAccent3D shape="torusKnot" color="#fb923c" speed={0.3} className="flex-shrink-0" />
+            <SectionAccent3D shape="ring" color="#fb923c" speed={0.3} className="flex-shrink-0" />
           </div>
           <div className="w-20 h-1 bg-orange-500 rounded-full" />
         </motion.div>

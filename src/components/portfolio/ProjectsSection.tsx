@@ -86,9 +86,9 @@ export default function ProjectsSection() {
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Section header */}
         <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
+          animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="mb-10"
         >
           <div className="font-mono text-xs text-orange-500/70 mb-2">
@@ -98,7 +98,7 @@ export default function ProjectsSection() {
             <h2 className="text-3xl sm:text-4xl font-bold text-white">
               Proyectos en <span className="text-orange-500">GitHub</span>
             </h2>
-            <SectionAccent3D shape="torusKnot" color="#f97316" speed={0.4} className="flex-shrink-0" />
+            <SectionAccent3D shape="triangle" color="#f97316" speed={0.4} className="flex-shrink-0" />
             <FolderGit2 className="w-6 h-6 text-orange-500/50" />
             <motion.button
               whileHover={{ rotate: 180 }}
@@ -153,7 +153,7 @@ export default function ProjectsSection() {
 
         {/* Repos grid */}
         {!loading && !error && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[800px] overflow-y-auto pr-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[800px] overflow-y-auto pr-2 scroll-area">
             {repos.map((repo, i) => (
               <motion.a
                 key={repo.id}

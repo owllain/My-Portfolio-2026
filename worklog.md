@@ -53,3 +53,35 @@ Stage Summary:
 - Each section has unique floating 3D accents
 - FloatingOrbs backgrounds add depth to all content sections
 - 13 shapes in hero scene + 6 orbs per section + individual accents = immersive 3D experience
+
+---
+Task ID: 3
+Agent: Main
+Task: Add ambient sound, hide scrollbar, replace avatar, expand 3D variety, polish transitions
+
+Work Log:
+- Generated ambient-terminal.mp3 (30s loop) using ffmpeg: low-frequency sine hum (60/90/120Hz) + filtered pink noise
+- Created AmbientSound component with Howler.js: mute/unmute toggle, smooth fade in/out, volume at 0.08
+- Hidden scrollbar globally (html scrollbar-width: none, ::-webkit-scrollbar display: none)
+- Added .scroll-area class for inner scrollable containers (Projects repos grid)
+- Replaced avatar.png with avatar-new.png (uploaded user image)
+- Expanded Scene3D with new shape types: FloatingDiamond (extruded rhombus), FloatingTriangle (extruded triangle), FloatingRing (thin torus), FloatingLetter (extruded AECM letters)
+- Hero scene now has: 13 polyhedrons + 4 diamonds + 4 triangles + 4 rings + 4 letters (A,E,C,M) + 350 particles
+- Expanded Accents3D SectionAccent3D with 14 shape types: added diamond, triangle, ring, pentagon, hexagon, cross
+- Added SectionParticles (60 points) to FloatingOrbs for each content section
+- Updated skill accents to new shapes: diamond (Backend), triangle (Frontend), hexagon (Databases), pentagon (Automation), cross (Tools)
+- Updated About accents: diamond (header), cross (Experience), hexagon (Education), pentagon (Certifications)
+- Updated Projects accent: triangle; Skills accent: ring
+- Increased PixelParticles from 50→100 particles (window.innerWidth / 18)
+- Polished all section transitions: blur(8px)→blur(0px) + y:40→y:0 + cubic-bezier(0.16,1,0.3,1) easing
+- Applied to all section headers and inner panels (Contact info/form, About right panel)
+- Fixed FontLoader error (removed unused import), removed unused GeometryFactory
+- All lint checks pass, page returns 200
+
+Stage Summary:
+- Ambient terminal sound with mute/unmute toggle (bottom-right button)
+- Scrollbar hidden globally, scroll-area class for inner containers
+- New avatar image from user upload
+- Massively expanded 3D variety: diamonds, triangles, rings, letters AECM, pentagons, hexagons, crosses
+- 350 particles in hero + 60 per section + 100 CSS pixel particles
+- Smooth blur+fade transitions on all sections with expo easing

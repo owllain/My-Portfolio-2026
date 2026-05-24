@@ -4,6 +4,7 @@ import { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
+/* ── Floating grid floor ── */
 function FloatingGrid() {
   const gridRef = useRef<THREE.GridHelper>(null);
 
@@ -18,23 +19,25 @@ function FloatingGrid() {
       ref={gridRef}
       args={[40, 40, "#f97316", "#1a1a1a"]}
       position={[0, -3, 0]}
-      rotation={[0, 0, 0]}
     />
   );
 }
 
+/* ── Generic floating shape ── */
 function FloatingShape({
   position,
   geometry,
   speed,
   color,
   scale = 1,
+  floatAmplitude = 0.5,
 }: {
   position: [number, number, number];
-  geometry: "octahedron" | "torus" | "icosahedron" | "box" | "dodecahedron" | "torusKnot" | "tetrahedron" | "cone" | "sphere";
+  geometry: THREE.BufferGeometry;
   speed: number;
   color: string;
   scale?: number;
+  floatAmplitude?: number;
 }) {
   const meshRef = useRef<THREE.Mesh>(null);
 
@@ -43,27 +46,12 @@ function FloatingShape({
     const t = state.clock.elapsedTime * speed;
     meshRef.current.rotation.x = t * 0.3;
     meshRef.current.rotation.y = t * 0.5;
-    meshRef.current.position.y =
-      position[1] + Math.sin(t + position[0]) * 0.5;
+    meshRef.current.rotation.z = t * 0.15;
+    meshRef.current.position.y = position[1] + Math.sin(t + position[0]) * floatAmplitude;
   });
 
-  const geo = useMemo(() => {
-    const s = scale;
-    switch (geometry) {
-      case "octahedron": return new THREE.OctahedronGeometry(0.6 * s, 0);
-      case "torus": return new THREE.TorusGeometry(0.4 * s, 0.15 * s, 8, 16);
-      case "icosahedron": return new THREE.IcosahedronGeometry(0.5 * s, 0);
-      case "box": return new THREE.BoxGeometry(0.5 * s, 0.5 * s, 0.5 * s);
-      case "dodecahedron": return new THREE.DodecahedronGeometry(0.45 * s, 0);
-      case "torusKnot": return new THREE.TorusKnotGeometry(0.3 * s, 0.08 * s, 32, 8);
-      case "tetrahedron": return new THREE.TetrahedronGeometry(0.5 * s, 0);
-      case "cone": return new THREE.ConeGeometry(0.35 * s, 0.7 * s, 6);
-      case "sphere": return new THREE.SphereGeometry(0.4 * s, 12, 12);
-    }
-  }, [geometry, scale]);
-
   return (
-    <mesh ref={meshRef} position={position} geometry={geo}>
+    <mesh ref={meshRef} position={position} scale={scale} geometry={geometry}>
       <meshStandardMaterial
         color={color}
         wireframe
@@ -76,23 +64,222 @@ function FloatingShape({
   );
 }
 
+/* ── Text / Letter shape (3D extruded) ── */
+function FloatingLetter({
+  position,
+  letter,
+  speed,
+  color,
+  scale = 0.3,
+}: {
+  position: [number, number, number];
+  letter: string;
+  speed: number;
+  color: string;
+  scale?: number;
+}) {
+  const meshRef = useRef<THREE.Mesh>(null);
+  const shapeGeo = useMemo(() => {
+    const s = new THREE.Shape();
+    const sz = scale * 0.8;
+    switch (letter) {
+      case "A":
+        s.moveTo(0, sz); s.lineTo(-sz * 0.6, -sz); s.lineTo(-sz * 0.3, -sz);
+        s.lineTo(-sz * 0.15, -sz * 0.4); s.lineTo(sz * 0.15, -sz * 0.4);
+        s.lineTo(sz * 0.3, -sz); s.lineTo(sz * 0.6, -sz); s.lineTo(0, sz);
+        break;
+      case "E":
+        s.moveTo(-sz * 0.4, sz); s.lineTo(-sz * 0.4, -sz); s.lineTo(sz * 0.4, -sz);
+        s.lineTo(sz * 0.4, -sz * 0.65); s.lineTo(-sz * 0.1, -sz * 0.65);
+        s.lineTo(-sz * 0.1, -sz * 0.15); s.lineTo(sz * 0.2, -sz * 0.15);
+        s.lineTo(sz * 0.2, sz * 0.15); s.lineTo(-sz * 0.1, sz * 0.15);
+        s.lineTo(-sz * 0.1, sz * 0.65); s.lineTo(sz * 0.4, sz * 0.65);
+        s.lineTo(sz * 0.4, sz); s.lineTo(-sz * 0.4, sz);
+        break;
+      case "C":
+        s.moveTo(sz * 0.4, sz); s.lineTo(-sz * 0.4, sz); s.lineTo(-sz * 0.4, -sz);
+        s.lineTo(sz * 0.4, -sz); s.lineTo(sz * 0.4, -sz * 0.65);
+        s.lineTo(-sz * 0.1, -sz * 0.65); s.lineTo(-sz * 0.1, sz * 0.65);
+        s.lineTo(sz * 0.4, sz * 0.65); s.lineTo(sz * 0.4, sz);
+        break;
+      case "M":
+        s.moveTo(-sz * 0.5, -sz); s.lineTo(-sz * 0.5, sz); s.lineTo(-sz * 0.25, sz);
+        s.lineTo(0, sz * 0.2); s.lineTo(sz * 0.25, sz); s.lineTo(sz * 0.5, sz);
+        s.lineTo(sz * 0.5, -sz); s.lineTo(sz * 0.25, -sz); s.lineTo(sz * 0.25, sz * 0.5);
+        s.lineTo(0, -sz * 0.2); s.lineTo(-sz * 0.25, sz * 0.5); s.lineTo(-sz * 0.25, -sz);
+        s.lineTo(-sz * 0.5, -sz);
+        break;
+      default: // Diamond/rhombus
+        s.moveTo(0, sz); s.lineTo(sz * 0.5, 0); s.lineTo(0, -sz); s.lineTo(-sz * 0.5, 0); s.lineTo(0, sz);
+    }
+    return new THREE.ExtrudeGeometry(s, { depth: 0.05, bevelEnabled: false });
+  }, [letter, scale]);
+
+  useFrame((state) => {
+    if (!meshRef.current) return;
+    const t = state.clock.elapsedTime * speed;
+    meshRef.current.rotation.y = t * 0.4;
+    meshRef.current.position.y = position[1] + Math.sin(t + position[0]) * 0.4;
+  });
+
+  return (
+    <mesh ref={meshRef} position={position} geometry={shapeGeo}>
+      <meshStandardMaterial
+        color={color}
+        wireframe
+        transparent
+        opacity={0.25}
+        emissive={color}
+        emissiveIntensity={0.15}
+      />
+    </mesh>
+  );
+}
+
+/* ── Diamond shape ── */
+function FloatingDiamond({
+  position,
+  speed,
+  color,
+  scale = 1,
+}: {
+  position: [number, number, number];
+  speed: number;
+  color: string;
+  scale?: number;
+}) {
+  const meshRef = useRef<THREE.Mesh>(null);
+  const geo = useMemo(() => {
+    const s = new THREE.Shape();
+    s.moveTo(0, 0.5 * scale);
+    s.lineTo(0.3 * scale, 0);
+    s.lineTo(0, -0.5 * scale);
+    s.lineTo(-0.3 * scale, 0);
+    s.lineTo(0, 0.5 * scale);
+    return new THREE.ExtrudeGeometry(s, { depth: 0.08 * scale, bevelEnabled: false });
+  }, [scale]);
+
+  useFrame((state) => {
+    if (!meshRef.current) return;
+    const t = state.clock.elapsedTime * speed;
+    meshRef.current.rotation.x = t * 0.2;
+    meshRef.current.rotation.y = t * 0.6;
+    meshRef.current.position.y = position[1] + Math.sin(t * 0.8 + position[0]) * 0.4;
+  });
+
+  return (
+    <mesh ref={meshRef} position={position} geometry={geo}>
+      <meshStandardMaterial
+        color={color}
+        wireframe
+        transparent
+        opacity={0.35}
+        emissive={color}
+        emissiveIntensity={0.15}
+      />
+    </mesh>
+  );
+}
+
+/* ── Triangle shape ── */
+function FloatingTriangle({
+  position,
+  speed,
+  color,
+  scale = 1,
+}: {
+  position: [number, number, number];
+  speed: number;
+  color: string;
+  scale?: number;
+}) {
+  const meshRef = useRef<THREE.Mesh>(null);
+  const geo = useMemo(() => {
+    const s = new THREE.Shape();
+    s.moveTo(0, 0.5 * scale);
+    s.lineTo(-0.45 * scale, -0.35 * scale);
+    s.lineTo(0.45 * scale, -0.35 * scale);
+    s.lineTo(0, 0.5 * scale);
+    return new THREE.ExtrudeGeometry(s, { depth: 0.06 * scale, bevelEnabled: false });
+  }, [scale]);
+
+  useFrame((state) => {
+    if (!meshRef.current) return;
+    const t = state.clock.elapsedTime * speed;
+    meshRef.current.rotation.x = t * 0.3;
+    meshRef.current.rotation.z = t * 0.4;
+    meshRef.current.position.y = position[1] + Math.cos(t + position[2]) * 0.3;
+  });
+
+  return (
+    <mesh ref={meshRef} position={position} geometry={geo}>
+      <meshStandardMaterial
+        color={color}
+        wireframe
+        transparent
+        opacity={0.3}
+        emissive={color}
+        emissiveIntensity={0.12}
+      />
+    </mesh>
+  );
+}
+
+/* ── Ring / Circle shape ── */
+function FloatingRing({
+  position,
+  speed,
+  color,
+  scale = 1,
+}: {
+  position: [number, number, number];
+  speed: number;
+  color: string;
+  scale?: number;
+}) {
+  const meshRef = useRef<THREE.Mesh>(null);
+
+  useFrame((state) => {
+    if (!meshRef.current) return;
+    const t = state.clock.elapsedTime * speed;
+    meshRef.current.rotation.x = t * 0.3;
+    meshRef.current.rotation.y = t * 0.5;
+    meshRef.current.position.y = position[1] + Math.sin(t * 0.6 + position[0]) * 0.35;
+  });
+
+  return (
+    <mesh ref={meshRef} position={position} scale={scale}>
+      <torusGeometry args={[0.35, 0.02, 8, 32]} />
+      <meshStandardMaterial
+        color={color}
+        wireframe={false}
+        transparent
+        opacity={0.4}
+        emissive={color}
+        emissiveIntensity={0.2}
+      />
+    </mesh>
+  );
+}
+
+/* ── Massive particles field ── */
 function ParticlesField() {
-  const count = 180;
+  const count = 350;
   const meshRef = useRef<THREE.Points>(null);
 
   const positions = useMemo(() => {
     const pos = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 24;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 12;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 24;
+      pos[i * 3] = (Math.random() - 0.5) * 28;
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 14;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 28;
     }
     return pos;
   }, []);
 
   useFrame((state) => {
     if (!meshRef.current) return;
-    meshRef.current.rotation.y = state.clock.elapsedTime * 0.015;
+    meshRef.current.rotation.y = state.clock.elapsedTime * 0.012;
   });
 
   return (
@@ -106,14 +293,33 @@ function ParticlesField() {
       </bufferGeometry>
       <pointsMaterial
         color="#f97316"
-        size={0.03}
+        size={0.035}
         transparent
-        opacity={0.45}
+        opacity={0.5}
         sizeAttenuation
       />
     </points>
   );
 }
+
+/* ── Scene composition ── */
+const shapeConfigs = [
+  // Original shapes
+  { pos: [-3, 1, -2] as [number, number, number], type: "octahedron", speed: 0.4, color: "#f97316", scale: 1 },
+  { pos: [3.5, 0.5, -3] as [number, number, number], type: "torus", speed: 0.3, color: "#fb923c", scale: 1 },
+  { pos: [-2, -1, -4] as [number, number, number], type: "icosahedron", speed: 0.25, color: "#ea580c", scale: 1 },
+  { pos: [2, 2, -5] as [number, number, number], type: "box", speed: 0.35, color: "#f97316", scale: 1 },
+  // More polyhedrons
+  { pos: [5, 1.5, -4] as [number, number, number], type: "dodecahedron", speed: 0.2, color: "#fb923c", scale: 0.8 },
+  { pos: [-4.5, -0.5, -3] as [number, number, number], type: "torusKnot", speed: 0.3, color: "#f97316", scale: 0.7 },
+  { pos: [0.5, -2, -2] as [number, number, number], type: "tetrahedron", speed: 0.45, color: "#ea580c", scale: 0.6 },
+  { pos: [-1.5, 2.5, -6] as [number, number, number], type: "cone", speed: 0.25, color: "#fb923c", scale: 0.8 },
+  { pos: [4, -1.5, -5] as [number, number, number], type: "sphere", speed: 0.35, color: "#f97316", scale: 0.7 },
+  { pos: [-5.5, 2, -6] as [number, number, number], type: "octahedron", speed: 0.15, color: "#ea580c", scale: 0.5 },
+  { pos: [1, 3, -7] as [number, number, number], type: "dodecahedron", speed: 0.2, color: "#f97316", scale: 0.4 },
+  { pos: [-3, -2.5, -3] as [number, number, number], type: "torus", speed: 0.4, color: "#fb923c", scale: 0.5 },
+  { pos: [6, 0, -6] as [number, number, number], type: "icosahedron", speed: 0.18, color: "#ea580c", scale: 0.6 },
+];
 
 export default function Scene3D({ className = "" }: { className?: string }) {
   return (
@@ -132,22 +338,52 @@ export default function Scene3D({ className = "" }: { className?: string }) {
         <FloatingGrid />
         <ParticlesField />
 
-        {/* Main shapes - spread across the scene */}
-        <FloatingShape position={[-3, 1, -2]} geometry="octahedron" speed={0.4} color="#f97316" />
-        <FloatingShape position={[3.5, 0.5, -3]} geometry="torus" speed={0.3} color="#fb923c" />
-        <FloatingShape position={[-2, -1, -4]} geometry="icosahedron" speed={0.25} color="#ea580c" />
-        <FloatingShape position={[2, 2, -5]} geometry="box" speed={0.35} color="#f97316" />
+        {/* Polyhedron shapes */}
+        {shapeConfigs.map((cfg, i) => (
+          <FloatingShape
+            key={`shape-${i}`}
+            position={cfg.pos}
+            geometry={
+              cfg.type === "octahedron" ? new THREE.OctahedronGeometry(0.6 * cfg.scale, 0) :
+              cfg.type === "torus" ? new THREE.TorusGeometry(0.4 * cfg.scale, 0.15 * cfg.scale, 8, 16) :
+              cfg.type === "icosahedron" ? new THREE.IcosahedronGeometry(0.5 * cfg.scale, 0) :
+              cfg.type === "box" ? new THREE.BoxGeometry(0.5 * cfg.scale, 0.5 * cfg.scale, 0.5 * cfg.scale) :
+              cfg.type === "dodecahedron" ? new THREE.DodecahedronGeometry(0.45 * cfg.scale, 0) :
+              cfg.type === "torusKnot" ? new THREE.TorusKnotGeometry(0.3 * cfg.scale, 0.08 * cfg.scale, 32, 8) :
+              cfg.type === "tetrahedron" ? new THREE.TetrahedronGeometry(0.5 * cfg.scale, 0) :
+              cfg.type === "cone" ? new THREE.ConeGeometry(0.35 * cfg.scale, 0.7 * cfg.scale, 6) :
+              cfg.type === "sphere" ? new THREE.SphereGeometry(0.4 * cfg.scale, 12, 12) :
+              new THREE.OctahedronGeometry(0.5 * cfg.scale, 0)
+            }
+            speed={cfg.speed}
+            color={cfg.color}
+            scale={cfg.scale}
+          />
+        ))}
 
-        {/* Additional shapes - more volume */}
-        <FloatingShape position={[5, 1.5, -4]} geometry="dodecahedron" speed={0.2} color="#fb923c" scale={0.8} />
-        <FloatingShape position={[-4.5, -0.5, -3]} geometry="torusKnot" speed={0.3} color="#f97316" scale={0.7} />
-        <FloatingShape position={[0.5, -2, -2]} geometry="tetrahedron" speed={0.45} color="#ea580c" scale={0.6} />
-        <FloatingShape position={[-1.5, 2.5, -6]} geometry="cone" speed={0.25} color="#fb923c" scale={0.8} />
-        <FloatingShape position={[4, -1.5, -5]} geometry="sphere" speed={0.35} color="#f97316" scale={0.7} />
-        <FloatingShape position={[-5.5, 2, -6]} geometry="octahedron" speed={0.15} color="#ea580c" scale={0.5} />
-        <FloatingShape position={[1, 3, -7]} geometry="dodecahedron" speed={0.2} color="#f97316" scale={0.4} />
-        <FloatingShape position={[-3, -2.5, -3]} geometry="torus" speed={0.4} color="#fb923c" scale={0.5} />
-        <FloatingShape position={[6, 0, -6]} geometry="icosahedron" speed={0.18} color="#ea580c" scale={0.6} />
+        {/* Diamonds */}
+        <FloatingDiamond position={[-6, 1, -5]} speed={0.2} color="#fb923c" scale={0.7} />
+        <FloatingDiamond position={[5.5, -1.5, -4]} speed={0.3} color="#f97316" scale={0.5} />
+        <FloatingDiamond position={[-1, 3, -8]} speed={0.15} color="#ea580c" scale={0.4} />
+        <FloatingDiamond position={[3, 2.5, -7]} speed={0.25} color="#fb923c" scale={0.6} />
+
+        {/* Triangles */}
+        <FloatingTriangle position={[1.5, -2, -3]} speed={0.35} color="#f97316" scale={0.6} />
+        <FloatingTriangle position={[-4, 0.5, -5]} speed={0.2} color="#ea580c" scale={0.8} />
+        <FloatingTriangle position={[6.5, 2, -6]} speed={0.3} color="#fb923c" scale={0.5} />
+        <FloatingTriangle position={[-2.5, -3, -4]} speed={0.25} color="#f97316" scale={0.4} />
+
+        {/* Rings / Circles */}
+        <FloatingRing position={[-5, 2.5, -7]} speed={0.2} color="#fb923c" scale={0.8} />
+        <FloatingRing position={[4, 3, -5]} speed={0.3} color="#f97316" scale={0.6} />
+        <FloatingRing position={[0, -2.5, -3]} speed={0.25} color="#ea580c" scale={0.5} />
+        <FloatingRing position={[-3.5, -1.5, -6]} speed={0.35} color="#fb923c" scale={0.7} />
+
+        {/* Letters */}
+        <FloatingLetter position={[-6.5, -1, -5]} letter="A" speed={0.15} color="#f97316" scale={0.5} />
+        <FloatingLetter position={[6, 1, -7]} letter="E" speed={0.2} color="#fb923c" scale={0.4} />
+        <FloatingLetter position={[0, 3.5, -8]} letter="C" speed={0.18} color="#ea580c" scale={0.35} />
+        <FloatingLetter position={[-3, 3, -9]} letter="M" speed={0.12} color="#f97316" scale={0.3} />
       </Canvas>
     </div>
   );

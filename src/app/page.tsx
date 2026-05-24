@@ -6,6 +6,7 @@ import Navigation from "@/components/portfolio/Navigation";
 import Footer from "@/components/portfolio/Footer";
 import PixelParticles from "@/components/portfolio/PixelParticles";
 import TerminalLoader from "@/components/portfolio/TerminalLoader";
+import AmbientSound from "@/components/portfolio/AmbientSound";
 
 const HeroSection = dynamic(() => import("@/components/portfolio/HeroSection"), {
   ssr: false,
@@ -44,6 +45,7 @@ export default function PortfolioPage() {
           <ContactSection />
         </main>
         <Footer />
+        <AmbientSound />
       </div>
     </>
   );
