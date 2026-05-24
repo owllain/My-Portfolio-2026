@@ -75,28 +75,22 @@ export default function SkillsSection() {
           <div className="font-mono text-xs text-orange-500/70 mb-2">
             {"//"} SKILL_TREE
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            Habilidades y <span className="text-orange-500">Tecnologías</span>
-          </h2>
-          <div className="w-20 h-1 bg-orange-500 rounded-full" />
-        </motion.div>
-
-        {/* Pixel art character decoration */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="flex justify-center mb-10"
-        >
-          <div className="animate-float">
-            <Image
-              src="/pixel-character.png"
-              alt="Pixel art developer"
-              width={60}
-              height={90}
-              className="pixel-render drop-shadow-[0_0_10px_rgba(249,115,22,0.3)]"
-            />
+          <div className="flex items-center gap-3">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white">
+              Habilidades y <span className="text-orange-500">Tecnologías</span>
+            </h2>
+            {/* Small pixel character accent */}
+            <div className="animate-float">
+              <Image
+                src="/pixel-character.png"
+                alt=""
+                width={28}
+                height={40}
+                className="pixel-render opacity-50"
+              />
+            </div>
           </div>
+          <div className="w-20 h-1 bg-orange-500 rounded-full" />
         </motion.div>
 
         {/* Skills grid */}

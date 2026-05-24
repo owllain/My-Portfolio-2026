@@ -76,62 +76,49 @@ export default function ContactSection() {
       ref={ref}
       className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gray-950/50"
     >
-      {/* Pixel art café as subtle background */}
-      <div className="absolute right-0 bottom-0 opacity-10 pointer-events-none hidden lg:block">
-        <Image
-          src="/pixel-cafe.png"
-          alt=""
-          width={500}
-          height={350}
-          className="pixel-render"
-        />
-      </div>
-
       <div className="max-w-6xl mx-auto relative z-10">
-        {/* Section header */}
+        {/* Section header with small pixel accent */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="mb-16"
+          className="mb-12"
         >
           <div className="font-mono text-xs text-orange-500/70 mb-2">
             {"//"} CONTACT_ME
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            Hablemos de tu <span className="text-orange-500">Proyecto</span>
-          </h2>
+          <div className="flex items-center gap-3">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white">
+              Hablemos de tu <span className="text-orange-500">Proyecto</span>
+            </h2>
+            {/* Small pixel character accent */}
+            <div className="animate-float">
+              <Image
+                src="/pixel-character-cafe.png"
+                alt=""
+                width={30}
+                height={42}
+                className="pixel-render opacity-50"
+              />
+            </div>
+          </div>
           <div className="w-20 h-1 bg-orange-500 rounded-full" />
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact info with pixel character */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          {/* Contact info */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            {/* Pixel character */}
-            <div className="flex items-start gap-4 mb-6">
-              <div className="animate-float flex-shrink-0">
-                <Image
-                  src="/pixel-character.png"
-                  alt="Pixel art developer character"
-                  width={80}
-                  height={120}
-                  className="pixel-render drop-shadow-[0_0_10px_rgba(249,115,22,0.3)]"
-                />
-              </div>
-              <div>
-                <p className="text-gray-400 leading-relaxed text-sm">
-                  ¿Tienes un proyecto en mente? ¿Necesitas automatizar procesos o desarrollar
-                  una aplicación? Estoy disponible para conversar sobre cómo puedo ayudarte
-                  a transformar tus ideas en soluciones tecnológicas.
-                </p>
-              </div>
-            </div>
+            <p className="text-gray-400 text-sm leading-relaxed mb-6">
+              ¿Tienes un proyecto en mente? ¿Necesitas automatizar procesos o desarrollar
+              una aplicación? Estoy disponible para conversar sobre cómo puedo ayudarte
+              a transformar tus ideas en soluciones tecnológicas.
+            </p>
 
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               {contactInfo.map((info, i) => (
                 <motion.a
                   key={info.label}
@@ -140,15 +127,15 @@ export default function ContactSection() {
                   rel={info.href.startsWith("http") ? "noopener noreferrer" : undefined}
                   initial={{ opacity: 0, x: -20 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.4, delay: 0.3 + i * 0.08 }}
+                  transition={{ duration: 0.4, delay: 0.3 + i * 0.06 }}
                   whileHover={{ x: 4 }}
-                  className="flex items-center gap-4 p-3 bg-gray-900/40 border border-gray-800 hover:border-orange-500/30 rounded-lg transition-all group"
+                  className="flex items-center gap-3 p-2.5 bg-gray-900/40 border border-gray-800 hover:border-orange-500/30 rounded-lg transition-all group"
                 >
-                  <div className="w-10 h-10 bg-orange-500/10 border border-orange-500/20 rounded-lg flex items-center justify-center text-orange-500 group-hover:bg-orange-500/20 transition-colors">
+                  <div className="w-9 h-9 bg-orange-500/10 border border-orange-500/20 rounded-lg flex items-center justify-center text-orange-500 group-hover:bg-orange-500/20 transition-colors">
                     {info.icon}
                   </div>
                   <div>
-                    <div className="text-xs text-gray-500 font-mono">{info.label}</div>
+                    <div className="text-[10px] text-gray-500 font-mono">{info.label}</div>
                     <div className="text-sm text-gray-300 group-hover:text-orange-400 transition-colors">
                       {info.value}
                     </div>
@@ -161,11 +148,11 @@ export default function ContactSection() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.5, delay: 0.8 }}
-              className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-gray-900/40 border border-gray-800 rounded-lg"
+              transition={{ duration: 0.5, delay: 0.7 }}
+              className="mt-5 inline-flex items-center gap-2 px-3 py-1.5 bg-gray-900/40 border border-gray-800 rounded-lg"
             >
               <span className="text-xs">🌎</span>
-              <span className="font-mono text-xs text-gray-400">
+              <span className="font-mono text-[10px] text-gray-400">
                 Español (Nativo) · Inglés B2
               </span>
             </motion.div>
@@ -179,9 +166,9 @@ export default function ContactSection() {
           >
             <form
               onSubmit={handleSubmit}
-              className="bg-gray-900/60 border border-gray-800 rounded-xl p-6 backdrop-blur-sm"
+              className="bg-gray-900/60 border border-gray-800 rounded-xl p-5 sm:p-6 backdrop-blur-sm"
             >
-              <div className="font-mono text-xs text-orange-500/50 mb-6">
+              <div className="font-mono text-xs text-orange-500/50 mb-5">
                 {"/* Contact form */"}
               </div>
 

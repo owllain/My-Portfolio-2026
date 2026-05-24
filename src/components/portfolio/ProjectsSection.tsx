@@ -80,20 +80,30 @@ export default function ProjectsSection() {
       className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gray-950/50"
     >
       <div className="max-w-6xl mx-auto relative z-10">
-        {/* Section header with pixel art */}
+        {/* Section header with small pixel desk icon */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="mb-12"
+          className="mb-10"
         >
           <div className="font-mono text-xs text-orange-500/70 mb-2">
             {"//"} MY_PROJECTS
           </div>
-          <div className="flex items-center gap-4 flex-wrap">
+          <div className="flex items-center gap-3 flex-wrap">
             <h2 className="text-3xl sm:text-4xl font-bold text-white">
               Proyectos en <span className="text-orange-500">GitHub</span>
             </h2>
+            {/* Small pixel desk as icon accent */}
+            <div className="animate-float">
+              <Image
+                src="/pixel-desk.png"
+                alt=""
+                width={35}
+                height={28}
+                className="pixel-render opacity-50"
+              />
+            </div>
             <motion.button
               whileHover={{ rotate: 180 }}
               transition={{ duration: 0.3 }}
@@ -105,22 +115,6 @@ export default function ProjectsSection() {
             </motion.button>
           </div>
           <div className="w-20 h-1 bg-orange-500 rounded-full" />
-        </motion.div>
-
-        {/* Pixel art desk decoration */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex justify-center mb-10"
-        >
-          <Image
-            src="/pixel-desk.png"
-            alt="Pixel art developer workspace"
-            width={300}
-            height={180}
-            className="pixel-render opacity-40 hover:opacity-60 transition-opacity duration-500"
-          />
         </motion.div>
 
         {/* Loading state */}
@@ -172,7 +166,7 @@ export default function ProjectsSection() {
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.3 + i * 0.05 }}
+                transition={{ duration: 0.5, delay: 0.2 + i * 0.05 }}
                 whileHover={{ y: -4, scale: 1.02 }}
                 className="group bg-gray-900/60 border border-gray-800 hover:border-orange-500/40 rounded-lg p-5 transition-all cursor-pointer backdrop-blur-sm relative overflow-hidden"
               >

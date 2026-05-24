@@ -2,39 +2,23 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { MapPin, GraduationCap, Briefcase, Award } from "lucide-react";
+import {
+  MapPin,
+  GraduationCap,
+  Briefcase,
+  Award,
+  Mail,
+  Phone,
+  Linkedin,
+  Github,
+  Globe,
+} from "lucide-react";
 import Image from "next/image";
-import dynamic from "next/dynamic";
-
-const Scene3D = dynamic(() => import("./Scene3D"), { ssr: false });
-
-const education = [
-  {
-    institution: "Universidad Estatal a Distancia (UNED)",
-    degree: "Licenciatura en Ingeniería en Informática y Sistemas de Calidad",
-    status: "En curso",
-  },
-  {
-    institution: "Universidad Estatal a Distancia (UNED)",
-    degree: "Licenciatura en Ingeniería en Informática y Administración de Proyectos",
-    status: "En curso",
-  },
-  {
-    institution: "Universidad Estatal a Distancia (UNED)",
-    degree: "Bachillerato en Ingeniería en Informática",
-    status: "2025",
-  },
-  {
-    institution: "Universidad Estatal a Distancia (UNED)",
-    degree: "Diplomado en Ingeniería en Informática",
-    status: "2023",
-  },
-];
 
 const experience = [
   {
     company: "Netcom",
-    role: "Supervisor de Operaciones & Automatización de Procesos",
+    role: "Supervisor de Operaciones & Automatización",
     period: "2024 – Actualidad",
     tasks: [
       "Diseño de flujos automatizados con Power Automate y Power Apps bajo normativa SICOP",
@@ -54,13 +38,41 @@ const experience = [
   },
   {
     company: "Importadora Alemi S.A.",
-    role: "Manager – Administración y Desarrollo de Negocios",
+    role: "Manager – Admón. y Desarrollo de Negocios",
     period: "2019 – 2023",
     tasks: [
       "Administración de bases de datos Oracle y MySQL con dashboards Power BI",
       "Migración de procesos administrativos a plataformas digitales",
     ],
   },
+];
+
+const education = [
+  {
+    degree: "Licenciatura en Ing. Informática y Sistemas de Calidad",
+    status: "En curso",
+  },
+  {
+    degree: "Licenciatura en Ing. Informática y Admón. de Proyectos",
+    status: "En curso",
+  },
+  {
+    degree: "Bachillerato en Ingeniería en Informática",
+    status: "2025",
+  },
+  {
+    degree: "Diplomado en Ingeniería en Informática",
+    status: "2023",
+  },
+];
+
+const personalInfo = [
+  { icon: <Mail className="w-3.5 h-3.5" />, label: "Email", value: "alvaro.cascante@uned.cr" },
+  { icon: <Phone className="w-3.5 h-3.5" />, label: "Teléfono", value: "(+506) 6420-9961" },
+  { icon: <MapPin className="w-3.5 h-3.5" />, label: "Ubicación", value: "San José, Costa Rica" },
+  { icon: <Linkedin className="w-3.5 h-3.5" />, label: "LinkedIn", value: "enrique-cascante" },
+  { icon: <Github className="w-3.5 h-3.5" />, label: "GitHub", value: "enrique-cascante" },
+  { icon: <Globe className="w-3.5 h-3.5" />, label: "Idioma", value: "Español · Inglés B2" },
 ];
 
 export default function AboutSection() {
@@ -79,7 +91,7 @@ export default function AboutSection() {
           initial={{ opacity: 0, x: -50 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="mb-16"
+          className="mb-12"
         >
           <div className="font-mono text-xs text-orange-500/70 mb-2">
             {"//"} ABOUT_ME
@@ -90,163 +102,174 @@ export default function AboutSection() {
           <div className="w-20 h-1 bg-orange-500 rounded-full" />
         </motion.div>
 
-        {/* Bio card */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-gray-900/60 border border-gray-700/50 rounded-xl p-6 sm:p-8 mb-12 backdrop-blur-sm"
-        >
-          <div className="flex items-start gap-4 mb-4">
-            <div className="w-12 h-12 bg-orange-500/10 border border-orange-500/30 rounded-lg flex items-center justify-center flex-shrink-0">
-              <Briefcase className="w-6 h-6 text-orange-500" />
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center gap-3 flex-wrap">
-                <h3 className="text-lg font-semibold text-white">
-                  Alvaro Enrique Cascante Moraga
-                </h3>
-                {/* dev.glb as small 3D icon next to the name */}
-                <div className="w-16 h-16 flex-shrink-0">
-                  <Scene3D
-                    url="/models/dev.glb"
-                    scale={1.2}
-                    position={[0, -0.5, 0]}
-                    autoRotate={false}
-                    cameraPosition={[0, 0.5, 2]}
-                    ambientIntensity={0.6}
-                    showShadows={false}
-                  />
+        {/* Main layout: Info + Pixel art accent */}
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Left column — Personal info, experience, education */}
+          <div className="flex-1 min-w-0">
+            {/* Bio card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="bg-gray-900/60 border border-gray-700/50 rounded-xl p-5 sm:p-6 mb-6 backdrop-blur-sm"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 bg-orange-500/10 border border-orange-500/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Briefcase className="w-5 h-5 text-orange-500" />
+                </div>
+                <div>
+                  <h3 className="text-base font-semibold text-white">Alvaro Enrique Cascante Moraga</h3>
+                  <p className="text-xs text-orange-500/80 font-mono">Full Stack Developer · Automation Engineer</p>
                 </div>
               </div>
-              <div className="flex items-center gap-2 text-sm text-gray-400 mt-1">
-                <MapPin className="w-4 h-4 text-orange-500/70" />
-                San José, Costa Rica
+              <p className="text-gray-300 text-sm leading-relaxed">
+                Ingeniero en Informática incorporado al CPIC, especializado en desarrollo de
+                aplicaciones y automatización de procesos bajo el ecosistema Microsoft.
+                Experiencia sólida traduciendo necesidades complejas en soluciones tecnológicas
+                mediante .NET Core, SQL Server y Power Platform, con enfoque en seguridad
+                de la información.
+              </p>
+            </motion.div>
+
+            {/* Personal info grid */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-6"
+            >
+              {personalInfo.map((info, i) => (
+                <div
+                  key={info.label}
+                  className="flex items-center gap-2 px-3 py-2 bg-gray-900/40 border border-gray-800 rounded-lg"
+                >
+                  <span className="text-orange-500/70 flex-shrink-0">{info.icon}</span>
+                  <div className="min-w-0">
+                    <div className="text-[10px] text-gray-500 font-mono">{info.label}</div>
+                    <div className="text-xs text-gray-300 truncate">{info.value}</div>
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+
+            {/* Experience */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="mb-6"
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <Briefcase className="w-4 h-4 text-orange-500" />
+                <h3 className="font-mono text-sm text-white">Experiencia</h3>
               </div>
-            </div>
-          </div>
-          <p className="text-gray-300 leading-relaxed">
-            Ingeniero en Informática incorporado al Colegio de Profesionales en Informática y
-            Computación (CPIC), especializado en el desarrollo de aplicaciones y automatización
-            de procesos bajo el ecosistema Microsoft. Cuento con experiencia sólida traduciendo
-            necesidades complejas en soluciones tecnológicas mediante .NET Core, SQL Server y
-            la suite de Power Platform. Experiencia en optimizar flujos de trabajo operativos y
-            modernizar plataformas legacy con un enfoque en seguridad de la información.
-          </p>
-        </motion.div>
+              <div className="space-y-3">
+                {experience.map((exp, i) => (
+                  <motion.div
+                    key={exp.company}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ duration: 0.4, delay: 0.4 + i * 0.08 }}
+                    className="bg-gray-900/40 border border-gray-800 rounded-lg p-3 hover:border-orange-500/20 transition-colors"
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="font-semibold text-white text-xs">{exp.company}</span>
+                      <span className="font-mono text-[10px] text-orange-500/70">{exp.period}</span>
+                    </div>
+                    <div className="text-gray-400 text-[11px] mb-1.5">{exp.role}</div>
+                    <ul className="space-y-0.5">
+                      {exp.tasks.map((task, j) => (
+                        <li key={j} className="text-gray-500 text-[11px] flex items-start gap-1.5">
+                          <span className="text-orange-500/70 mt-0.5">▸</span>
+                          {task}
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
 
-        {/* Pixel art character + café scene decoration */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mb-12 flex justify-center"
-        >
-          <div className="relative">
-            <Image
-              src="/pixel-cafe-alt.png"
-              alt="Cozy pixel art café scene"
-              width={500}
-              height={280}
-              className="pixel-render rounded-lg border border-orange-500/20 opacity-60"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-lg" />
-          </div>
-        </motion.div>
-
-        {/* Experience & Education grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Experience */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            <div className="flex items-center gap-2 mb-6">
-              <Briefcase className="w-5 h-5 text-orange-500" />
-              <h3 className="font-mono text-lg text-white">Experiencia</h3>
-            </div>
-            <div className="space-y-4">
-              {experience.map((exp, i) => (
-                <motion.div
-                  key={exp.company}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.5 + i * 0.1 }}
-                  className="bg-gray-900/40 border border-gray-800 rounded-lg p-4 hover:border-orange-500/30 transition-colors"
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-semibold text-white text-sm">{exp.company}</span>
-                    <span className="font-mono text-xs text-orange-500/70">{exp.period}</span>
+            {/* Education */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="mb-6"
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <GraduationCap className="w-4 h-4 text-orange-500" />
+                <h3 className="font-mono text-sm text-white">Educación — UNED</h3>
+              </div>
+              <div className="space-y-2">
+                {education.map((edu, i) => (
+                  <div key={i} className="flex items-center justify-between bg-gray-900/40 border border-gray-800 rounded-lg px-3 py-2">
+                    <span className="text-gray-300 text-xs">{edu.degree}</span>
+                    <span className="font-mono text-[10px] text-orange-500/70 flex-shrink-0 ml-2">{edu.status}</span>
                   </div>
-                  <div className="text-gray-400 text-xs mb-2">{exp.role}</div>
-                  <ul className="space-y-1">
-                    {exp.tasks.map((task, j) => (
-                      <li key={j} className="text-gray-500 text-xs flex items-start gap-2">
-                        <span className="text-orange-500 mt-0.5">▸</span>
-                        {task}
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+                ))}
+              </div>
+            </motion.div>
 
-          {/* Education */}
+            {/* Certifications */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <Award className="w-4 h-4 text-orange-500" />
+                <h3 className="font-mono text-sm text-white">Certificaciones</h3>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {[
+                  "Azure Data Fundamentals",
+                  "SCRUM SFPC™",
+                  "Java Master",
+                  "React Avanzado",
+                  ".NET Core ASP.NET",
+                  "Lean Six Sigma",
+                  "ISO 9001:2015",
+                  "Oracle ONE Frontend",
+                ].map((cert, i) => (
+                  <span
+                    key={cert}
+                    className="text-[10px] font-mono px-2 py-1 bg-orange-500/5 border border-orange-500/15 text-orange-400/80 rounded-full"
+                  >
+                    {cert}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Right column — Small pixel art accents */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 0, x: 20 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="hidden lg:flex flex-col items-center gap-6 pt-4 w-24 flex-shrink-0"
           >
-            <div className="flex items-center gap-2 mb-6">
-              <GraduationCap className="w-5 h-5 text-orange-500" />
-              <h3 className="font-mono text-lg text-white">Educación</h3>
-            </div>
-            <div className="space-y-4">
-              {education.map((edu, i) => (
-                <motion.div
-                  key={edu.degree}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.5 + i * 0.1 }}
-                  className="bg-gray-900/40 border border-gray-800 rounded-lg p-4 hover:border-orange-500/30 transition-colors"
-                >
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="font-semibold text-white text-sm">{edu.institution}</span>
-                    <span className="font-mono text-xs text-orange-500/70">{edu.status}</span>
-                  </div>
-                  <div className="text-gray-400 text-xs">{edu.degree}</div>
-                </motion.div>
-              ))}
+            {/* Small pixel character with coffee */}
+            <div className="animate-float">
+              <Image
+                src="/pixel-character-cafe.png"
+                alt="Pixel art developer"
+                width={55}
+                height={75}
+                className="pixel-render drop-shadow-[0_0_8px_rgba(249,115,22,0.2)]"
+              />
             </div>
 
-            {/* Certifications preview */}
-            <div className="flex items-center gap-2 mb-4 mt-8">
-              <Award className="w-5 h-5 text-orange-500" />
-              <h3 className="font-mono text-lg text-white">Certificaciones</h3>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {[
-                "Azure Data Fundamentals",
-                "SCRUM SFPC™",
-                "Java Master",
-                "React Avanzado",
-                ".NET Core ASP.NET",
-                "Lean Six Sigma",
-                "ISO 9001:2015",
-                "Oracle ONE Frontend",
-              ].map((cert, i) => (
-                <motion.span
-                  key={cert}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ duration: 0.3, delay: 0.7 + i * 0.05 }}
-                  className="text-xs font-mono px-3 py-1.5 bg-orange-500/5 border border-orange-500/20 text-orange-400 rounded-full hover:bg-orange-500/10 transition-colors"
-                >
-                  {cert}
-                </motion.span>
-              ))}
+            {/* Small pixel desk */}
+            <div className="animate-float" style={{ animationDelay: "1.5s" }}>
+              <Image
+                src="/pixel-desk.png"
+                alt="Pixel art workspace"
+                width={60}
+                height={50}
+                className="pixel-render drop-shadow-[0_0_8px_rgba(249,115,22,0.2)]"
+              />
             </div>
           </motion.div>
         </div>
