@@ -6,7 +6,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-black border-t border-orange-500/10 py-8 px-4">
+    <footer className="relative bg-black border-t border-orange-500/10 py-8 px-4 mt-auto">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo */}
@@ -19,7 +19,9 @@ export default function Footer() {
 
           {/* Center text */}
           <div className="flex items-center gap-1 font-mono text-xs text-gray-600">
-            <span>© {year} Built with</span>
+            <span>© {year}</span>
+            <span className="text-gray-700">—</span>
+            <span>Built with</span>
             <Heart className="w-3 h-3 text-orange-500 inline" />
             <span>by Alvaro Cascante</span>
           </div>
@@ -49,22 +51,6 @@ export default function Footer() {
               <Mail className="w-4 h-4" />
             </a>
           </div>
-        </div>
-
-        {/* Pixel decoration */}
-        <div className="mt-6 flex items-center gap-1 justify-center">
-          {[...Array(40)].map((_, i) => (
-            <div
-              key={i}
-              className={`w-1 h-1 rounded-sm ${
-                i === 20
-                  ? "bg-orange-500/60"
-                  : i % 4 === 0
-                  ? "bg-orange-500/25"
-                  : "bg-gray-800/50"
-              }`}
-            />
-          ))}
         </div>
       </div>
     </footer>

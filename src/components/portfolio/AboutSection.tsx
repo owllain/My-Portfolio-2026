@@ -3,14 +3,10 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import {
-  MapPin,
   GraduationCap,
   Briefcase,
   Award,
-  Mail,
-  Phone,
-  Linkedin,
-  Github,
+  MapPin,
   Globe,
 } from "lucide-react";
 import Image from "next/image";
@@ -38,7 +34,7 @@ const experience = [
   },
   {
     company: "Importadora Alemi S.A.",
-    role: "Manager – Admón. y Desarrollo de Negocios",
+    role: "Manager – Admin. y Desarrollo de Negocios",
     period: "2019 – 2023",
     tasks: [
       "Administración de BD Oracle y MySQL con dashboards Power BI",
@@ -49,18 +45,9 @@ const experience = [
 
 const education = [
   { degree: "Lic. Ing. Informática y Sistemas de Calidad", status: "En curso" },
-  { degree: "Lic. Ing. Informática y Admón. de Proyectos", status: "En curso" },
+  { degree: "Lic. Ing. Informática y Admin. de Proyectos", status: "En curso" },
   { degree: "Bachillerato en Ingeniería en Informática", status: "2025" },
   { degree: "Diplomado en Ingeniería en Informática", status: "2023" },
-];
-
-const personalInfo = [
-  { icon: <Mail className="w-3.5 h-3.5" />, label: "Email", value: "alvaro.cascante@uned.cr" },
-  { icon: <Phone className="w-3.5 h-3.5" />, label: "Teléfono", value: "(+506) 6420-9961" },
-  { icon: <MapPin className="w-3.5 h-3.5" />, label: "Ubicación", value: "San José, Costa Rica" },
-  { icon: <Linkedin className="w-3.5 h-3.5" />, label: "LinkedIn", value: "enrique-cascante" },
-  { icon: <Github className="w-3.5 h-3.5" />, label: "GitHub", value: "enrique-cascante" },
-  { icon: <Globe className="w-3.5 h-3.5" />, label: "Idioma", value: "Español · Inglés B2" },
 ];
 
 export default function AboutSection() {
@@ -90,85 +77,96 @@ export default function AboutSection() {
           <div className="w-20 h-1 bg-orange-500 rounded-full" />
         </motion.div>
 
-        {/* Layout: Info left, framed pixel art right */}
+        {/* Layout: Avatar + Bio card on left, details on right */}
         <div className="flex flex-col lg:flex-row gap-8 items-start">
-          {/* Left — all the info */}
+          {/* Left — Avatar + Bio */}
           <div className="flex-1 min-w-0">
-            {/* Bio card */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="bg-gray-900/60 border border-gray-700/50 rounded-xl p-5 sm:p-6 mb-5 backdrop-blur-sm"
+              className="bg-gray-900/60 border border-gray-700/50 rounded-xl p-5 sm:p-6 mb-6 backdrop-blur-sm"
             >
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 bg-orange-500/10 border border-orange-500/30 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Briefcase className="w-5 h-5 text-orange-500" />
-                </div>
-                <div>
-                  <h3 className="text-base font-semibold text-white">Alvaro Enrique Cascante Moraga</h3>
-                  <p className="text-xs text-orange-500/80 font-mono">Full Stack Software Engineer · .NET Specialist</p>
-                </div>
-              </div>
-              <p className="text-gray-300 text-sm leading-relaxed">
-                Ingeniero en Informática incorporado al CPIC, especializado en desarrollo de
-                aplicaciones y automatización de procesos bajo el ecosistema Microsoft.
-                Experiencia sólida traduciendo necesidades complejas en soluciones tecnológicas
-                mediante .NET Core, SQL Server y Power Platform, con enfoque en seguridad
-                de la información.
-              </p>
-            </motion.div>
-
-            {/* Personal info grid */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-5"
-            >
-              {personalInfo.map((info, i) => (
-                <div
-                  key={info.label}
-                  className="flex items-center gap-2 px-3 py-2 bg-gray-900/40 border border-gray-800 rounded-lg"
-                >
-                  <span className="text-orange-500/70 flex-shrink-0">{info.icon}</span>
-                  <div className="min-w-0">
-                    <div className="text-[10px] text-gray-500 font-mono">{info.label}</div>
-                    <div className="text-xs text-gray-300 truncate">{info.value}</div>
+              <div className="flex items-start gap-5 sm:gap-6">
+                {/* Avatar */}
+                <div className="flex-shrink-0">
+                  <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border-2 border-orange-500/30 shadow-lg shadow-orange-500/10">
+                    <Image
+                      src="/avatar.png"
+                      alt="Alvaro Cascante profile"
+                      fill
+                      className="object-cover"
+                      sizes="96px"
+                    />
+                    {/* Terminal-style overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                   </div>
                 </div>
-              ))}
+
+                {/* Bio info */}
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-lg sm:text-xl font-bold text-white mb-0.5">
+                    Alvaro Enrique Cascante Moraga
+                  </h3>
+                  <p className="text-sm text-orange-500/80 font-mono mb-3">
+                    Full Stack Software Engineer · .NET Specialist · QA Automation & SDET
+                  </p>
+                  <p className="text-gray-300 text-sm leading-relaxed mb-3">
+                    Ingeniero en Informática incorporado al CPIC, especializado en desarrollo de
+                    aplicaciones y automatización de procesos bajo el ecosistema Microsoft.
+                    Experiencia sólida traduciendo necesidades complejas en soluciones tecnológicas
+                    mediante .NET Core, SQL Server y Power Platform, con enfoque en seguridad
+                    de la información.
+                  </p>
+                  <div className="flex flex-wrap items-center gap-3 text-xs">
+                    <span className="flex items-center gap-1.5 text-gray-400">
+                      <MapPin className="w-3.5 h-3.5 text-orange-500/70" />
+                      San José, Costa Rica
+                    </span>
+                    <span className="flex items-center gap-1.5 text-gray-400">
+                      <Globe className="w-3.5 h-3.5 text-orange-500/70" />
+                      Español (Nativo) · Inglés C1
+                    </span>
+                  </div>
+                </div>
+              </div>
             </motion.div>
 
             {/* Experience */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="mb-5"
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="mb-6"
             >
-              <div className="flex items-center gap-2 mb-3">
+              <div className="flex items-center gap-2 mb-4">
                 <Briefcase className="w-4 h-4 text-orange-500" />
-                <h3 className="font-mono text-sm text-white">Experiencia</h3>
+                <h3 className="font-mono text-sm text-white font-semibold">
+                  {"<"}Experiencia{">"}
+                </h3>
               </div>
-              <div className="space-y-2.5">
+              <div className="space-y-3">
                 {experience.map((exp, i) => (
                   <motion.div
                     key={exp.company}
                     initial={{ opacity: 0, x: -20 }}
                     animate={isInView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ duration: 0.4, delay: 0.4 + i * 0.08 }}
-                    className="bg-gray-900/40 border border-gray-800 rounded-lg p-3 hover:border-orange-500/20 transition-colors"
+                    transition={{ duration: 0.4, delay: 0.3 + i * 0.08 }}
+                    className="bg-gray-900/40 border border-gray-800 rounded-lg p-4 hover:border-orange-500/20 transition-colors group"
                   >
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="font-semibold text-white text-xs">{exp.company}</span>
-                      <span className="font-mono text-[10px] text-orange-500/70">{exp.period}</span>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="font-semibold text-white text-sm group-hover:text-orange-400 transition-colors">
+                        {exp.company}
+                      </span>
+                      <span className="font-mono text-[11px] text-orange-500/70 bg-orange-500/5 px-2 py-0.5 rounded">
+                        {exp.period}
+                      </span>
                     </div>
-                    <div className="text-gray-400 text-[11px] mb-1.5">{exp.role}</div>
-                    <ul className="space-y-0.5">
+                    <div className="text-gray-400 text-xs mb-2 font-mono">{exp.role}</div>
+                    <ul className="space-y-1">
                       {exp.tasks.map((task, j) => (
-                        <li key={j} className="text-gray-500 text-[11px] flex items-start gap-1.5">
-                          <span className="text-orange-500/70 mt-0.5">▸</span>
+                        <li key={j} className="text-gray-500 text-xs flex items-start gap-2">
+                          <span className="text-orange-500/70 mt-0.5 flex-shrink-0">▸</span>
                           {task}
                         </li>
                       ))}
@@ -177,39 +175,50 @@ export default function AboutSection() {
                 ))}
               </div>
             </motion.div>
+          </div>
 
+          {/* Right — Education + Certifications */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="w-full lg:w-80 flex-shrink-0 space-y-6 lg:sticky lg:top-24"
+          >
             {/* Education */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="mb-5"
-            >
-              <div className="flex items-center gap-2 mb-3">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
                 <GraduationCap className="w-4 h-4 text-orange-500" />
-                <h3 className="font-mono text-sm text-white">Educación — UNED</h3>
+                <h3 className="font-mono text-sm text-white font-semibold">
+                  {"<"}Educación{">"}
+                </h3>
               </div>
               <div className="space-y-2">
                 {education.map((edu, i) => (
-                  <div key={i} className="flex items-center justify-between bg-gray-900/40 border border-gray-800 rounded-lg px-3 py-2">
-                    <span className="text-gray-300 text-xs">{edu.degree}</span>
-                    <span className="font-mono text-[10px] text-orange-500/70 flex-shrink-0 ml-2">{edu.status}</span>
+                  <div
+                    key={i}
+                    className="flex items-center justify-between bg-gray-900/40 border border-gray-800 rounded-lg px-4 py-3 hover:border-orange-500/15 transition-colors"
+                  >
+                    <span className="text-gray-300 text-xs leading-snug">{edu.degree}</span>
+                    <span className="font-mono text-[10px] text-orange-500/70 flex-shrink-0 ml-2 bg-orange-500/5 px-2 py-0.5 rounded">
+                      {edu.status}
+                    </span>
                   </div>
                 ))}
               </div>
-            </motion.div>
+              <div className="mt-2 text-[11px] text-gray-600 font-mono px-1">
+                Universidad Estatal a Distancia — UNED
+              </div>
+            </div>
 
             {/* Certifications */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.5 }}
-            >
-              <div className="flex items-center gap-2 mb-3">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
                 <Award className="w-4 h-4 text-orange-500" />
-                <h3 className="font-mono text-sm text-white">Certificaciones</h3>
+                <h3 className="font-mono text-sm text-white font-semibold">
+                  {"<"}Certificaciones{">"}
+                </h3>
               </div>
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-2">
                 {[
                   "Azure Data Fundamentals",
                   "SCRUM SFPC™",
@@ -222,62 +231,11 @@ export default function AboutSection() {
                 ].map((cert) => (
                   <span
                     key={cert}
-                    className="text-[10px] font-mono px-2 py-1 bg-orange-500/5 border border-orange-500/15 text-orange-400/80 rounded-full"
+                    className="text-[10px] font-mono px-2.5 py-1.5 bg-orange-500/5 border border-orange-500/15 text-orange-400/80 rounded-md hover:bg-orange-500/10 hover:border-orange-500/30 transition-colors cursor-default"
                   >
                     {cert}
                   </span>
                 ))}
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Right — Framed pixel art showcase */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="hidden lg:flex flex-col items-center gap-5 w-52 flex-shrink-0 sticky top-24"
-          >
-            {/* Framed café scene */}
-            <div className="pixel-frame relative p-2">
-              <Image
-                src="/pixel-cafe-alt.png"
-                alt="Pixel art cozy café"
-                width={180}
-                height={100}
-                className="pixel-render rounded"
-              />
-              <div className="absolute bottom-3 left-3 right-3 text-center">
-                <span className="font-mono text-[9px] text-orange-500/60 bg-black/60 px-2 py-0.5 rounded">
-                  ☕ workspace
-                </span>
-              </div>
-            </div>
-
-            {/* Framed pixel character */}
-            <div className="pixel-frame relative p-3 animate-float">
-              <Image
-                src="/pixel-character.png"
-                alt="Pixel art developer character"
-                width={80}
-                height={112}
-                className="pixel-render"
-              />
-            </div>
-
-            {/* Framed pixel desk */}
-            <div className="pixel-frame relative p-2">
-              <Image
-                src="/pixel-desk.png"
-                alt="Pixel art developer desk"
-                width={160}
-                height={110}
-                className="pixel-render rounded"
-              />
-              <div className="absolute bottom-3 left-3 right-3 text-center">
-                <span className="font-mono text-[9px] text-orange-500/60 bg-black/60 px-2 py-0.5 rounded">
-                  ⌨️ SOFTWARE DEV
-                </span>
               </div>
             </div>
           </motion.div>

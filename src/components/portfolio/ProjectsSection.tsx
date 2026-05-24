@@ -9,8 +9,8 @@ import {
   Eye,
   Github,
   RefreshCw,
+  FolderGit2,
 } from "lucide-react";
-import Image from "next/image";
 
 interface GitHubRepo {
   id: number;
@@ -80,7 +80,7 @@ export default function ProjectsSection() {
       className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gray-950/50"
     >
       <div className="max-w-6xl mx-auto relative z-10">
-        {/* Section header with framed pixel art */}
+        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -94,16 +94,7 @@ export default function ProjectsSection() {
             <h2 className="text-3xl sm:text-4xl font-bold text-white">
               Proyectos en <span className="text-orange-500">GitHub</span>
             </h2>
-            {/* Framed pixel desk */}
-            <div className="pixel-frame relative p-1.5">
-              <Image
-                src="/pixel-desk.png"
-                alt=""
-                width={70}
-                height={50}
-                className="pixel-render rounded"
-              />
-            </div>
+            <FolderGit2 className="w-6 h-6 text-orange-500/50" />
             <motion.button
               whileHover={{ rotate: 180 }}
               transition={{ duration: 0.3 }}
@@ -145,7 +136,7 @@ export default function ProjectsSection() {
             className="text-center py-12"
           >
             <Github className="w-12 h-12 text-gray-700 mx-auto mb-4" />
-            <p className="text-gray-400 mb-2">{error}</p>
+            <p className="text-gray-400 mb-2 font-mono text-sm">{error}</p>
             <button
               onClick={fetchRepos}
               className="text-orange-500 font-mono text-sm hover:text-orange-400 transition-colors"
@@ -191,7 +182,7 @@ export default function ProjectsSection() {
                           className="w-2.5 h-2.5 rounded-full"
                           style={{ backgroundColor: languageColors[repo.language] || "#8b8b8b" }}
                         />
-                        <span>{repo.language}</span>
+                        <span className="font-mono">{repo.language}</span>
                       </div>
                     )}
                     {repo.stargazers_count > 0 && (
