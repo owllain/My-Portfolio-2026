@@ -58,8 +58,8 @@ const experience = [
 ];
 
 const education = [
-  { degree: "Lic. Ing. Informática y Sistemas de Calidad", status: "En curso" },
-  { degree: "Lic. Ing. Informática y Admin. de Proyectos", status: "En curso" },
+  { degree: "Lic. Ing. Informática y Sistemas de Calidad", status: "2026" },
+  { degree: "Lic. Ing. Informática y Admin. de Proyectos", status: "2026" },
   { degree: "Bachillerato en Ingeniería en Informática", status: "2025" },
   { degree: "Diplomado en Ingeniería en Informática", status: "2023" },
 ];
