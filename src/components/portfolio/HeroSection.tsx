@@ -61,7 +61,7 @@ export default function HeroSection() {
           className="mb-5"
         >
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight">
-            <span className="text-white">Alvaro </span>
+            <span className="text-white">Alvaro Enrique </span>
             <span className="text-orange-500 text-glow-orange">Cascante</span>
           </h1>
         </motion.div>
