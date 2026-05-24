@@ -119,3 +119,31 @@ Stage Summary:
 - Certifications reorganized into 4 collapsible categories with full details
 - 22 certifications listed with name and issuer
 - Performance significantly improved: no more WebGL context limit issues, faster page load
+
+---
+Task ID: 5
+Agent: Main
+Task: Add personality — coffee, cats, terminal sounds, easter eggs
+
+Work Log:
+- Created useTerminalSound hook (Web Audio API): playClick (pentatonic frequencies A5→C#6, dual oscillator sine+square), playBoot (two-tone beep 660+880Hz)
+- Updated TerminalLoader: added coffee/cat boot lines ("cat /dev/urandom → initializing cat mode 🐱", ">> brewing coffee... ☕ done"), added 🐱☕ in title bar, "Fuel: coffee ☕ | Spirit: cat 🐱" in final line, onBootSound prop triggers beep on fade-out
+- Updated Navigation: integrated useTerminalSound with playClick on every nav item (different pitch per index), playClick on mobile toggle, cat ears CSS on Terminal logo icon, Coffee icon next to logo, Cat+Coffee easter egg in mobile menu ("cat & coffee powered")
+- Updated HeroSection: "powered by coffee ☕" + CatSilhouette in system badge, coffee-steam CSS animation on Coffee icon, "cat profile.json" in terminal subtitle instead of plain text, "Siempre con café a la mano" in description, CatSilhouette replaces Github icon in GitHub button (octocat style), 🐾 paw prints in pixel decoration line center
+- Updated AboutSection: added Coffee import, "☕ cat ~/.profile" in section comment, "Coffee-driven dev" tag with Coffee icon in bio
+- Updated SkillsSection: "🐱 ls ~/skills" in section comment
+- Updated ProjectsSection: "☕ git log --all" in section comment
+- Updated ContactSection: "🐱 purr --connect" in section comment
+- Updated Footer: Cat+Coffee personality ("Built with ☕ & 🐱 by Alvaro Cascante"), GitHub link hover swaps Github icon → CatSilhouette (octocat reveal), easter egg line at bottom ("cat /dev/urandom | coffee --brew → portfolio.ready ☕🐱")
+- Added PawDivider component in page.tsx: 5 rotated 🐾 prints with faint connecting line between each section
+- Added coffee-steam CSS animation (steamRise keyframe, .coffee-steam::after pseudo-element)
+- page.tsx integrates TerminalLoader onBootSound → playBoot
+- All lint checks pass, dev server compiles without errors
+
+Stage Summary:
+- Terminal click sounds: mechanical-keyboard-style beeps on every nav item click (pentatonic scale)
+- Boot sound: two-tone terminal beep when loader finishes
+- Coffee personality: badge, loader lines, bio tag, section comments, footer, steam animation
+- Cat personality: silhouettes, paw prints between sections, octocat-style GitHub hover, section comments with 🐱
+- Easter eggs: "cat & coffee powered" in mobile menu, footer terminal command, paw dividers
+- 7 personality touches across 8 files

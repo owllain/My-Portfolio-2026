@@ -66,7 +66,7 @@ export default function ContactSection() {
           className="mb-12"
         >
           <div className="font-mono text-xs text-orange-500/70 mb-2">
-            {"//"} CONTACT_ME
+            {"//"} CONTACT_ME <span className="text-gray-700">🐱 purr --connect</span>
           </div>
           <div className="flex items-center gap-4">
             <h2 className="text-3xl sm:text-4xl font-bold text-white">

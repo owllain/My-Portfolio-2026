@@ -5,15 +5,22 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const bootLines = [
   { text: "AECM SYSTEM v2.0.25", delay: 0 },
-  { text: "Initializing kernel...", delay: 300 },
-  { text: "Loading modules: [react] [three.js] [framer-motion]", delay: 600 },
-  { text: "Mounting 3D renderer... OK", delay: 1000 },
-  { text: "Compiling portfolio assets... OK", delay: 1300 },
-  { text: "Establishing GitHub connection... OK", delay: 1600 },
-  { text: "Portfolio ready. Launching UI...", delay: 2000 },
+  { text: "Initializing kernel...", delay: 280 },
+  { text: "Loading modules: [react] [three.js] [framer-motion]", delay: 550 },
+  { text: "cat /dev/urandom → initializing cat mode 🐱", delay: 850 },
+  { text: ">> brewing coffee... ☕ done", delay: 1100 },
+  { text: "Mounting 3D renderer... OK", delay: 1400 },
+  { text: "Compiling portfolio assets... OK", delay: 1650 },
+  { text: "Establishing GitHub connection... OK", delay: 1900 },
+  { text: "Portfolio ready. Fuel: coffee ☕ | Spirit: cat 🐱", delay: 2300 },
 ];
 
-export default function TerminalLoader({ onComplete }: { onComplete: () => void }) {
+interface TerminalLoaderProps {
+  onComplete: () => void;
+  onBootSound?: () => void;
+}
+
+export default function TerminalLoader({ onComplete, onBootSound }: TerminalLoaderProps) {
   const [visibleLines, setVisibleLines] = useState<number>(0);
   const [showCursor, setShowCursor] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
@@ -33,14 +40,16 @@ export default function TerminalLoader({ onComplete }: { onComplete: () => void 
     timers.push(
       setTimeout(() => {
         setFadeOut(true);
-      }, 2800)
+        // Play boot sound when fade starts
+        if (onBootSound) onBootSound();
+      }, 3100)
     );
 
     // Complete after fade
     timers.push(
       setTimeout(() => {
         onComplete();
-      }, 3400)
+      }, 3700)
     );
 
     // Blink cursor
@@ -52,7 +61,7 @@ export default function TerminalLoader({ onComplete }: { onComplete: () => void 
       timers.forEach(clearTimeout);
       clearInterval(cursorInterval);
     };
-  }, [onComplete]);
+  }, [onComplete, onBootSound]);
 
   return (
     <AnimatePresence>
@@ -75,10 +84,15 @@ export default function TerminalLoader({ onComplete }: { onComplete: () => void 
                 <span className="font-mono text-[11px] text-gray-500 ml-2">
                   aecm@portfolio:~
                 </span>
+                {/* Cat + Coffee icons in title bar */}
+                <div className="ml-auto flex items-center gap-1.5">
+                  <span className="text-[10px]">🐱</span>
+                  <span className="text-[10px]">☕</span>
+                </div>
               </div>
 
               {/* Terminal content */}
-              <div className="p-4 sm:p-5 font-mono text-sm space-y-1.5 min-h-[240px]">
+              <div className="p-4 sm:p-5 font-mono text-sm space-y-1.5 min-h-[260px]">
                 {bootLines.slice(0, visibleLines).map((line, i) => (
                   <motion.div
                     key={i}
@@ -94,6 +108,8 @@ export default function TerminalLoader({ onComplete }: { onComplete: () => void 
                           ? "text-orange-400 font-semibold"
                           : i === bootLines.length - 1
                           ? "text-green-400"
+                          : line.text.includes("🐱") || line.text.includes("☕")
+                          ? "text-orange-300"
                           : "text-gray-400"
                       }
                     >

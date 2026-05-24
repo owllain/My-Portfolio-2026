@@ -14,6 +14,7 @@ import {
   Code2,
   BarChart3,
   Languages,
+  Coffee,
 } from "lucide-react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
@@ -215,7 +216,7 @@ export default function AboutSection() {
           className="mb-12"
         >
           <div className="font-mono text-xs text-orange-500/70 mb-2">
-            {"//"} ABOUT_ME
+            {"//"} ABOUT_ME <span className="text-gray-700">☕ cat ~/.profile</span>
           </div>
           <div className="flex items-center gap-4">
             <h2 className="text-3xl sm:text-4xl font-bold text-white">
@@ -276,6 +277,10 @@ export default function AboutSection() {
                     <span className="flex items-center gap-1.5 text-gray-400">
                       <Globe className="w-3.5 h-3.5 text-orange-500/70" />
                       Español (Nativo) · Inglés B2
+                    </span>
+                    <span className="flex items-center gap-1.5 text-gray-400">
+                      <Coffee className="w-3.5 h-3.5 text-orange-500/70" />
+                      Coffee-driven dev
                     </span>
                   </div>
                 </div>
