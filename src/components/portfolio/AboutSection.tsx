@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { MapPin, GraduationCap, Briefcase, Award } from "lucide-react";
+import Image from "next/image";
 import dynamic from "next/dynamic";
 
 const Scene3D = dynamic(() => import("./Scene3D"), { ssr: false });
@@ -72,19 +73,6 @@ export default function AboutSection() {
       ref={ref}
       className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden"
     >
-      {/* 3D Model */}
-      <div className="absolute right-0 top-0 w-1/3 h-full opacity-20 pointer-events-none hidden lg:block">
-        <Scene3D
-          url="/models/dev.glb"
-          scale={3}
-          position={[0, -1, 0]}
-          autoRotate
-          cameraPosition={[0, 1, 4]}
-          ambientIntensity={0.4}
-          showShadows={false}
-        />
-      </div>
-
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Section header */}
         <motion.div
@@ -113,11 +101,25 @@ export default function AboutSection() {
             <div className="w-12 h-12 bg-orange-500/10 border border-orange-500/30 rounded-lg flex items-center justify-center flex-shrink-0">
               <Briefcase className="w-6 h-6 text-orange-500" />
             </div>
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-1">
-                Alvaro Enrique Cascante Moraga
-              </h3>
-              <div className="flex items-center gap-2 text-sm text-gray-400">
+            <div className="flex-1">
+              <div className="flex items-center gap-3 flex-wrap">
+                <h3 className="text-lg font-semibold text-white">
+                  Alvaro Enrique Cascante Moraga
+                </h3>
+                {/* dev.glb as small 3D icon next to the name */}
+                <div className="w-16 h-16 flex-shrink-0">
+                  <Scene3D
+                    url="/models/dev.glb"
+                    scale={1.2}
+                    position={[0, -0.5, 0]}
+                    autoRotate={false}
+                    cameraPosition={[0, 0.5, 2]}
+                    ambientIntensity={0.6}
+                    showShadows={false}
+                  />
+                </div>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-400 mt-1">
                 <MapPin className="w-4 h-4 text-orange-500/70" />
                 San José, Costa Rica
               </div>
@@ -131,6 +133,25 @@ export default function AboutSection() {
             la suite de Power Platform. Experiencia en optimizar flujos de trabajo operativos y
             modernizar plataformas legacy con un enfoque en seguridad de la información.
           </p>
+        </motion.div>
+
+        {/* Pixel art character + café scene decoration */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mb-12 flex justify-center"
+        >
+          <div className="relative">
+            <Image
+              src="/pixel-cafe-alt.png"
+              alt="Cozy pixel art café scene"
+              width={500}
+              height={280}
+              className="pixel-render rounded-lg border border-orange-500/20 opacity-60"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-lg" />
+          </div>
         </motion.div>
 
         {/* Experience & Education grid */}

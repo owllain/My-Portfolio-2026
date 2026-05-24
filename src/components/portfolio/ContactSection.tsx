@@ -3,9 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Mail, Phone, MapPin, Linkedin, Github, Send, CheckCircle, AlertCircle } from "lucide-react";
-import dynamic from "next/dynamic";
-
-const Scene3D = dynamic(() => import("./Scene3D"), { ssr: false });
+import Image from "next/image";
 
 export default function ContactSection() {
   const ref = useRef(null);
@@ -78,16 +76,14 @@ export default function ContactSection() {
       ref={ref}
       className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gray-950/50"
     >
-      {/* 3D Contact model */}
-      <div className="absolute right-0 bottom-0 w-1/3 h-2/3 opacity-15 pointer-events-none hidden lg:block">
-        <Scene3D
-          url="/models/contact.glb"
-          scale={3}
-          position={[0, -1, 0]}
-          autoRotate
-          cameraPosition={[0, 1, 4]}
-          ambientIntensity={0.4}
-          showShadows={false}
+      {/* Pixel art café as subtle background */}
+      <div className="absolute right-0 bottom-0 opacity-10 pointer-events-none hidden lg:block">
+        <Image
+          src="/pixel-cafe.png"
+          alt=""
+          width={500}
+          height={350}
+          className="pixel-render"
         />
       </div>
 
@@ -109,19 +105,33 @@ export default function ContactSection() {
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact info */}
+          {/* Contact info with pixel character */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <p className="text-gray-400 mb-8 leading-relaxed">
-              ¿Tienes un proyecto en mente? ¿Necesitas automatizar procesos o desarrollar
-              una aplicación? Estoy disponible para conversar sobre cómo puedo ayudarte
-              a transformar tus ideas en soluciones tecnológicas.
-            </p>
+            {/* Pixel character */}
+            <div className="flex items-start gap-4 mb-6">
+              <div className="animate-float flex-shrink-0">
+                <Image
+                  src="/pixel-character.png"
+                  alt="Pixel art developer character"
+                  width={80}
+                  height={120}
+                  className="pixel-render drop-shadow-[0_0_10px_rgba(249,115,22,0.3)]"
+                />
+              </div>
+              <div>
+                <p className="text-gray-400 leading-relaxed text-sm">
+                  ¿Tienes un proyecto en mente? ¿Necesitas automatizar procesos o desarrollar
+                  una aplicación? Estoy disponible para conversar sobre cómo puedo ayudarte
+                  a transformar tus ideas en soluciones tecnológicas.
+                </p>
+              </div>
+            </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
               {contactInfo.map((info, i) => (
                 <motion.a
                   key={info.label}
@@ -172,7 +182,7 @@ export default function ContactSection() {
               className="bg-gray-900/60 border border-gray-800 rounded-xl p-6 backdrop-blur-sm"
             >
               <div className="font-mono text-xs text-orange-500/50 mb-6">
-                {"/* Contact form */}"}
+                {"/* Contact form */"}
               </div>
 
               <div className="space-y-4">

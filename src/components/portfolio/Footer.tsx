@@ -1,20 +1,32 @@
 "use client";
 
 import { Github, Linkedin, Mail, Terminal, Heart } from "lucide-react";
+import Image from "next/image";
 
 export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-black border-t border-gray-800/50 py-8 px-4">
+    <footer className="relative bg-black border-t border-orange-500/10 py-8 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          {/* Logo */}
-          <div className="flex items-center gap-2">
-            <Terminal className="w-4 h-4 text-orange-500" />
-            <span className="font-mono text-xs text-gray-500">
-              {"<"}AECM{" />"}
-            </span>
+          {/* Logo + pixel character */}
+          <div className="flex items-center gap-3">
+            <div className="animate-float">
+              <Image
+                src="/pixel-character.png"
+                alt=""
+                width={24}
+                height={36}
+                className="pixel-render"
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <Terminal className="w-4 h-4 text-orange-500" />
+              <span className="font-mono text-xs text-gray-500">
+                {"<"}AECM{" />"}
+              </span>
+            </div>
           </div>
 
           {/* Center text */}
@@ -53,11 +65,15 @@ export default function Footer() {
 
         {/* Pixel decoration */}
         <div className="mt-6 flex items-center gap-1 justify-center">
-          {[...Array(30)].map((_, i) => (
+          {[...Array(40)].map((_, i) => (
             <div
               key={i}
               className={`w-1 h-1 rounded-sm ${
-                i % 5 === 0 ? "bg-orange-500/30" : "bg-gray-800/50"
+                i === 20
+                  ? "bg-orange-500/60"
+                  : i % 4 === 0
+                  ? "bg-orange-500/25"
+                  : "bg-gray-800/50"
               }`}
             />
           ))}

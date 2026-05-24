@@ -146,7 +146,7 @@
     0 -2px 0 0 #f97316;
 }
 
-/* Scanline effect */
+/* Scanline effect - more pronounced */
 .scanlines::after {
   content: '';
   position: absolute;
@@ -154,9 +154,9 @@
   background: repeating-linear-gradient(
     0deg,
     transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.08) 2px,
-    rgba(0, 0, 0, 0.08) 4px
+    transparent 1px,
+    rgba(0, 0, 0, 0.06) 1px,
+    rgba(0, 0, 0, 0.06) 2px
   );
   pointer-events: none;
   z-index: 1;
@@ -171,12 +171,18 @@
   text-shadow: 0 0 20px rgba(249, 115, 22, 0.5), 0 0 40px rgba(249, 115, 22, 0.2);
 }
 
-/* Pixel art grid pattern */
+/* Pixel art grid pattern - more visible */
 .pixel-grid {
   background-image:
-    linear-gradient(rgba(249, 115, 22, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(249, 115, 22, 0.03) 1px, transparent 1px);
-  background-size: 16px 16px;
+    linear-gradient(rgba(249, 115, 22, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(249, 115, 22, 0.04) 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+
+/* Dither pattern for pixel art sections */
+.pixel-dither {
+  background-image: url("data:image/svg+xml,%3Csvg width='4' height='4' viewBox='0 0 4 4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 3h1v1H1V3zm2-2h1v1H3V1z' fill='%23f97316' fill-opacity='0.05'/%3E%3C/svg%3E");
+  background-repeat: repeat;
 }
 
 /* Retro cursor blink */

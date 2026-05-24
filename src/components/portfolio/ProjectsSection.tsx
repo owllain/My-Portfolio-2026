@@ -10,9 +10,7 @@ import {
   Github,
   RefreshCw,
 } from "lucide-react";
-import dynamic from "next/dynamic";
-
-const Scene3D = dynamic(() => import("./Scene3D"), { ssr: false });
+import Image from "next/image";
 
 interface GitHubRepo {
   id: number;
@@ -81,31 +79,18 @@ export default function ProjectsSection() {
       ref={ref}
       className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gray-950/50"
     >
-      {/* 3D Desktop */}
-      <div className="absolute left-0 bottom-0 w-1/4 h-1/2 opacity-15 pointer-events-none hidden lg:block">
-        <Scene3D
-          url="/models/desktop_dev.glb"
-          scale={2.5}
-          position={[0, -1, 0]}
-          autoRotate
-          cameraPosition={[0, 1.5, 4]}
-          ambientIntensity={0.4}
-          showShadows={false}
-        />
-      </div>
-
       <div className="max-w-6xl mx-auto relative z-10">
-        {/* Section header */}
+        {/* Section header with pixel art */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="mb-16"
+          className="mb-12"
         >
           <div className="font-mono text-xs text-orange-500/70 mb-2">
             {"//"} MY_PROJECTS
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 flex-wrap">
             <h2 className="text-3xl sm:text-4xl font-bold text-white">
               Proyectos en <span className="text-orange-500">GitHub</span>
             </h2>
@@ -120,6 +105,22 @@ export default function ProjectsSection() {
             </motion.button>
           </div>
           <div className="w-20 h-1 bg-orange-500 rounded-full" />
+        </motion.div>
+
+        {/* Pixel art desk decoration */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="flex justify-center mb-10"
+        >
+          <Image
+            src="/pixel-desk.png"
+            alt="Pixel art developer workspace"
+            width={300}
+            height={180}
+            className="pixel-render opacity-40 hover:opacity-60 transition-opacity duration-500"
+          />
         </motion.div>
 
         {/* Loading state */}
@@ -171,7 +172,7 @@ export default function ProjectsSection() {
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: i * 0.05 }}
+                transition={{ duration: 0.5, delay: 0.3 + i * 0.05 }}
                 whileHover={{ y: -4, scale: 1.02 }}
                 className="group bg-gray-900/60 border border-gray-800 hover:border-orange-500/40 rounded-lg p-5 transition-all cursor-pointer backdrop-blur-sm relative overflow-hidden"
               >

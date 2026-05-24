@@ -10,6 +10,8 @@ interface Pixel {
   speedX: number;
   opacity: number;
   color: string;
+  pulse: number;
+  pulseSpeed: number;
 }
 
 export default function PixelParticles() {
@@ -31,24 +33,25 @@ export default function PixelParticles() {
     resize();
     window.addEventListener("resize", resize);
 
-    // Create pixels
     const colors = [
-      "rgba(249,115,22,", // orange
-      "rgba(251,146,60,", // orange light
-      "rgba(234,88,12,", // orange dark
-      "rgba(64,64,64,", // gray
-      "rgba(82,82,82,", // gray
+      "rgba(249,115,22,",  // orange
+      "rgba(251,146,60,",  // orange light
+      "rgba(234,88,12,",   // orange dark
+      "rgba(82,82,82,",    // gray-500
+      "rgba(64,64,64,",    // gray-600
     ];
 
-    const pixelCount = Math.min(60, Math.floor(window.innerWidth / 25));
+    const pixelCount = Math.min(50, Math.floor(window.innerWidth / 30));
     pixelsRef.current = Array.from({ length: pixelCount }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       size: Math.random() * 3 + 1,
-      speedY: -(Math.random() * 0.3 + 0.1),
-      speedX: (Math.random() - 0.5) * 0.2,
-      opacity: Math.random() * 0.5 + 0.1,
+      speedY: -(Math.random() * 0.15 + 0.05),
+      speedX: (Math.random() - 0.5) * 0.1,
+      opacity: Math.random() * 0.4 + 0.1,
       color: colors[Math.floor(Math.random() * colors.length)],
+      pulse: Math.random() * Math.PI * 2,
+      pulseSpeed: Math.random() * 0.02 + 0.01,
     }));
 
     const animate = () => {
@@ -57,8 +60,10 @@ export default function PixelParticles() {
       pixelsRef.current.forEach((pixel) => {
         pixel.y += pixel.speedY;
         pixel.x += pixel.speedX;
-        pixel.opacity += (Math.random() - 0.5) * 0.02;
-        pixel.opacity = Math.max(0.05, Math.min(0.6, pixel.opacity));
+        pixel.pulse += pixel.pulseSpeed;
+
+        // Gentle pulse effect
+        const currentOpacity = pixel.opacity * (0.6 + 0.4 * Math.sin(pixel.pulse));
 
         if (pixel.y < -10) {
           pixel.y = canvas.height + 10;
@@ -67,7 +72,7 @@ export default function PixelParticles() {
         if (pixel.x < -10) pixel.x = canvas.width + 10;
         if (pixel.x > canvas.width + 10) pixel.x = -10;
 
-        ctx.fillStyle = `${pixel.color}${pixel.opacity})`;
+        ctx.fillStyle = `${pixel.color}${currentOpacity})`;
         ctx.fillRect(
           Math.round(pixel.x),
           Math.round(pixel.y),
@@ -91,7 +96,7 @@ export default function PixelParticles() {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none z-[1]"
-      style={{ opacity: 0.7 }}
+      style={{ opacity: 0.8 }}
     />
   );
 }

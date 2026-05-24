@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import Image from "next/image";
 
 const skillCategories = [
   {
@@ -80,6 +81,24 @@ export default function SkillsSection() {
           <div className="w-20 h-1 bg-orange-500 rounded-full" />
         </motion.div>
 
+        {/* Pixel art character decoration */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="flex justify-center mb-10"
+        >
+          <div className="animate-float">
+            <Image
+              src="/pixel-character.png"
+              alt="Pixel art developer"
+              width={60}
+              height={90}
+              className="pixel-render drop-shadow-[0_0_10px_rgba(249,115,22,0.3)]"
+            />
+          </div>
+        </motion.div>
+
         {/* Skills grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {skillCategories.map((category, catIndex) => (
@@ -87,7 +106,7 @@ export default function SkillsSection() {
               key={category.title}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: catIndex * 0.1 }}
+              transition={{ duration: 0.5, delay: 0.2 + catIndex * 0.1 }}
               className="bg-gray-900/60 border border-gray-800 hover:border-orange-500/30 rounded-xl p-5 transition-colors backdrop-blur-sm"
             >
               <div className="flex items-center gap-3 mb-5">
@@ -112,7 +131,7 @@ export default function SkillsSection() {
                         animate={isInView ? { width: `${skill.level}%` } : {}}
                         transition={{
                           duration: 1,
-                          delay: catIndex * 0.1 + skillIndex * 0.1,
+                          delay: 0.3 + catIndex * 0.1 + skillIndex * 0.1,
                           ease: "easeOut",
                         }}
                         className="h-full rounded-full bg-gradient-to-r from-orange-600 to-orange-400"
@@ -125,7 +144,7 @@ export default function SkillsSection() {
           ))}
         </div>
 
-        {/* Pixel art tech banner */}
+        {/* Tech tag cloud */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}

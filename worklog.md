@@ -34,3 +34,32 @@ Stage Summary:
 - Framer Motion animations on all sections with scroll-triggered reveals
 - Responsive design with mobile navigation
 - Pixel particles floating animation overlay
+
+---
+Task ID: 2
+Agent: Main
+Task: Refactor to emphasize pixel art, remove most 3D models, use uploaded pixel art images
+
+Work Log:
+- Analyzed 4 uploaded pixel art images using VLM: café scene, developer desk, transparent character, café alt
+- Copied all pixel art images to /public (pixel-cafe.png, pixel-desk.png, pixel-character.png, pixel-cafe-alt.png)
+- Removed room.glb from HeroSection, replaced with pixel-cafe.png background and pixel-character/pixel-desk flanking
+- Removed desktop_dev.glb from ProjectsSection, added pixel-desk.png as decoration
+- Removed contact.glb from ContactSection, added pixel-character.png and pixel-cafe.png background
+- Kept only dev.glb in AboutSection as small icon next to name (no rotation, small, transparent)
+- Added pixel-cafe-alt.png scene in About section between bio and experience grid
+- Enhanced pixel-grid CSS pattern (smaller 8px grid), added pixel-dither pattern for pixel art dithering effect
+- Made scanlines more subtle (1px lines), added dither pattern to main page wrapper
+- Updated pixel particles with pulse effect for more game-like feel
+- Updated Footer with pixel character mini-decoration
+- All lint checks pass, dev server running correctly
+
+Stage Summary:
+- Only 1 GLB model remains (dev.glb) as small static icon in About section
+- 4 pixel art images integrated throughout: café scene, developer desk, character, café alt
+- Much stronger pixel art / cozy games emphasis
+- Hero has pixel character on left and pixel desk on right (desktop only)
+- About section has café pixel art scene as decoration
+- Projects has developer desk pixel art
+- Contact has pixel character and café background
+- Enhanced dithering and grid patterns for more retro game feel

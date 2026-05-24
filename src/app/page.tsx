@@ -23,7 +23,7 @@ const ContactSection = dynamic(() => import("@/components/portfolio/ContactSecti
 
 export default function PortfolioPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-black">
+    <div className="min-h-screen flex flex-col bg-black pixel-dither">
       <PixelParticles />
       <Navigation />
       <main className="flex-1">
