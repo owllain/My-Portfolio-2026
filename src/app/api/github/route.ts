@@ -6,6 +6,8 @@ const GITHUB_USERNAME = "owllain";
    Add or remove names here to control what appears in the portfolio.
    Any new public repo NOT in this list will be automatically filtered out. */
 const ALLOWED_REPOS = new Set([
+  "VetFiles",
+  "BancaNet",
   "GoZombie-Game-Maker-Lang",
   "My-Portfolio-2026",
   "AddContent",
@@ -85,6 +87,34 @@ export async function GET() {
 
 function getDemoRepos(): GitHubRepo[] {
   return [
+    {
+      id: 0,
+      name: "VetFiles",
+      description: "Sistema integral para veterinarias: control de citas, expedientes clínicos, pacientes internados y carga de archivos. Base de datos en la nube con diseño moderno.",
+      html_url: "https://github.com/owllain/VetFiles",
+      homepage: null,
+      language: "TypeScript",
+      stargazers_count: 3,
+      forks_count: 0,
+      watchers_count: 2,
+      topics: ["typescript", "veterinary", "cloud", "management"],
+      created_at: "2024-08-01T00:00:00Z",
+      updated_at: "2025-05-20T00:00:00Z",
+    },
+    {
+      id: -1,
+      name: "BancaNet",
+      description: "Prototipo de aplicación bancaria SPA — login, dashboard, transferencias, pagos y estados de cuenta. Demo funcional de entorno financiero digital.",
+      html_url: "https://github.com/owllain/BancaNet",
+      homepage: null,
+      language: "HTML",
+      stargazers_count: 2,
+      forks_count: 0,
+      watchers_count: 1,
+      topics: ["banking", "prototype", "spa", "fintech"],
+      created_at: "2024-06-15T00:00:00Z",
+      updated_at: "2025-04-10T00:00:00Z",
+    },
     {
       id: 1,
       name: "GoZombie-Game-Maker-Lang",

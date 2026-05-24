@@ -14,6 +14,8 @@ import {
   Flame,
   Gamepad2,
   TreePine,
+  PawPrint,
+  Landmark,
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import CSSAccent3D from "./CSSAccent3D";
@@ -60,6 +62,10 @@ const languageColors: Record<string, string> = {
 /* ── Project type tags ── */
 function getProjectTag(name: string): { label: string; color: string } | null {
   switch (name) {
+    case "VetFiles":
+      return { label: "Full Stack", color: "text-amber-400 bg-amber-500/10 border-amber-500/20" };
+    case "BancaNet":
+      return { label: "Fintech", color: "text-orange-400 bg-orange-500/10 border-orange-500/20" };
     case "GoZombie-Game-Maker-Lang":
       return { label: "Game Engine", color: "text-purple-400 bg-purple-500/10 border-purple-500/20" };
     case "My-Portfolio-2026":
@@ -87,6 +93,10 @@ function getProjectTag(name: string): { label: string; color: string } | null {
 
 /* ── Project icon by type ── */
 function getProjectIcon(name: string) {
+  if (name === "VetFiles")
+    return <PawPrint className="w-4 h-4 text-orange-500" />;
+  if (name === "BancaNet")
+    return <Landmark className="w-4 h-4 text-orange-500" />;
   if (name.includes("Game") || name.includes("game") || name.includes("Zombie") || name.includes("darkdawn"))
     return <Gamepad2 className="w-4 h-4 text-orange-500" />;
   if (name.includes("arbol") || name.includes("tree"))
