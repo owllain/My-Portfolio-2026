@@ -104,7 +104,7 @@ export default function HeroSection() {
           className="flex flex-wrap items-center justify-center gap-3"
         >
           <motion.a
-            href="https://github.com/enrique-cascante"
+            href="https://github.com/owllain"
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05, boxShadow: "0 0 25px rgba(249,115,22,0.3)" }}

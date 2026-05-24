@@ -45,7 +45,7 @@ export default function ContactSection() {
     { icon: <Mail className="w-5 h-5" />, label: "Email", value: "alvaro.cascante@uned.cr", href: "mailto:alvaro.cascante@uned.cr" },
     { icon: <MapPin className="w-5 h-5" />, label: "Ubicación", value: "San José, Costa Rica", href: "#" },
     { icon: <Linkedin className="w-5 h-5" />, label: "LinkedIn", value: "enrique-cascante", href: "https://www.linkedin.com/in/enrique-cascante/" },
-    { icon: <Github className="w-5 h-5" />, label: "GitHub", value: "enrique-cascante", href: "https://github.com/enrique-cascante" },
+    { icon: <Github className="w-5 h-5" />, label: "GitHub", value: "owllain", href: "https://github.com/owllain" },
   ];
 
   return (

@@ -42,7 +42,7 @@ export default function Footer() {
           {/* Social links — GitHub with cat hover */}
           <div className="flex items-center gap-4">
             <a
-              href="https://github.com/enrique-cascante"
+              href="https://github.com/owllain"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-600 hover:text-orange-500 transition-colors group relative"
