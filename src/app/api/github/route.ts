@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 
+import projectCatalog from "@/lib/project-catalog.json";
+const catalog: Record<string, { description: string; technologies: string[] }> = projectCatalog;
+
 const GITHUB_USERNAME = "owllain";
 
 /* ── Allowlist: solo estos repos se muestran ── */
 const ALLOWED_REPOS = new Set([
+  ...Object.keys(catalog),
   "VetFiles",
   "BancaNet",
   "GoZombie-Game-Maker-Lang",
@@ -114,16 +118,19 @@ export async function GET() {
     const repos: GitHubRepo[] = await response.json();
 
     // Filter to only allowed repos & apply custom data
-    const filtered = repos
+    const filtered: GitHubRepo[] = repos
       .filter(r => ALLOWED_REPOS.has(r.name))
       .map(r => ({
         ...r,
-        description: r.description || CUSTOM_DESCRIPTIONS[r.name] || null,
-        extra_languages: EXTRA_LANGUAGES[r.name] || [],
+        description: catalog[r.name]?.description || CUSTOM_DESCRIPTIONS[r.name] || r.description || null,
+        extra_languages: catalog[r.name]?.technologies ?? EXTRA_LANGUAGES[r.name] ?? [],
       }))
       // Sort by custom order
       .sort((a, b) => (SORT_ORDER[a.name] ?? 99) - (SORT_ORDER[b.name] ?? 99));
 
+    // Keep the curated portfolio complete if a repository is outside GitHub's first page.
+    const existing = new Set(filtered.map(repo => repo.name));
+    filtered.push(...getDemoRepos().filter(repo => catalog[repo.name] && !existing.has(repo.name)));
     cachedRepos = filtered;
     cacheTimestamp = now;
 
@@ -135,24 +142,24 @@ export async function GET() {
 }
 
 function getDemoRepos(): GitHubRepo[] {
-  const names = Object.keys(CUSTOM_DESCRIPTIONS);
+  const names = [...new Set([...Object.keys(catalog), ...Object.keys(CUSTOM_DESCRIPTIONS)])];
   return names.map((name, i) => ({
     id: i,
     name,
-    description: CUSTOM_DESCRIPTIONS[name],
+    description: catalog[name]?.description || CUSTOM_DESCRIPTIONS[name],
     html_url: `https://github.com/owllain/${name}`,
     homepage: null,
     language: name.includes("java") || name.includes("darkdawn") || name.includes("arbol") || name.includes("Zombie")
       ? "Java"
       : name === "BancaNet"
         ? "HTML"
-        : "TypeScript",
+        : catalog[name] ? (catalog[name].technologies[0] || null) : "TypeScript",
     stargazers_count: 0,
     forks_count: 0,
     watchers_count: 0,
     topics: [],
     created_at: "2024-01-01T00:00:00Z",
     updated_at: "2025-05-01T00:00:00Z",
-    extra_languages: EXTRA_LANGUAGES[name] || [],
+    extra_languages: catalog[name]?.technologies ?? EXTRA_LANGUAGES[name] ?? [],
   }));
 }

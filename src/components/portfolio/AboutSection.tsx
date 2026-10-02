@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import certifications from "@/lib/certifications.json";
 import CSSAccent3D from "./CSSAccent3D";
 
 const FloatingOrbs = dynamic(() => import("./Accents3D").then(m => m.FloatingOrbs), {
@@ -27,9 +28,20 @@ const FloatingOrbs = dynamic(() => import("./Accents3D").then(m => m.FloatingOrb
 
 const experience = [
   {
+    company: "Popular Valores · Banco Popular y de Desarrollo Comunal",
+    role: "Desarrollador de aplicaciones y automatización de procesos",
+    period: "Jun. 2026 – Actualidad",
+    tasks: [
+      "Análisis, diseño, desarrollo, implementación y mantenimiento de aplicaciones y automatizaciones para los sistemas de información del Puesto de Bolsa",
+      "Optimización de procesos con plataformas tecnológicas institucionales, Microsoft Power Platform y Power BI",
+      "Contribución a la eficiencia operativa, continuidad de los servicios y cumplimiento de los estándares establecidos",
+      "Jornada completa · Modalidad híbrida · San José, Costa Rica",
+    ],
+  },
+  {
     company: "Netcom",
     role: "Supervisor de Operaciones & Automatización",
-    period: "2024 – Actualidad",
+    period: "2024 – 26 jun. 2026",
     tasks: [
       "Diseño de flujos automatizados con Power Automate y Power Apps bajo normativa SICOP",
       "Creación de aplicaciones internas con stack Microsoft y React",
@@ -65,57 +77,15 @@ const education = [
 ];
 
 /* ── Categorized certifications ── */
+const groups = [
+  { title: "Inteligencia Artificial y Nube", icon: Award, accent: "pentagon" as const, match: /AI Foundations|Oracle Cloud/ },
+  { title: "Gestión, Calidad y Metodologías Ágiles", icon: Shield, accent: "pentagon" as const, match: /ISO |Six Sigma|Scrum/ },
+  { title: "Ingeniería de Datos y Análisis", icon: BarChart3, accent: "hexagon" as const, match: /datos|data science|Azure Data|^SQL$/i },
+  { title: "Idiomas", icon: Languages, accent: "ring" as const, match: /EFSET/ },
+];
 const certificationCategories = [
-  {
-    title: "Gestión, Calidad y Metodologías Ágiles",
-    icon: Shield,
-    accent: "pentagon" as const,
-    certs: [
-      { name: "SCRUM Foundation Professional Certificate", issuer: "CertiProf" },
-      { name: "Auditor Líder ISO 19011", issuer: "Alison" },
-      { name: "ISO 9001:2015 – Sistemas de Gestión de Calidad", issuer: "Alison" },
-      { name: "Lean Six Sigma White Belt Certification", issuer: "Educate 360" },
-      { name: "Six Sigma White Belt in Call Centers", issuer: "Educate 360" },
-      { name: "Six Sigma White Belt Certification", issuer: "Educate 360" },
-    ],
-  },
-  {
-    title: "Desarrollo de Software y Programación",
-    icon: Code2,
-    accent: "diamond" as const,
-    certs: [
-      { name: "Máster Completo en Java de cero a experto 2023 (+127 hrs)", issuer: "Udemy" },
-      { name: "Java Avanzado", issuer: "Open Bootcamp" },
-      { name: "Java Básico", issuer: "Open Bootcamp" },
-      { name: "Go (Basic)", issuer: "HackerRank" },
-      { name: "SQL", issuer: "Open Bootcamp" },
-      { name: "Formación en Programación -ONE-", issuer: "Alura Latam" },
-      { name: ".NET 7: ASP.NET Core esencial", issuer: "LinkedIn Learning" },
-      { name: "React avanzado 1", issuer: "LinkedIn Learning" },
-      { name: "PHP esencial", issuer: "LinkedIn Learning" },
-    ],
-  },
-  {
-    title: "Ingeniería de Datos, Nube y Análisis",
-    icon: BarChart3,
-    accent: "hexagon" as const,
-    certs: [
-      { name: "Microsoft Certified: Azure Data Fundamentals", issuer: "Microsoft" },
-      { name: "Fundamentos profesionales del análisis de datos", issuer: "Microsoft y LinkedIn" },
-      { name: "Fundamentos de la ingeniería de datos", issuer: "LinkedIn Learning" },
-      { name: "Introducción a habilidades profesionales en análisis de datos", issuer: "LinkedIn Learning" },
-      { name: "Gestión de datos con Microsoft 365", issuer: "LinkedIn Learning" },
-      { name: "Revit y Power BI: Análisis de datos", issuer: "LinkedIn Learning" },
-    ],
-  },
-  {
-    title: "Idiomas",
-    icon: Languages,
-    accent: "ring" as const,
-    certs: [
-      { name: "EF SET English Certificate – Nivel B2 Upper Intermediate", issuer: "EF SET" },
-    ],
-  },
+  ...groups.map(({ match, ...group }) => ({ ...group, certs: certifications.filter(cert => match.test(cert.name)) })),
+  { title: "Desarrollo de Software y Formación", icon: Code2, accent: "diamond" as const, certs: certifications.filter(cert => !groups.some(group => group.match.test(cert.name))) },
 ];
 
 /* ── Collapsible cert category ── */
@@ -139,6 +109,7 @@ function CertCategory({
       className="bg-gray-900/40 border border-gray-800 rounded-lg overflow-hidden hover:border-orange-500/15 transition-colors"
     >
       <button
+        aria-expanded={isOpen}
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center gap-3 px-4 py-3 text-left group"
       >
@@ -180,10 +151,10 @@ function CertCategory({
                   <span className="text-orange-500/50 mt-0.5 flex-shrink-0">▸</span>
                   <span className="text-gray-400 leading-snug flex-1">
                     {cert.name}
+                    <span className="block text-gray-500 mt-1">{cert.issuer} · {cert.date}</span>
+                    {cert.credential && <span className="block text-gray-500 break-all mt-1">ID: {cert.credential}</span>}
                   </span>
-                  <span className="text-gray-600 font-mono flex-shrink-0 hidden sm:inline">
-                    {cert.issuer}
-                  </span>
+
                 </motion.div>
               ))}
             </div>
@@ -276,7 +247,7 @@ export default function AboutSection() {
                     </span>
                     <span className="flex items-center gap-1.5 text-gray-400">
                       <Globe className="w-3.5 h-3.5 text-orange-500/70" />
-                      Español (Nativo) · Inglés B2
+                      Español (Nativo) · Inglés C1
                     </span>
                     <span className="flex items-center gap-1.5 text-gray-400">
                       <Coffee className="w-3.5 h-3.5 text-orange-500/70" />
@@ -341,7 +312,7 @@ export default function AboutSection() {
             initial={{ opacity: 0, x: 30, filter: "blur(4px)" }}
             animate={isInView ? { opacity: 1, x: 0, filter: "blur(0px)" } : {}}
             transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full lg:w-[380px] flex-shrink-0 space-y-6 lg:sticky lg:top-24"
+            className="w-full lg:w-[380px] flex-shrink-0 space-y-6 "
           >
             {/* Education */}
             <div>
@@ -370,6 +341,17 @@ export default function AboutSection() {
               </div>
             </div>
 
+            <div className="bg-gray-900/40 border border-gray-800 rounded-lg p-4">
+              <h3 className="font-mono text-sm text-orange-400 mb-3">Voluntariado · Ciencia y tecnología</h3>
+              <h4 className="text-white text-sm font-semibold">Miembro de la Comisión de Inteligencia Artificial</h4>
+              <p className="text-gray-300 text-xs mt-2">Colegio de Profesionales en Informática y Computación (CPIC)</p>
+              <p className="text-orange-400 text-xs mt-2">Sept. 2026 – Actualidad</p>
+              <ul className="text-gray-400 text-xs mt-3 space-y-2 list-disc pl-4">
+                <li>Análisis, estructuración y desarrollo de lineamientos estratégicos sobre el uso de IA para el gremio tecnológico en Costa Rica.</li>
+                <li>Colaboración en divulgación, adopción de buenas prácticas y regulación ética de las herramientas de IA.</li>
+                <li>Aporte técnico y consultivo desde la ingeniería de software sobre automatización de procesos empresariales y desarrollo de aplicaciones.</li>
+              </ul>
+            </div>
             {/* Certifications — Categorized */}
             <div>
               <div className="flex items-center gap-3 mb-4">
@@ -385,7 +367,7 @@ export default function AboutSection() {
                 ))}
               </div>
               <div className="mt-3 text-[10px] text-gray-600 font-mono px-1">
-                {certificationCategories.reduce((acc, c) => acc + c.certs.length, 0)} certificaciones verificadas
+                {certificationCategories.reduce((acc, c) => acc + c.certs.length, 0)} certificaciones
               </div>
             </div>
           </motion.div>

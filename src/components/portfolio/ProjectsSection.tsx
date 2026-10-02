@@ -21,6 +21,10 @@ import {
   GitBranch,
 } from "lucide-react";
 import dynamic from "next/dynamic";
+import projectCatalog from "@/lib/project-catalog.json";
+import type { ReactNode } from "react";
+const catalog: Record<string, { title: string; description: string; category: string; tag: string; images: string[] }> = projectCatalog;
+
 import CSSAccent3D from "./CSSAccent3D";
 
 const FloatingOrbs = dynamic(() => import("./Accents3D").then(m => m.FloatingOrbs), {
@@ -74,9 +78,10 @@ const languageColors: Record<string, string> = {
 };
 
 /* ── Project tag + category ── */
-type ProjectMeta = { tag: string; tagColor: string; icon: JSX.Element; category: string };
+type ProjectMeta = { tag: string; tagColor: string; icon: ReactNode; category: string };
 
 function getProjectMeta(name: string): ProjectMeta {
+  if (catalog[name]) return { tag: catalog[name].tag, category: catalog[name].category, tagColor: "text-orange-400 bg-orange-500/10 border-orange-500/20", icon: <FolderGit2 className="w-4 h-4" /> };
   switch (name) {
     case "VetFiles":
       return { tag: "Full Stack", tagColor: "text-amber-400 bg-amber-500/10 border-amber-500/20", icon: <PawPrint className="w-4 h-4" />, category: "🚀 Producción" };
@@ -246,14 +251,13 @@ export default function ProjectsSection() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {group.repos.map((repo, i) => {
                     const meta = getProjectMeta(repo.name);
-                    const allLangs = [repo.language, ...(repo.extra_languages || [])].filter(Boolean) as string[];
+                    const project = catalog[repo.name];
+                    const title = project?.title || repo.name;
+                    const allLangs = [...new Set([repo.language, ...(repo.extra_languages || [])].filter(Boolean))] as string[];
 
                     return (
-                      <motion.a
+                      <motion.div
                         key={repo.id}
-                        href={repo.html_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
                         initial={{ opacity: 0, y: 30 }}
                         animate={isInView ? { opacity: 1, y: 0 } : {}}
                         transition={{ duration: 0.5, delay: 0.15 + gi * 0.1 + i * 0.06 }}
@@ -264,6 +268,15 @@ export default function ProjectsSection() {
                         <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
                         <div className="relative z-10">
+                          {project && project.images.length > 0 && (
+                            <div className="mb-4 grid grid-cols-2 gap-2">
+                              {project.images.map((src, index) => (
+                                <a key={src} href={src} target="_blank" rel="noopener noreferrer" className={index === 0 ? "col-span-2 rounded-lg overflow-hidden bg-gray-950 border border-gray-800 focus-visible:outline focus-visible:outline-orange-400" : "rounded-lg overflow-hidden bg-gray-950 border border-gray-800 focus-visible:outline focus-visible:outline-orange-400"} aria-label={`Ver captura ${index + 1} de ${title}`}>
+                                  <img src={src} alt={`${title} — captura ${index + 1}`} loading="lazy" width={1600} height={900} className={`w-full object-contain ${index === 0 ? "h-56" : "h-28"}`} />
+                                </a>
+                              ))}
+                            </div>
+                          )}
                           {/* Header */}
                           <div className="flex items-center justify-between mb-3">
                             <div className="flex items-center gap-2.5">
@@ -271,8 +284,8 @@ export default function ProjectsSection() {
                                 {meta.icon}
                               </div>
                               <div className="min-w-0">
-                                <span className="font-mono text-sm text-orange-400 group-hover:text-orange-300 font-semibold block truncate max-w-[200px]">
-                                  {repo.name}
+                                <span className="font-mono text-sm text-orange-400 group-hover:text-orange-300 font-semibold block">
+                                  <a href={repo.html_url} target="_blank" rel="noopener noreferrer" className="hover:underline focus-visible:outline focus-visible:outline-orange-400">{title}</a>
                                 </span>
                                 <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded mt-0.5 inline-block border ${meta.tagColor}`}>
                                   {meta.tag}
@@ -283,8 +296,8 @@ export default function ProjectsSection() {
                           </div>
 
                           {/* Description */}
-                          <p className="text-gray-400 text-xs mb-4 line-clamp-3 min-h-[2.5rem] leading-relaxed">
-                            {repo.description || "Sin descripción"}
+                          <p className="text-gray-400 text-xs mb-4 min-h-[2.5rem] leading-relaxed">
+                            {project?.description || repo.description || "Sin descripción"}
                           </p>
 
                           {/* Language tags */}
@@ -309,7 +322,7 @@ export default function ProjectsSection() {
                             )}
                           </div>
                         </div>
-                      </motion.a>
+                      </motion.div>
                     );
                   })}
                 </div>

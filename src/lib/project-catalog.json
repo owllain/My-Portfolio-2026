@@ -1,0 +1,121 @@
+{
+  "Vecinos-y-Servicios-Cond-La-Rueda": {
+    "title": "Vecinos y Servicios · La Rueda",
+    "description": "Directorio vecinal del Condominio La Rueda: productos y servicios por categoría, búsqueda de proveedores y contacto directo por WhatsApp.",
+    "category": "🚀 Producción",
+    "tag": "Comunidad",
+    "technologies": [],
+    "images": [
+      "/projects/vecinos-1.png"
+    ]
+  },
+  "longivet": {
+    "title": "Longevet",
+    "description": "Sitio de medicina geriátrica veterinaria con servicios, tarifas, planes senior, historias de pacientes y contacto para agendar por WhatsApp.",
+    "category": "🚀 Producción",
+    "tag": "Veterinaria",
+    "technologies": [],
+    "images": [
+      "/projects/longevet-1.png"
+    ]
+  },
+  "fichas-personajes": {
+    "title": "Nexus · Fichas de personajes",
+    "description": "Archivo visual de personajes y universos narrativos. Proyecto de práctica de estructuras HTML, composición de fichas y presentación de contenido.",
+    "category": "🎮 Creative",
+    "tag": "Práctica HTML",
+    "technologies": [
+      "HTML"
+    ],
+    "images": [
+      "/projects/fichas-1.png"
+    ]
+  },
+  "PokeBinder": {
+    "title": "PokeBinder",
+    "description": "Binder digital de Pokémon TCG en desarrollo: exploración de una colección de cartas usando TypeScript y Shell.",
+    "category": "🎮 Creative",
+    "tag": "En desarrollo",
+    "technologies": [
+      "TypeScript",
+      "Shell"
+    ],
+    "images": []
+  },
+  "budgetpulse": {
+    "title": "BudgetPulse",
+    "description": "Aplicación de control de presupuesto personal: ingresos y gastos, créditos, metas de ahorro, herramientas financieras y proyecciones en un dashboard.",
+    "category": "🛠️ Herramientas",
+    "tag": "Finanzas personales",
+    "technologies": [],
+    "images": [
+      "/projects/budgetpulse-1.png"
+    ]
+  },
+  "week_planner": {
+    "title": "Weekly Planner",
+    "description": "Organizador semanal de tareas y horas, con columnas por día y opciones para importar y exportar la planificación.",
+    "category": "🛠️ Herramientas",
+    "tag": "Productividad",
+    "technologies": [],
+    "images": [
+      "/projects/planner-1.png"
+    ]
+  },
+  "VetFiles": {
+    "title": "VetFiles",
+    "description": "Sistema integral para clínicas veterinarias: pacientes y propietarios, expedientes, citas, urgencias e internamiento, personal médico, insumos, agenda y usuarios.",
+    "category": "🚀 Producción",
+    "tag": "Gestión veterinaria",
+    "technologies": [
+      "React",
+      "Tailwind CSS",
+      "Prisma"
+    ],
+    "images": [
+      "/projects/vetfiles-1.png",
+      "/projects/vetfiles-2.png",
+      "/projects/vetfiles-3.png",
+      "/projects/vetfiles-4.png"
+    ]
+  },
+  "BancaNet": {
+    "title": "BancaNet",
+    "description": "Prototipo bancario con experiencia móvil construido con HTML, CSS y JavaScript: inicio de sesión, cuentas, tarjetas, préstamos, pagos, transferencias y SINPE Móvil.",
+    "category": "🚀 Producción",
+    "tag": "Prototipo · HTML",
+    "technologies": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "images": [
+      "/projects/bancanet-1.png",
+      "/projects/bancanet-2.png"
+    ]
+  },
+  "AddContent": {
+    "title": "AddContent",
+    "description": "Centro de conocimiento tipo wiki para organizaciones: categorías, artículos y recursos, búsqueda, favoritos, administración de contenido, maquetador y gestión de usuarios.",
+    "category": "🏢 Enterprise",
+    "tag": "Wiki / CMS",
+    "technologies": [
+      "Next.js",
+      "Tailwind CSS"
+    ],
+    "images": [
+      "/projects/addcontent-1.png",
+      "/projects/addcontent-2.png"
+    ]
+  },
+  "tool-expediente-asesores": {
+    "title": "Reportes y árboles de efectividad",
+    "description": "Herramienta para procesar grandes volúmenes de archivos Excel y generar reportes de efectividad por canal, con resultados exportables en Excel y PDF.",
+    "category": "🛠️ Herramientas",
+    "tag": "Excel / PDF",
+    "technologies": [],
+    "images": [
+      "/projects/reportes-1.png"
+    ]
+  }
+}
