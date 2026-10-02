@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ChevronDown, Github, Linkedin, Mail, Coffee } from "lucide-react";
+import PixelParticles from "./PixelParticles";
 import dynamic from "next/dynamic";
 
 const Scene3D = dynamic(() => import("./Scene3D"), { ssr: false });
@@ -24,6 +25,7 @@ export default function HeroSection() {
       {/* 3D Background */}
       <div className="absolute inset-0 z-0">
         <Scene3D className="w-full h-full" />
+        <PixelParticles />
       </div>
 
       {/* Gradient overlays */}

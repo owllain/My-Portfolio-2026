@@ -19,18 +19,6 @@
       "/projects/longevet-1.png"
     ]
   },
-  "fichas-personajes": {
-    "title": "Nexus · Fichas de personajes",
-    "description": "Archivo visual de personajes y universos narrativos. Proyecto de práctica de estructuras HTML, composición de fichas y presentación de contenido.",
-    "category": "🎮 Creative",
-    "tag": "Práctica HTML",
-    "technologies": [
-      "HTML"
-    ],
-    "images": [
-      "/projects/fichas-1.png"
-    ]
-  },
   "PokeBinder": {
     "title": "PokeBinder",
     "description": "Binder digital de Pokémon TCG en desarrollo: exploración de una colección de cartas usando TypeScript y Shell.",

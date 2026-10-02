@@ -41,7 +41,7 @@ export default function PixelParticles() {
       "rgba(64,64,64,",    // gray-600
     ];
 
-    const pixelCount = Math.min(100, Math.floor(window.innerWidth / 18));
+    const pixelCount = Math.min(45, Math.floor(window.innerWidth / 28));
     pixelsRef.current = Array.from({ length: pixelCount }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
@@ -54,7 +54,14 @@ export default function PixelParticles() {
       pulseSpeed: Math.random() * 0.02 + 0.01,
     }));
 
-    const animate = () => {
+    let inView = false;
+    let previous = 0;
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const animate = (now = 0) => {
+      if (!inView || document.hidden || motionPreference.matches) return;
+      animationRef.current = requestAnimationFrame(animate);
+      if (now - previous < 1000 / 30) return;
+      previous = now;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       pixelsRef.current.forEach((pixel) => {
@@ -81,12 +88,18 @@ export default function PixelParticles() {
         );
       });
 
-      animationRef.current = requestAnimationFrame(animate);
     };
 
-    animate();
+    const resume = () => { cancelAnimationFrame(animationRef.current); previous = 0; animate(); };
+    document.addEventListener("visibilitychange", resume);
+    motionPreference.addEventListener("change", resume);
+    const observer = new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; resume(); });
+    observer.observe(canvas);
 
     return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", resume);
+      motionPreference.removeEventListener("change", resume);
       window.removeEventListener("resize", resize);
       cancelAnimationFrame(animationRef.current);
     };
@@ -95,7 +108,7 @@ export default function PixelParticles() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-[1]"
+      className="absolute inset-0 pointer-events-none z-[1]"
       style={{ opacity: 0.8 }}
     />
   );

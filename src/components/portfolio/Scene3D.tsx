@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef, useMemo } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
+import AnimatedCanvas from "./AnimatedCanvas";
 import * as THREE from "three";
 
 /* ── Floating grid floor ── */
@@ -324,7 +325,7 @@ const shapeConfigs = [
 export default function Scene3D({ className = "" }: { className?: string }) {
   return (
     <div className={`w-full h-full ${className}`}>
-      <Canvas
+      <AnimatedCanvas
         camera={{ position: [0, 1, 6], fov: 60 }}
         gl={{ antialias: true, alpha: true }}
         style={{ background: "transparent" }}
@@ -384,7 +385,7 @@ export default function Scene3D({ className = "" }: { className?: string }) {
         <FloatingLetter position={[6, 1, -7]} letter="E" speed={0.2} color="#fb923c" scale={0.4} />
         <FloatingLetter position={[0, 3.5, -8]} letter="C" speed={0.18} color="#ea580c" scale={0.35} />
         <FloatingLetter position={[-3, 3, -9]} letter="M" speed={0.12} color="#f97316" scale={0.3} />
-      </Canvas>
+      </AnimatedCanvas>
     </div>
   );
 }

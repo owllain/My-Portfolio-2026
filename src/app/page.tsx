@@ -1,29 +1,17 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import dynamic from "next/dynamic";
 import Navigation from "@/components/portfolio/Navigation";
 import Footer from "@/components/portfolio/Footer";
-import PixelParticles from "@/components/portfolio/PixelParticles";
 import TerminalLoader from "@/components/portfolio/TerminalLoader";
 import AmbientSound from "@/components/portfolio/AmbientSound";
 import { useTerminalSound } from "@/hooks/use-terminal-sound";
 
-const HeroSection = dynamic(() => import("@/components/portfolio/HeroSection"), {
-  ssr: false,
-});
-const AboutSection = dynamic(() => import("@/components/portfolio/AboutSection"), {
-  ssr: false,
-});
-const ProjectsSection = dynamic(() => import("@/components/portfolio/ProjectsSection"), {
-  ssr: false,
-});
-const SkillsSection = dynamic(() => import("@/components/portfolio/SkillsSection"), {
-  ssr: false,
-});
-const ContactSection = dynamic(() => import("@/components/portfolio/ContactSection"), {
-  ssr: false,
-});
+import HeroSection from "@/components/portfolio/HeroSection";
+import AboutSection from "@/components/portfolio/AboutSection";
+import ProjectsSection from "@/components/portfolio/ProjectsSection";
+import SkillsSection from "@/components/portfolio/SkillsSection";
+import ContactSection from "@/components/portfolio/ContactSection";
 
 /* ── Cat paw print divider between sections ── */
 function PawDivider() {
@@ -68,8 +56,7 @@ export default function PortfolioPage() {
   return (
     <>
       {loading && <TerminalLoader onComplete={handleLoadComplete} onBootSound={playBoot} />}
-      <div className="min-h-screen flex flex-col bg-black animated-gradient modern-grid">
-        <PixelParticles />
+      <div className="min-h-screen flex flex-col bg-black modern-grid">
         <Navigation />
         <main className="flex-1">
           <HeroSection />

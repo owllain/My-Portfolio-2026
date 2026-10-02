@@ -1,5 +1,6 @@
 "use client";
 
+import { useAnimationActivity } from "@/hooks/use-animation-activity";
 import { motion } from "framer-motion";
 
 /* ── Lightweight CSS-based 3D accent shapes ──
@@ -231,6 +232,7 @@ export default function CSSAccent3D({
   className = "",
   size,
 }: CSSAccent3DProps) {
+  const { ref, active } = useAnimationActivity();
   const defaultSize = className.includes("w-8") ? 28 : className.includes("w-16") ? 56 : 40;
   const s = size || defaultSize;
 
@@ -239,6 +241,7 @@ export default function CSSAccent3D({
 
   return (
     <motion.div
+      ref={ref}
       className={`inline-flex items-center justify-center ${className}`}
       initial={{ opacity: 0, scale: 0.5 }}
       animate={{ opacity: 1, scale: 1 }}
@@ -249,6 +252,7 @@ export default function CSSAccent3D({
           width: s,
           height: s,
           animation: `accent3DRotate ${duration}s linear infinite`,
+          animationPlayState: active ? "running" : "paused",
           filter: `drop-shadow(0 0 4px ${color}33)`,
         }}
       >

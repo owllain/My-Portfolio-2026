@@ -32,7 +32,7 @@ export default function TerminalLoader({ onComplete, onBootSound }: TerminalLoad
       timers.push(
         setTimeout(() => {
           setVisibleLines(i + 1);
-        }, bootLines[i].delay)
+        }, bootLines[i].delay * 0.4)
       );
     });
 
@@ -42,14 +42,14 @@ export default function TerminalLoader({ onComplete, onBootSound }: TerminalLoad
         setFadeOut(true);
         // Play boot sound when fade starts
         if (onBootSound) onBootSound();
-      }, 3100)
+      }, 1100)
     );
 
     // Complete after fade
     timers.push(
       setTimeout(() => {
         onComplete();
-      }, 3700)
+      }, 1500)
     );
 
     // Blink cursor

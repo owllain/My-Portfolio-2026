@@ -259,3 +259,15 @@ html {
   background: rgba(249, 115, 22, 0.3);
   color: #fff;
 }
+
+/* Project screenshots share one viewport, independent of their native proportions. */
+.gallery-arrow { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid #2a2a2a; border-radius: 8px; color: #a3a3a3; background: #111; }
+.gallery-arrow:hover, .gallery-arrow:focus-visible { color: #fb923c; border-color: #f97316; }
+.gallery-arrow:focus-visible { outline: 2px solid #f97316; outline-offset: 3px; }
+@media (hover: hover) {
+  .project-preview img { filter: grayscale(1) brightness(.8); transition: filter 180ms ease; }
+  .project-preview:hover img, .project-preview:focus-within img { filter: grayscale(0) brightness(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}

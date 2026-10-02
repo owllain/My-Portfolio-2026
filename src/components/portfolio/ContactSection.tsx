@@ -3,18 +3,10 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Mail, MapPin, Linkedin, Github, Send, CheckCircle, AlertCircle, Globe } from "lucide-react";
-import dynamic from "next/dynamic";
+
 import CSSAccent3D from "./CSSAccent3D";
 
-const Planet3D = dynamic(() => import("./Accents3D").then(m => m.Planet3D), {
-  ssr: false,
-  loading: () => <div className="w-14 h-14 sm:w-16 sm:h-16" />,
-});
 
-const FloatingOrbs = dynamic(() => import("./Accents3D").then(m => m.FloatingOrbs), {
-  ssr: false,
-  loading: () => <div className="absolute inset-0" />,
-});
 
 export default function ContactSection() {
   const ref = useRef(null);
@@ -55,13 +47,13 @@ export default function ContactSection() {
       className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gray-950/50"
     >
       {/* 3D Floating orbs */}
-      <FloatingOrbs />
+
 
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Section header with 3D planet */}
         <motion.div
-          initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
-          animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="mb-12"
         >
@@ -72,7 +64,7 @@ export default function ContactSection() {
             <h2 className="text-3xl sm:text-4xl font-bold text-white">
               Hablemos de tu <span className="text-orange-500">Proyecto</span>
             </h2>
-            <Planet3D className="flex-shrink-0" />
+            <CSSAccent3D shape="ring" color="#f97316" speed={0.3} className="flex-shrink-0" />
           </div>
           <div className="w-20 h-1 bg-orange-500 rounded-full" />
         </motion.div>
@@ -80,8 +72,8 @@ export default function ContactSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {/* Contact info */}
           <motion.div
-            initial={{ opacity: 0, x: -30, filter: "blur(4px)" }}
-            animate={isInView ? { opacity: 1, x: 0, filter: "blur(0px)" } : {}}
+            initial={{ opacity: 0, x: -30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
@@ -130,13 +122,13 @@ export default function ContactSection() {
 
           {/* Contact form */}
           <motion.div
-            initial={{ opacity: 0, x: 30, filter: "blur(4px)" }}
-            animate={isInView ? { opacity: 1, x: 0, filter: "blur(0px)" } : {}}
+            initial={{ opacity: 0, x: 30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
             <form
               onSubmit={handleSubmit}
-              className="bg-gray-900/60 border border-gray-800 rounded-xl p-5 sm:p-6 backdrop-blur-sm relative overflow-hidden"
+              className="bg-gray-900/60 border border-gray-800 rounded-xl p-5 sm:p-6 relative overflow-hidden"
             >
               {/* Decorative 3D accent */}
               <div className="absolute -top-4 -right-4 opacity-30">

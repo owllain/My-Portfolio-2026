@@ -17,14 +17,10 @@ import {
   Coffee,
 } from "lucide-react";
 import Image from "next/image";
-import dynamic from "next/dynamic";
 import certifications from "@/lib/certifications.json";
+
 import CSSAccent3D from "./CSSAccent3D";
 
-const FloatingOrbs = dynamic(() => import("./Accents3D").then(m => m.FloatingOrbs), {
-  ssr: false,
-  loading: () => <div className="absolute inset-0" />,
-});
 
 const experience = [
   {
@@ -176,13 +172,13 @@ export default function AboutSection() {
       className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden"
     >
       {/* 3D Floating orbs background */}
-      <FloatingOrbs />
+
 
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Section header */}
         <motion.div
-          initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
-          animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="mb-12"
         >
@@ -203,10 +199,10 @@ export default function AboutSection() {
           {/* Left — Avatar + Bio + Experience */}
           <div className="flex-1 min-w-0">
             <motion.div
-              initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
-              animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="bg-gray-900/60 border border-gray-700/50 rounded-xl p-5 sm:p-6 mb-6 backdrop-blur-sm relative overflow-hidden"
+              className="bg-gray-900/60 border border-gray-700/50 rounded-xl p-5 sm:p-6 mb-6 relative overflow-hidden"
             >
               <div className="absolute -top-12 -right-12 w-32 h-32 bg-orange-500/5 rounded-full blur-2xl pointer-events-none" />
 
@@ -309,8 +305,8 @@ export default function AboutSection() {
 
           {/* Right — Education + Certifications */}
           <motion.div
-            initial={{ opacity: 0, x: 30, filter: "blur(4px)" }}
-            animate={isInView ? { opacity: 1, x: 0, filter: "blur(0px)" } : {}}
+            initial={{ opacity: 0, x: 30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="w-full lg:w-[380px] flex-shrink-0 space-y-6 "
           >
